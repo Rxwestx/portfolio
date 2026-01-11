@@ -20,6 +20,9 @@ return new class extends Migration
                   ->constrained()
                   ->cascadeOnDelete();
 
+            // user_id にユニーク制約を追加（1ユーザーにつき1キャラクター）
+            $table->unique('user_id');
+
             // キャラクターレベル
             $table->integer('level')->default(0);
 
