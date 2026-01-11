@@ -1,46 +1,45 @@
 <x-app-layout>
     <!-- ========== キャラクター詳細セクション ========== -->
-    <div class="character-section mb-8">
-        <h2 class="text-2xl font-bold mb-4">📊 キャラクター詳細</h2>
+    <section class="character-section mb-8 px-4">
+        <h2 class="text-2xl font-bold">📊 キャラクター詳細と達成状況</h2>
 
         <div class="bg-white rounded-lg shadow p-6">
             <!-- キャラクター画像（ランク値に応じて自動選択） -->
             <div class="mb-4 text-center">
                 <!-- コメント: $rank の値（0～10）から自動的に画像ファイルを選ぶ -->
                 <!-- 例: $rank = 7 の場合、rank_7.png が表示される -->
-                <img src="{{ asset('img/characters/rank_' . $rank . '.png') }}"
-                     alt="ランク{{ $rank }}キャラクター"
-                     class="w-64 h-64 mx-auto rounded-lg shadow-lg object-cover">
+                <img src="{{ asset('img/characters/rank_' . $rank . '.png') }}" alt="ランク{{ $rank }}キャラクター"
+                    class="w-64 h-64 mx-auto rounded-lg shadow-lg object-cover">
             </div>
 
             <!-- キャラクター情報テーブル -->
-            <table class="w-full text-left border-collapse">
+            <table class="text-center border-collapse mx-auto">
                 <tr class="border-b">
-                    <td class="py-2 px-4 font-semibold">ランク値</td>
-                    <td class="py-2 px-4">{{ $rank }} / 10</td>
+                    <td class="py-2 px-4 font-semibold">ランク名：</td>
+                    <td class="py-2 px-4 text-lg font-bold ">{{ $rankMessage }}</td>
                 </tr>
                 <tr class="border-b">
-                    <td class="py-2 px-4 font-semibold">ランク名</td>
-                    <td class="py-2 px-4 text-lg font-bold text-blue-600">{{ $rankMessage }}</td>
+                    <td class="py-2 px-4 font-semibold">目標時間：</td>
+                    <td class="py-2 px-4 text-lg font-bold text-blue-600">{{ $targetHours }}時間</td>
                 </tr>
                 <tr class="border-b">
-                    <td class="py-2 px-4 font-semibold">レベル</td>
+                    <td class="py-2 px-4 font-semibold">総学習時間：</td>
+                    <td class="py-2 px-4 text-lg font-bold text-green-600">{{ $totalHours }}時間</td>
+                </tr>
+                <tr class="border-b">
+                    <td class="py-2 px-4 font-semibold">レベル：</td>
                     <td class="py-2 px-4">{{ $character->level }}</td>
                 </tr>
                 <tr class="border-b">
-                    <td class="py-2 px-4 font-semibold">EXP</td>
-                    <td class="py-2 px-4">{{ $character->exp }} 分</td>
-                </tr>
-                <tr class="border-b">
-                    <td class="py-2 px-4 font-semibold">ランクメッセージ</td>
+                    <td class="py-2 px-4 font-semibold">ランクメッセージ：</td>
                     <td class="py-2 px-4">{{ $character->rank_message }}</td>
                 </tr>
             </table>
         </div>
-    </div>
+    </section>
 
     <!-- ========== 達成率セクション ========== -->
-    <div class="achievement-section mb-8">
+    <section class="text-center border-collapse mx-auto">
         <h2 class="text-2xl font-bold mb-4">🎯 達成状況</h2>
 
         <div class="bg-white rounded-lg shadow p-6">
@@ -48,8 +47,8 @@
             <div class="grid grid-cols-3 gap-4 mb-6">
                 <div class="bg-blue-50 p-4 rounded">
                     <p class="font-semibold text-sm">総学習時間</p>
-                    <p class="text-2xl font-bold text-blue-600">{{ $totalHours }}</p>
-                    <p class="text-xs text-gray-500">時間</p>
+                    <p class="text-2xl font-bold ">{{ $totalMinutes }}</p>
+                    <p class="text-xs text-gray-500">分</p>
                 </div>
                 <div class="bg-green-50 p-4 rounded">
                     <p class="font-semibold text-sm">目標時間</p>
@@ -63,22 +62,22 @@
                 </div>
             </div>
 
-                <!-- 進捗バー -->
+            <!-- 進捗バー -->
             <div class="mb-4">
                 <p class="text-sm font-semibold mb-2">進捗バー</p>
                 <div class="w-full bg-gray-200 h-6 rounded-full overflow-hidden">
                     <!-- コメント: width を達成率（percent）% に設定して、進捗を視覚化 -->
                     <!-- 例: 75% なら、バーが画面の75%を埋める -->
                     <div class="bg-gradient-to-r from-blue-500 to-purple-500 h-full transition-all duration-500"
-                         style="width: {{ $percent }}%"></div>
+                        style="width: {{ $percent }}%"></div>
                 </div>
                 <p class="text-xs text-gray-500 mt-2">{{ $percent }}% / 100%</p>
             </div>
         </div>
-    </div>
+    </section>
 
-        <!-- ========== 学習記録一覧 ========== -->
-    <div class="records-section">
+    <!-- ========== 学習記録一覧 ========== -->
+    <section class="records-section px-4">
         <h2 class="text-2xl font-bold mb-4">📚 最近の学習記録</h2>
 
         <div class="bg-white rounded-lg shadow overflow-hidden">
@@ -96,7 +95,8 @@
                             <td class="py-3 px-4">{{ $timelog->logged_at->format('Y-m-d') }}</td>
                             <td class="py-3 px-4">{{ $timelog->duration_minutes }} 分</td>
                             <td class="py-3 px-4">
-                                <a href="{{ route('timelogs.edit', $timelog) }}" class="text-blue-500 hover:underline text-sm">編集</a>
+                                <a href="{{ route('timelogs.edit', $timelog) }}"
+                                    class="text-blue-500 hover:underline text-sm">編集</a>
                                 <form method="post" action="{{ route('timelogs.destroy', $timelog) }}" class="inline">
                                     @csrf
                                     @method('delete')
@@ -119,5 +119,5 @@
         <div class="mt-4">
             {{ $timelogs->links() }}
         </div>
-    </div>
+    </section>
 </x-app-layout>

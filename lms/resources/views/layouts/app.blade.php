@@ -30,8 +30,8 @@
         @endisset
 
         <!-- Page Content -->
-        <main>
-        {{ $slot }}
+        <main class="max-w-md mx-auto">
+            {{ $slot }}
         </main>
     </div>
 </body>
