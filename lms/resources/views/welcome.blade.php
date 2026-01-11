@@ -19,7 +19,7 @@
         <main>
             {{-- 画像 --}}
             <div class="mt-8 flex justify-center">
-                <img src="{{ asset('img/first_fox.png') }}" alt="Fox Image" class="w-72 h-72 object-cover border-4 border-blue-400">
+                <img src="{{ asset('img/characters/rank_0.png') }}" alt="Fox Image" class="w-72 h-72 object-cover border-4 border-blue-400">
             </div>
             {{-- タイトル --}}
             <h2 class="m-16 text-xl font-black text-center">

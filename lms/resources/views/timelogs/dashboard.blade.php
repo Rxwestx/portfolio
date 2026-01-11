@@ -1,49 +1,131 @@
 <x-app-layout>
-    <!-- 1. キャラクター詳細 -->
-    <div class="character-section">
-        <h2>キャラクター詳細</h2>
-        {{-- <p>レベル: {{ $character->level }}</p>
-        <img src="{{ $character->image }}" /> --}}
-    </div>
+    <!-- ========== キャラクター詳細セクション ========== -->
+    <div class="character-section mb-8">
+        <h2 class="text-2xl font-bold mb-4">📊 キャラクター詳細</h2>
 
-    <!-- 2. トータル時間 -->
-    <div class="total-time-section">
-        <h2>総累計時間</h2>
-        <p>{{ intdiv($totalMinutes, 60) }} 時間 {{ $totalMinutes % 60 }} 分</p>
-    </div>
+        <div class="bg-white rounded-lg shadow p-6">
+            <!-- キャラクター画像（ランク値に応じて自動選択） -->
+            <div class="mb-4 text-center">
+                <!-- コメント: $rank の値（0～10）から自動的に画像ファイルを選ぶ -->
+                <!-- 例: $rank = 7 の場合、rank_7.png が表示される -->
+                <img src="{{ asset('img/characters/rank_' . $rank . '.png') }}"
+                     alt="ランク{{ $rank }}キャラクター"
+                     class="w-48 h-48 mx-auto rounded-lg shadow-lg object-cover">
+            </div>
 
-    <!-- 3. グラフ -->
-    <div class="graph-section">
-        <h3>月別グラフ</h3>
-        <canvas id="monthlyChart"></canvas>
-
-        <h3>週別グラフ</h3>
-        <canvas id="weeklyChart"></canvas>
-    </div>
-
-    <!-- 4. 記録一覧（編集・削除機能付き） -->
-    <div class="records-section">
-        <h2>記録</h2>
-        <table>
-            <tr>
-                <th>日付</th>
-                <th>時間</th>
-                <th>編集</th>
-            </tr>
-            @foreach ($timelogs as $timelog)
-                <tr>
-                    <td>{{ $timelog->logged_at->format('Y-m-d') }}</td>
-                    <td>{{ $timelog->duration_minutes }} 分</td>
-                    <td>
-                        <a href="{{ route('timelogs.edit', $timelog) }}">編集</a>
-                        <form method="post" action="{{ route('timelogs.destroy', $timelog) }}">
-                            @csrf
-                            @method('delete')
-                            <button>削除</button>
-                        </form>
-                    </td>
+            <!-- キャラクター情報テーブル -->
+            <table class="w-full text-left border-collapse">
+                <tr class="border-b">
+                    <td class="py-2 px-4 font-semibold">ランク値</td>
+                    <td class="py-2 px-4">{{ $rank }} / 10</td>
                 </tr>
-            @endforeach
-        </table>
+                <tr class="border-b">
+                    <td class="py-2 px-4 font-semibold">ランク名</td>
+                    <td class="py-2 px-4 text-lg font-bold text-blue-600">{{ $rankMessage }}</td>
+                </tr>
+                <tr class="border-b">
+                    <td class="py-2 px-4 font-semibold">レベル</td>
+                    <td class="py-2 px-4">{{ $character->level }}</td>
+                </tr>
+                <tr class="border-b">
+                    <td class="py-2 px-4 font-semibold">EXP</td>
+                    <td class="py-2 px-4">{{ $character->exp }} 分</td>
+                </tr>
+                <tr class="border-b">
+                    <td class="py-2 px-4 font-semibold">ランクメッセージ</td>
+                    <td class="py-2 px-4">{{ $character->rank_message }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- ========== 達成率セクション ========== -->
+    <div class="achievement-section mb-8">
+        <h2 class="text-2xl font-bold mb-4">🎯 達成状況</h2>
+
+        <div class="bg-white rounded-lg shadow p-6">
+            <!-- 数値表示 -->
+            <div class="grid grid-cols-3 gap-4 mb-6">
+                <div class="bg-blue-50 p-4 rounded">
+                    <p class="text-gray-600 text-sm">総学習時間</p>
+                    <p class="text-2xl font-bold text-blue-600">{{ $totalMinutes }}</p>
+                    <p class="text-xs text-gray-500">分</p>
+                </div>
+                <div class="bg-green-50 p-4 rounded">
+                    <p class="text-gray-600 text-sm">目標時間</p>
+                    <p class="text-2xl font-bold text-green-600">{{ $targetMinutes }}</p>
+                    <p class="text-xs text-gray-500">分</p>
+                </div>
+                <div class="bg-purple-50 p-4 rounded">
+                    <p class="text-gray-600 text-sm">達成率</p>
+                    <p class="text-2xl font-bold text-purple-600">{{ $percent }}%</p>
+                    <p class="text-xs text-gray-500">まで達成</p>
+                </div>
+            </div>
+
+            <!-- 進捗バー -->
+            <div class="mb-4">
+                <p class="text-sm font-semibold mb-2">進捗バー</p>
+                <div class="w-full bg-gray-200 h-6 rounded-full overflow-hidden">
+                    <!-- コメント: width を達成率（percent）% に設定して、進捗を視覚化 -->
+                    <!-- 例: 75% なら、バーが画面の75%を埋める -->
+                    <div class="bg-gradient-to-r from-blue-500 to-purple-500 h-full transition-all duration-500"
+                         style="width: {{ $percent }}%"></div>
+                </div>
+                <p class="text-xs text-gray-500 mt-2">{{ $percent }}% / 100%</p>
+            </div>
+
+            <!-- 目標未設定時の警告 -->
+            @if ($targetMinutes === 0)
+                <div class="bg-red-50 border-l-4 border-red-500 p-4 mt-4">
+                    <p class="text-red-700 font-semibold">⚠️ 注意</p>
+                    <p class="text-red-600 text-sm">目標時間が設定されていません。<a href="{{ route('goals.create') }}" class="underline">目標を設定する</a></p>
+                </div>
+            @endif
+        </div>
+    </div>
+
+    <!-- ========== 学習記録一覧 ========== -->
+    <div class="records-section">
+        <h2 class="text-2xl font-bold mb-4">📚 最近の学習記録</h2>
+
+        <div class="bg-white rounded-lg shadow overflow-hidden">
+            <table class="w-full text-left">
+                <thead class="bg-gray-100 border-b">
+                    <tr>
+                        <th class="py-3 px-4">日付</th>
+                        <th class="py-3 px-4">学習時間</th>
+                        <th class="py-3 px-4">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($timelogs as $timelog)
+                        <tr class="border-b hover:bg-gray-50">
+                            <td class="py-3 px-4">{{ $timelog->logged_at->format('Y-m-d') }}</td>
+                            <td class="py-3 px-4">{{ $timelog->duration_minutes }} 分</td>
+                            <td class="py-3 px-4">
+                                <a href="{{ route('timelogs.edit', $timelog) }}" class="text-blue-500 hover:underline text-sm">編集</a>
+                                <form method="post" action="{{ route('timelogs.destroy', $timelog) }}" class="inline">
+                                    @csrf
+                                    @method('delete')
+                                    <button class="text-red-500 hover:underline text-sm ml-2">削除</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="3" class="py-4 px-4 text-center text-gray-500">
+                                学習記録がありません
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+
+        <!-- ページネーション -->
+        <div class="mt-4">
+            {{ $timelogs->links() }}
+        </div>
     </div>
 </x-app-layout>

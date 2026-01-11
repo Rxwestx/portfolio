@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Goal;
 use App\Models\TimeLogs;
+use App\Models\Character;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -156,8 +158,36 @@ class TimeLogsController extends Controller
         ];
         $rankMessage = $rankMessages[$rank];
 
-        // ビューにデータを渡す
-        return view('timelogs.dashboard', compact('timelogs', 'totalMinutes', 'targetMinutes', 'percent', 'rankMessage' ));
+        // ========== キャラクター操作 ==========
+        // 1. 現在のユーザーがキャラクターを持っているか確認
+        // 持っていなければ初期状態で作成、持っていれば取得
+        $character = Character::firstOrCreate(
+            ['user_id' => Auth::id()],
+            [
+                'level' => 1,
+                'exp' => 0,
+                'rank' => 0,
+                'rank_message' => '弱った狐',
+            ]
+        );
+        // 2. 計算した達成率に基づいてキャラクターのランクとメッセージを更新
+        $character->rank = $rank;
+        $character->rank_message = $rankMessage;
+        // （任意）総学習時間をEXPとして記録
+        $character->exp = $totalMinutes;
+        $character->save();
+
+        // ビューへデータを渡す（学習記録、時間情報、達成率・ランク、キャラクター情報をダッシュボードに送信）
+        return view('timelogs.dashboard', compact(
+            'timelogs',
+            'totalMinutes',
+            'targetMinutes',
+            'targetHours',
+            'percent',
+            'rank',
+            'rankMessage',
+            'character'
+        ));
     }
 
  }
