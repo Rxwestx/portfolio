@@ -1,3 +1,4 @@
+
 <?php
 
 use App\Http\Controllers\ProfileController;
@@ -31,7 +32,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/timelogs/{timelogs}/edit', [TimeLogsController::class, 'edit'])->name('timelogs.edit');
     Route::put('/timelogs/{timelogs}', [TimeLogsController::class, 'update'])->name('timelogs.update');
     Route::delete('/timelogs/{timelogs}', [TimeLogsController::class, 'destroy'])->name('timelogs.destroy');
-
     // プロフィール
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

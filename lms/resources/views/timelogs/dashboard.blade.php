@@ -9,7 +9,7 @@
     <!-- 2. トータル時間 -->
     <div class="total-time-section">
         <h2>総累計時間</h2>
-        <p>{{ $totalTime }} 時間</p>
+        <p>{{ intdiv($totalMinutes, 60) }} 時間 {{ $totalMinutes % 60 }} 分</p>
     </div>
 
     <!-- 3. グラフ -->
@@ -23,12 +23,12 @@
 
     <!-- 4. 記録一覧（編集・削除機能付き） -->
     <div class="records-section">
-        <h2>学習記録</h2>
+        <h2>記録</h2>
         <table>
             <tr>
                 <th>日付</th>
                 <th>時間</th>
-                <th>操作</th>
+                <th>編集</th>
             </tr>
             @foreach ($timelogs as $timelog)
                 <tr>

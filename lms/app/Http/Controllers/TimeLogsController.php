@@ -122,14 +122,42 @@ class TimeLogsController extends Controller
             ->orderBy('logged_at', 'desc')
             ->paginate(10);
 
-        // DBより、トータル時間計算を取得
-        $totalTime = TimeLogs::where('user_id', Auth::id())
+        // DBより、トータル時間を取得し集計
+        $totalMinutes = TimeLogs::where('user_id', Auth::id())
             ->sum('duration_minutes');
         // キャラクター情報（今後実装）
         // $character = Character::where('user_id', Auth::id())->first();
 
+        // 目標総時間取得
+        $targetHours = Goal::where('user_id', Auth::id())
+            ->latest('id')
+            ->value('target_hours');
+        // 時間を分に変換
+        $targetMinutes = $targetHours ? $targetHours * 60 : 0;
+        // 達成率の計算 目標が 0 なら、達成率も 0% とし、小数をパーセントに変換
+        $percent = $targetMinutes > 0
+            ? min(100, floor(($totalMinutes / $targetMinutes) * 100))
+            : 0;
+        // ランクの計算（例: 10%ごとにランクアップ、最大ランク10）
+        $rank = min(10, intdiv($percent, 10));
+
+        $rankMessages = [
+            0 => '弱った狐',
+            1 => '一尾',
+            2 => '二尾',
+            3 => '三尾',
+            4 => '四尾',
+            5 => '五尾',
+            6 => '六尾',
+            7 => '七尾',
+            8 => '八尾',
+            9 => '九尾',
+            10 => '伝説の妖狐',
+        ];
+        $rankMessage = $rankMessages[$rank];
+
         // ビューにデータを渡す
-    return view('timelogs.dashboard', compact('timelogs', 'totalTime'));
+        return view('timelogs.dashboard', compact('timelogs', 'totalMinutes', 'targetMinutes', 'percent', 'rankMessage' ));
     }
 
  }

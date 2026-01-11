@@ -35,8 +35,7 @@ return new class extends Migration
             // ランクメッセージ
             $table->text('rank_message');
 
-            // 更新日時（ER図に合わせて）
-            $table->timestamp('updated_at')->nullable();
+            $table->timestamps();
         });
     }
 
