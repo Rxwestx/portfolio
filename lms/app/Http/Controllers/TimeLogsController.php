@@ -127,8 +127,9 @@ class TimeLogsController extends Controller
         // DBより、トータル時間を取得し集計
         $totalMinutes = TimeLogs::where('user_id', Auth::id())
             ->sum('duration_minutes');
-        // キャラクター情報（今後実装）
-        // $character = Character::where('user_id', Auth::id())->first();
+
+        // ダッシュボード用に分を時間に変換（小数1桁で丸め）
+        $totalHours = round($totalMinutes / 60, 1);
 
         // 目標総時間取得
         $targetHours = Goal::where('user_id', Auth::id())
@@ -173,7 +174,8 @@ class TimeLogsController extends Controller
         // 2. 計算した達成率に基づいてキャラクターのランクとメッセージを更新
         $character->rank = $rank;
         $character->rank_message = $rankMessage;
-        // （任意）総学習時間をEXPとして記録
+
+        // 総学習時間をEXPとして記録
         $character->exp = $totalMinutes;
         $character->save();
 
@@ -181,6 +183,7 @@ class TimeLogsController extends Controller
         return view('timelogs.dashboard', compact(
             'timelogs',
             'totalMinutes',
+            'totalHours',
             'targetMinutes',
             'targetHours',
             'percent',

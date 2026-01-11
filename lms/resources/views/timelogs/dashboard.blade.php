@@ -10,7 +10,7 @@
                 <!-- 例: $rank = 7 の場合、rank_7.png が表示される -->
                 <img src="{{ asset('img/characters/rank_' . $rank . '.png') }}"
                      alt="ランク{{ $rank }}キャラクター"
-                     class="w-48 h-48 mx-auto rounded-lg shadow-lg object-cover">
+                     class="w-64 h-64 mx-auto rounded-lg shadow-lg object-cover">
             </div>
 
             <!-- キャラクター情報テーブル -->
@@ -47,23 +47,23 @@
             <!-- 数値表示 -->
             <div class="grid grid-cols-3 gap-4 mb-6">
                 <div class="bg-blue-50 p-4 rounded">
-                    <p class="text-gray-600 text-sm">総学習時間</p>
-                    <p class="text-2xl font-bold text-blue-600">{{ $totalMinutes }}</p>
-                    <p class="text-xs text-gray-500">分</p>
+                    <p class="font-semibold text-sm">総学習時間</p>
+                    <p class="text-2xl font-bold text-blue-600">{{ $totalHours }}</p>
+                    <p class="text-xs text-gray-500">時間</p>
                 </div>
                 <div class="bg-green-50 p-4 rounded">
-                    <p class="text-gray-600 text-sm">目標時間</p>
-                    <p class="text-2xl font-bold text-green-600">{{ $targetMinutes }}</p>
-                    <p class="text-xs text-gray-500">分</p>
+                    <p class="font-semibold text-sm">目標時間</p>
+                    <p class="text-2xl font-bold text-green-600">{{ $targetHours }} </p>
+                    <p class="text-xs text-gray-500">時間</p>
                 </div>
                 <div class="bg-purple-50 p-4 rounded">
-                    <p class="text-gray-600 text-sm">達成率</p>
+                    <p class="font-semibold text-sm">達成率</p>
                     <p class="text-2xl font-bold text-purple-600">{{ $percent }}%</p>
-                    <p class="text-xs text-gray-500">まで達成</p>
+                    <p class="text-xs text-black-500">まで達成</p>
                 </div>
             </div>
 
-            <!-- 進捗バー -->
+                <!-- 進捗バー -->
             <div class="mb-4">
                 <p class="text-sm font-semibold mb-2">進捗バー</p>
                 <div class="w-full bg-gray-200 h-6 rounded-full overflow-hidden">
@@ -74,18 +74,10 @@
                 </div>
                 <p class="text-xs text-gray-500 mt-2">{{ $percent }}% / 100%</p>
             </div>
-
-            <!-- 目標未設定時の警告 -->
-            @if ($targetMinutes === 0)
-                <div class="bg-red-50 border-l-4 border-red-500 p-4 mt-4">
-                    <p class="text-red-700 font-semibold">⚠️ 注意</p>
-                    <p class="text-red-600 text-sm">目標時間が設定されていません。<a href="{{ route('goals.create') }}" class="underline">目標を設定する</a></p>
-                </div>
-            @endif
         </div>
     </div>
 
-    <!-- ========== 学習記録一覧 ========== -->
+        <!-- ========== 学習記録一覧 ========== -->
     <div class="records-section">
         <h2 class="text-2xl font-bold mb-4">📚 最近の学習記録</h2>
 
@@ -95,7 +87,7 @@
                     <tr>
                         <th class="py-3 px-4">日付</th>
                         <th class="py-3 px-4">学習時間</th>
-                        <th class="py-3 px-4">操作</th>
+                        <th class="py-3 px-4">編集</th>
                     </tr>
                 </thead>
                 <tbody>
