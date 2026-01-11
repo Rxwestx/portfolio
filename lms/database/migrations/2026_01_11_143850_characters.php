@@ -1,0 +1,48 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('characters', function (Blueprint $table) {
+            // id（主キー）
+            $table->id();
+
+            // users テーブルとの紐づけ
+            $table->foreignId('user_id')
+                  ->constrained()
+                  ->cascadeOnDelete();
+
+            // キャラクターレベル
+            $table->integer('level')->default(0);
+
+            // 経験値
+            $table->integer('exp')->default(0);
+
+            // ランク
+            $table->integer('rank')->default(0);
+
+            // ランクメッセージ
+            $table->text('rank_message');
+
+            // 更新日時（ER図に合わせて）
+            $table->timestamp('updated_at')->nullable();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('characters');
+    }
+
+};
