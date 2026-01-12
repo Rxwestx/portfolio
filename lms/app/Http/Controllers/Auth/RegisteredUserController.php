@@ -45,6 +45,11 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
+        // Set last_login on first login after registration
+        $user->forceFill([
+            'last_login' => now(),
+        ])->save();
+
         return redirect(route('goals.create', absolute: false));
     }
 }
