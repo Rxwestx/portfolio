@@ -10,7 +10,7 @@
 </script>
 
 <!-- タブ切り替えコンポーネント -->
-<div x-data="initChartTabs()" class="mb-8">
+<div x-data="chartTabs" class="mb-8">
     <!-- タブボタン -->
     <div class="flex gap-2 mb-4">
         <button @click="setTab('weekly')"
@@ -28,22 +28,28 @@
             class="px-4 py-2 rounded font-semibold transition">
              年別
         </button>
-    </div>
+     </div>
 
     <!-- グラフコンテナ -->
     <div class="bg-white rounded-lg shadow p-6">
-        <div class="h-64 flex items-end gap-2 justify-center">
-            <template x-for="(value, date) in getCurrentData()" :key="date">
-                <div class="flex flex-col items-center flex-1">
-                    <!-- バーグラフ -->
-                    <div class="w-full bg-gradient-to-t from-blue-500 to-blue-400 rounded-t"
-                        :style="`height: ${getBarHeight(value, Math.max(...Object.values(getCurrentData())))}%`">
+        <div class="h-64 overflow-x-auto">
+            <div class="flex items-end gap-2 justify-center">
+                <template x-for="(value, date) in getCurrentData()" :key="date">
+                    <div class="flex flex-col items-center flex-1 ">
+                        <div class="w-full h-40 flex items-end">
+                        <!-- バーグラフ -->
+                            <div class="w-full bg-gradient-to-t from-blue-500 to-blue-400 rounded-t"
+                                :style="`height: ${getBarHeight(value, Math.max(0,...Object.values(getCurrentData())))}%`">
+                            </div>
+                        </div>
+                        <div class="mt-2 h-10 flex flex-col items-center justify-end">
+                        <!-- ラベル -->
+                        <p class="text-xs mt-2 text-gray-600" x-text="date"></p>
+                        <p class="text-xs font-semibold" x-text="`${value}分`"></p>
+                        </div>
                     </div>
-                    <!-- ラベル -->
-                    <p class="text-xs mt-2 text-gray-600" x-text="date"></p>
-                    <p class="text-xs font-semibold" x-text="`${value}分`"></p>
-                </div>
-            </template>
+                </template>
+            </div>
         </div>
     </div>
 </div>
