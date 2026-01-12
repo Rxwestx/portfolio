@@ -71,7 +71,7 @@
         <div class="pt-2 flex justify-center">
           <button
             type="submit"
-            class="w-24 h-10 rounded-full bg-yellow-100 text-gray-800 text-sm shadow-sm active:scale-95"
+            class="w-24 h-10 rounded-full bg-cyan-300 text-gray-800 text-sm shadow-sm active:scale-95"
           >
             登録
           </button>

@@ -48,7 +48,7 @@
         </div>
     </section>
 
-    <!-- ========== 学習記録一覧 ========== -->
+    {{-- <!-- ========== 学習記録一覧 ========== -->
     <section class="records-section px-4 text-center border-collapse mx-auto">
         <h2 class="text-2xl font-bold mb-4">📚 最近の学習記録</h2>
 
@@ -91,5 +91,5 @@
         <div class="mt-4">
             {{ $timelogs->links() }}
         </div>
-    </section>
+    </section> --}}
 </x-app-layout>
