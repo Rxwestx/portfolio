@@ -179,6 +179,36 @@ class TimeLogsController extends Controller
         $character->exp = $totalMinutes;
         $character->save();
 
+        // 週間集計
+        $weeklyData = [];
+        for ($i = 6; $i >= 0; $i--) {
+            $date = now()->subDays($i)->format('m-d');
+            $minutes = TimeLogs::where('user_id', Auth::id())
+                ->whereDate('logged_at', now()->subDays($i)->format('Y-m-d'))
+                ->sum('duration_minutes');
+            $weeklyData[$date] = $minutes ?? 0;
+        }
+
+        // 月間集計（過去30日）
+        $monthlyData = [];
+        for ($i = 29; $i >= 0; $i--) {
+            $date = now()->subDays($i)->format('m-d');
+            $minutes = TimeLogs::where('user_id', Auth::id())
+                ->whereDate('logged_at', now()->subDays($i)->format('Y-m-d'))
+                ->sum('duration_minutes');
+            $monthlyData[$date] = $minutes ?? 0;
+        }
+
+        // 年別集計（過去12ヶ月）
+        $yearlyData = [];
+        for ($i = 11; $i >= 0; $i--) {
+            $month = now()->subMonths($i)->format('Y-m');
+            $minutes = TimeLogs::where('user_id', Auth::id())
+                ->whereRaw("to_char(logged_at, 'YYYY-MM') = ?", [$month])
+                ->sum('duration_minutes');
+            $yearlyData[$month] = $minutes ?? 0;
+        }
+
         // ビューへデータを渡す（学習記録、時間情報、達成率・ランク、キャラクター情報をダッシュボードに送信）
         return view('timelogs.dashboard', compact(
             'timelogs',
@@ -189,7 +219,10 @@ class TimeLogsController extends Controller
             'percent',
             'rank',
             'rankMessage',
-            'character'
+            'character',
+            'weeklyData',
+            'monthlyData',
+            'yearlyData'
         ));
     }
 
