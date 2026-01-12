@@ -27,7 +27,7 @@
                         id="duration_minutes" min="1" value="{{ old('duration_minutes') }}">
                 </div>
                 <x-primary-button class="mt-4">
-                    送信する
+                    報告する
                 </x-primary-button>
         </form>
     </div>

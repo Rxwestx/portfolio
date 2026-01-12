@@ -1,7 +1,7 @@
 <x-app-layout>
     <!-- ========== キャラクター詳細セクション ========== -->
     <section class="character-section mb-8 px-4">
-        <h2 class="text-2xl font-bold">📊 キャラクター詳細と達成状況</h2>
+        <h2 class="text-2xl font-bold">🎯キャラクター詳細と達成状況</h2>
 
         <div class="bg-white rounded-lg shadow p-6">
             <!-- キャラクター画像（ランク値に応じて自動選択） -->
@@ -38,50 +38,22 @@
         </div>
     </section>
 
-    <!-- ========== 達成率セクション ========== -->
+    <!-- ========== 週別と月間別グラフ表示 ========== -->
     <section class="text-center border-collapse mx-auto">
-        <h2 class="text-2xl font-bold mb-4">🎯 達成状況</h2>
+        <h2 class="text-2xl font-bold mb-4">📊 グラフ</h2>
 
         <div class="bg-white rounded-lg shadow p-6">
-            <!-- 数値表示 -->
-            <div class="grid grid-cols-3 gap-4 mb-6">
-                <div class="bg-blue-50 p-4 rounded">
-                    <p class="font-semibold text-sm">総学習時間</p>
-                    <p class="text-2xl font-bold ">{{ $totalMinutes }}</p>
-                    <p class="text-xs text-gray-500">分</p>
-                </div>
-                <div class="bg-green-50 p-4 rounded">
-                    <p class="font-semibold text-sm">目標時間</p>
-                    <p class="text-2xl font-bold text-green-600">{{ $targetHours }} </p>
-                    <p class="text-xs text-gray-500">時間</p>
-                </div>
-                <div class="bg-purple-50 p-4 rounded">
-                    <p class="font-semibold text-sm">達成率</p>
-                    <p class="text-2xl font-bold text-purple-600">{{ $percent }}%</p>
-                    <p class="text-xs text-black-500">まで達成</p>
-                </div>
-            </div>
-
-            <!-- 進捗バー -->
-            <div class="mb-4">
-                <p class="text-sm font-semibold mb-2">進捗バー</p>
-                <div class="w-full bg-gray-200 h-6 rounded-full overflow-hidden">
-                    <!-- コメント: width を達成率（percent）% に設定して、進捗を視覚化 -->
-                    <!-- 例: 75% なら、バーが画面の75%を埋める -->
-                    <div class="bg-gradient-to-r from-blue-500 to-purple-500 h-full transition-all duration-500"
-                        style="width: {{ $percent }}%"></div>
-                </div>
-                <p class="text-xs text-gray-500 mt-2">{{ $percent }}% / 100%</p>
-            </div>
+            <!-- グラフコンポーネントを呼び出し -->
+            <x-chart-tabs :weeklyData="$weeklyData" :monthlyData="$monthlyData" :yearlyData="$yearlyData" />
         </div>
     </section>
 
     <!-- ========== 学習記録一覧 ========== -->
-    <section class="records-section px-4">
+    <section class="records-section px-4 text-center border-collapse mx-auto">
         <h2 class="text-2xl font-bold mb-4">📚 最近の学習記録</h2>
 
         <div class="bg-white rounded-lg shadow overflow-hidden">
-            <table class="w-full text-left">
+            <table class="text-center mx-auto">
                 <thead class="bg-gray-100 border-b">
                     <tr>
                         <th class="py-3 px-4">日付</th>
