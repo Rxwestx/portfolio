@@ -48,7 +48,7 @@
         </div>
     </section>
 
-    {{-- <!-- ========== 学習記録一覧 ========== -->
+    <!-- ========== 学習記録一覧 ========== -->
     <section class="records-section px-4 text-center border-collapse mx-auto">
         <h2 class="text-2xl font-bold mb-4">📚 最近の学習記録</h2>
 
@@ -62,14 +62,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse ($timelogs as $timelog)
+                    @forelse ($timeLogs as $timeLog)
                         <tr class="border-b hover:bg-gray-50">
-                            <td class="py-3 px-4">{{ $timelog->logged_at->format('Y-m-d') }}</td>
-                            <td class="py-3 px-4">{{ $timelog->duration_minutes }} 分</td>
+                            <td class="py-3 px-4">{{ $timeLog->logged_at->format('Y-m-d') }}</td>
+                            <td class="py-3 px-4">{{ $timeLog->duration_minutes }} 分</td>
                             <td class="py-3 px-4">
-                                <a href="{{ route('timelogs.edit', $timelog) }}"
+                                <a href="{{ route('timelogs.edit', $timeLog) }}"
                                     class="text-blue-500 hover:underline text-sm">編集</a>
-                                <form method="post" action="{{ route('timelogs.destroy', $timelog) }}" class="inline">
+                                <form method="post" action="{{ route('timelogs.destroy', $timeLog) }}" class="inline">
                                     @csrf
                                     @method('delete')
                                     <button class="text-red-500 hover:underline text-sm ml-2">削除</button>
@@ -86,10 +86,5 @@
                 </tbody>
             </table>
         </div>
-
-        <!-- ページネーション -->
-        <div class="mt-4">
-            {{ $timelogs->links() }}
-        </div>
-    </section> --}}
+    </section>
 </x-app-layout>

@@ -1,17 +1,15 @@
 @props(['action'])
 
-<section class="flex items-center justify-center min-h-screen bg-green-200">
+        <section class="px-4 py-8 mt-60  max-w-md rounded-md justify-center bg-neutral-100 shadow-md">
 
-    <section class=" px-4 py-8 mx-auto w-full max-w-sm  rounded-md px-5 py-12 shadow-sm">
-      <h1 class="text-center text-lg font-semibold text-gray-800">目標設定</h1>
+            <h1 class="text-center text-lg font-semibold text-gray-800">目標設定</h1>
 
-      <p class="mt-4 text-center text-xs text-gray-600 leading-relaxed">
-        ◆ここで入力した目標は、変更することが出来ません◆<br>
-        よく、考えてから入力してね
-      </p>
-
-      <form method="POST" action="{{ $action }}" class="mt-6 space-y-5">
-        @csrf
+            <p class="mt-4 text-center text-xs text-gray-600 leading-relaxed">
+              ◆ここで入力した目標は、変更することが出来ません◆<br>
+              よく、考えてから入力してね
+            </p>
+            <form method="POST" action="{{ $action }}" class="mt-6 space-y-5">
+                @csrf
 
         {{-- 目標 goal --}}
         <div>
@@ -58,9 +56,9 @@
               pattern="[0-9]*"
               name="target_hours"
               value="{{ old('target_hours') }}"
-              class="w-20 h-9 rounded border border-gray-300 px-2 text-sm bg-white text-center"
+              class="w-16 h-8 rounded border border-gray-300 px-4 text-sm bg-white item-center"
             >
-            <span class="text-lx text-gray-700">時間</span>
+            <span class="text-lx text-gray-700 text-center">時間</span>
           </div>
 
           @error('target_hours')
@@ -78,6 +76,5 @@
         </div>
       </form>
     </section>
-  </main>
 </div>
 

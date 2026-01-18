@@ -17,11 +17,16 @@ class TimeLogsController extends Controller
      */
     public function index()
     {
-        $timelogs = TimeLogs::where('user_id', Auth::id())
-            ->orderBy('logged_at', 'desc')
-            ->paginate(10);
-        return view('timelogs.index', compact('timelogs'));
+        $userId = Auth::id();
+
+        $timeLogs = TimeLogs::whereHas('goal', function ($query) use ($userId) {
+            $query->where('user_id', $userId);
+        })->orderByDesc('logged_at')->paginate(10);
+
+        return view('timelogs.index', compact('timeLogs'));
     }
+        // 学習記録一覧ではなくダッシュボード表示へ統一
+        // return $this->dashboard();
 
     /**
      * Show the form for creating a new resource.
@@ -60,7 +65,6 @@ class TimeLogsController extends Controller
         }
 
         TimeLogs::create([
-            'user_id' => $userId,
             'goal_id' => $goalId,
             'logged_at' => $loggedAt,
             'duration_minutes' => $request->duration_minutes,
@@ -73,45 +77,45 @@ class TimeLogsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(TimeLogs $timelogs)
+    public function show(TimeLogs $timeLog)
     {
-        //  dd($timelogs);
-        return view('timelogs.show', compact('timelogs'));
+        //  dd($timeLog);
+        return view('timelogs.show', compact('timeLog'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(TimeLogs $timelogs)
+    public function edit(TimeLogs $timeLog)
     {
-        return view('timelogs.edit', compact('timelogs'));
+        return view('timelogs.edit', compact('timeLog'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, TimeLogs $timelogs)
+    public function update(Request $request, TimeLogs $timeLog)
     {
         $validated = $request->validate([
             'study_date' => 'required|date',
             'duration_minutes' => 'required|integer|min:1',
         ]);
 
-        $timelogs->update([
+        $timeLog->update([
             'logged_at' => Carbon::parse($validated['study_date'])->startOfDay(),
             'duration_minutes' => $validated['duration_minutes'],
         ]);
 
-        return redirect()->route('timelogs.show', $timelogs)
+        return redirect()->route('timelogs.show', $timeLog)
             ->with('success', '更新しました');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(TimeLogs $timelogs)
+    public function destroy(TimeLogs $timeLog)
     {
-        $timelogs->delete();
+        $timeLog->delete();
         return redirect()->route('timelogs.index')
             ->with('success', '削除しました');
     }
@@ -120,12 +124,17 @@ class TimeLogsController extends Controller
      */
     public function dashboard()
     {
-        $timelogs = TimeLogs::where('user_id', Auth::id())
+        $timeLogs = TimeLogs::whereHas('goal', function ($query) {
+            $query->where('user_id', Auth::id());
+        })
             ->orderBy('logged_at', 'desc')
-            ->paginate(10);
+            ->limit(10)
+            ->get();
 
         // DBより、トータル時間を取得し集計
-        $totalMinutes = TimeLogs::where('user_id', Auth::id())
+        $totalMinutes = TimeLogs::whereHas('goal', function ($query) {
+            $query->where('user_id', Auth::id());
+        })
             ->sum('duration_minutes');
 
         // ダッシュボード用に分を時間に変換（小数1桁で丸め）
@@ -183,7 +192,9 @@ class TimeLogsController extends Controller
         $weeklyData = [];
         for ($i = 6; $i >= 0; $i--) {
             $date = now()->subDays($i)->format('m-d');
-            $minutes = TimeLogs::where('user_id', Auth::id())
+            $minutes = TimeLogs::whereHas('goal', function ($query) {
+                $query->where('user_id', Auth::id());
+            })
                 ->whereDate('logged_at', now()->subDays($i)->format('Y-m-d'))
                 ->sum('duration_minutes');
             $weeklyData[$date] = $minutes ?? 0;
@@ -193,7 +204,9 @@ class TimeLogsController extends Controller
         $monthlyData = [];
         for ($i = 29; $i >= 0; $i--) {
             $date = now()->subDays($i)->format('m-d');
-            $minutes = TimeLogs::where('user_id', Auth::id())
+            $minutes = TimeLogs::whereHas('goal', function ($query) {
+                $query->where('user_id', Auth::id());
+            })
                 ->whereDate('logged_at', now()->subDays($i)->format('Y-m-d'))
                 ->sum('duration_minutes');
             $monthlyData[$date] = $minutes ?? 0;
@@ -203,7 +216,9 @@ class TimeLogsController extends Controller
         $yearlyData = [];
         for ($i = 11; $i >= 0; $i--) {
             $month = now()->subMonths($i)->format('Y-m');
-            $minutes = TimeLogs::where('user_id', Auth::id())
+            $minutes = TimeLogs::whereHas('goal', function ($query) {
+                $query->where('user_id', Auth::id());
+            })
                 ->whereRaw("to_char(logged_at, 'YYYY-MM') = ?", [$month])
                 ->sum('duration_minutes');
             $yearlyData[$month] = $minutes ?? 0;
@@ -211,7 +226,7 @@ class TimeLogsController extends Controller
 
         // ビューへデータを渡す（学習記録、時間情報、達成率・ランク、キャラクター情報をダッシュボードに送信）
         return view('timelogs.dashboard', compact(
-            'timelogs',
+            'timeLogs',
             'totalMinutes',
             'totalHours',
             'targetMinutes',

@@ -28,10 +28,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/timelogs', [TimeLogsController::class, 'store'])->name('timelogs.store');
 
     // 個別記録表示・編集・削除
-    Route::get('/timelogs/{timelogs}', [TimeLogsController::class, 'show'])->name('timelogs.show');
-    Route::get('/timelogs/{timelogs}/edit', [TimeLogsController::class, 'edit'])->name('timelogs.edit');
-    Route::put('/timelogs/{timelogs}', [TimeLogsController::class, 'update'])->name('timelogs.update');
-    Route::delete('/timelogs/{timelogs}', [TimeLogsController::class, 'destroy'])->name('timelogs.destroy');
+    Route::get('/timelogs/{timeLog}', [TimeLogsController::class, 'show'])->name('timelogs.show');
+    Route::get('/timelogs/{timeLog}/edit', [TimeLogsController::class, 'edit'])->name('timelogs.edit');
+    Route::put('/timelogs/{timeLog}', [TimeLogsController::class, 'update'])->name('timelogs.update');
+    Route::delete('/timelogs/{timeLog}', [TimeLogsController::class, 'destroy'])->name('timelogs.destroy');
     // プロフィール
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

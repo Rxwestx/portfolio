@@ -13,7 +13,7 @@ class TimeLogs extends Model
     protected $table = 'time_logs';
 
     protected $fillable =  [
-        'user_id',
+        // 'user_id',
         'goal_id',
         'logged_at',
         'duration_minutes'
@@ -29,17 +29,20 @@ class TimeLogs extends Model
             get: fn($value) => $value ?? now(),
         );
     }
-    public function user()
+    // $timelog->goal->user_id で user_id が取得
+    public function goal()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Goal::class);
     }
         /**
      * ダッシュボード（学習記録一覧）
      */
     public function dashboard()
     {
-        // 全ユーザーの記録を表示（または自分の記録のみ）
-        $timelogs = TimeLogs::where('user_id', Auth::id())
+        // goalを通じて検索（または自分の記録のみ）
+        $timelogs = TimeLogs::whereHas('goal', function ($query) {
+            $query->where('user_id', Auth::id());
+        })
             ->orderBy('logged_at', 'desc')
             ->paginate(10);
 

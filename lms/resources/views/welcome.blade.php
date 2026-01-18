@@ -10,7 +10,7 @@
         <!-- Styles -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    
+
     <body class="font-sans antialiased bg-green-100">
         <main>
             {{-- 画像 --}}
@@ -33,7 +33,7 @@
                 サボり過ぎると、退化してしまうので、ご注意を!!<br>
                 （ランクは、下がりますが猶予あります）
             </p>
-            <div class="my-10 text-center flex flex-col items-center gap-4 ">
+            <div class="my-10 text-xl text-center flex flex-col items-center gap-4 ">
             @if (Route::has('login'))
                 @auth
                     <a

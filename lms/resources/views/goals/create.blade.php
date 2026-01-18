@@ -4,5 +4,6 @@
         {{ session('success') }}
     </div>
 @endif
+{{-- 目標設定フォーム呼び出し --}}
 <x-goal-settingform :action="route('goals.store')" />
 </x-app-layout>
