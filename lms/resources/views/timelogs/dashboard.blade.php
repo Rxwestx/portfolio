@@ -1,9 +1,18 @@
 <x-app-layout>
-    <!-- ========== キャラクター詳細セクション ========== -->
-    <section class="character-section mb-8 px-4">
-        <h2 class="text-2xl font-bold">🎯キャラクター詳細と達成状況</h2>
+     <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            ダッシュボード
+        </h2>
+    </x-slot>
 
-        <div class="bg-white rounded-lg shadow p-6">
+    <!-- ========== キャラクター詳細セクション ========== -->
+    <section class="character-section mt-24 px-4 text-gray-600">
+        <h2 class="text-2xl font-bold text-center flex items-center justify-center gap-2">
+            <img src="{{asset('img/icons/clock.svg')}}" alt="icon" width="32" height="32" class="icon-blade-dark"/>
+            <span>キャラクター詳細と達成状況</span>
+        </h2>
+
+        <div class="bg-blade-neon rounded-lg shadow mt-8 p-8">
             <!-- キャラクター画像（ランク値に応じて自動選択） -->
             <div class="mb-4 text-center">
                 <!-- コメント: $rank の値（0～10）から自動的に画像ファイルを選ぶ -->
@@ -15,66 +24,55 @@
             <!-- キャラクター情報テーブル -->
             <table class="text-center border-collapse mx-auto">
                 <tr class="border-b">
-                    <td class="py-2 px-4 font-semibold">ランク名：</td>
-                    <td class="py-2 px-4 text-lg font-bold ">{{ $rankMessage }}</td>
+                    <td class="py-2 px-2 font-light">ランク名：</td>
+                    <td class="py-2 px-2 text-base">{{ $rankMessage }}</td>
                 </tr>
                 <tr class="border-b">
-                    <td class="py-2 px-4 font-semibold">目標時間：</td>
-                    <td class="py-2 px-4 text-lg font-bold text-blue-600">{{ $targetHours }}時間</td>
+                    <td class="py-2 px-2 font-light">目標時間：</td>
+                    <td class="py-2 px-2 text-base font-normal text-blade-dark">{{ $targetHours }}時間</td>
                 </tr>
                 <tr class="border-b">
-                    <td class="py-2 px-4 font-semibold">総学習時間：</td>
-                    <td class="py-2 px-4 text-lg font-bold text-green-600">{{ $totalHours }}時間</td>
+                    <td class="py-2 px-2 font-light">総学習時間：</td>
+                    <td class="py-2 px-2 text-base font-normal text-blade-dark">{{ $totalHours }}時間</td>
                 </tr>
                 <tr class="border-b">
-                    <td class="py-2 px-4 font-semibold">レベル：</td>
-                    <td class="py-2 px-4">{{ $character->level }}</td>
+                    <td class="py-2 px-2 font-light">レベル：</td>
+                    <td class="py-2 px-2">{{ $character->level }}</td>
                 </tr>
                 <tr class="border-b">
-                    <td class="py-2 px-4 font-semibold">ランクメッセージ：</td>
-                    <td class="py-2 px-4">{{ $character->rank_message }}</td>
+                    <td class="py-2 px-2 font-light">ランクメッセージ：</td>
+                    <td class="py-2 px-2">{{ $character->rank_message }}</td>
                 </tr>
             </table>
         </div>
     </section>
 
     <!-- ========== 週別と月間別グラフ表示 ========== -->
-    <section class="text-center border-collapse mx-auto">
+    <section class="text-center border-collapse  mt-8 px-4 mx-auto text-gray-600">
         <h2 class="text-2xl font-bold mb-4">📊 グラフ</h2>
 
-        <div class="bg-white rounded-lg shadow p-6">
+        <div class="bg-blade-neon rounded-lg shadow p-4">
             <!-- グラフコンポーネントを呼び出し -->
             <x-chart-tabs :weeklyData="$weeklyData" :monthlyData="$monthlyData" :yearlyData="$yearlyData" />
         </div>
     </section>
 
     <!-- ========== 学習記録一覧 ========== -->
-    <section class="records-section px-4 text-center border-collapse mx-auto">
+    <section class="records-section text-center border-collapse mt-8 px-4 mx-auto text-gray-600">
         <h2 class="text-2xl font-bold mb-4">📚 最近の学習記録</h2>
-
-        <div class="bg-white rounded-lg shadow overflow-hidden">
+        <div class="bg-blade-neon rounded-lg shadow overflow-hidden">
             <table class="text-center mx-auto">
-                <thead class="bg-gray-100 border-b">
+                <thead class="bg-gray-300 border-b font-bold">
                     <tr>
                         <th class="py-3 px-4">日付</th>
                         <th class="py-3 px-4">学習時間</th>
-                        <th class="py-3 px-4">編集</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse ($timeLogs as $timeLog)
-                        <tr class="border-b hover:bg-gray-50">
+                        <tr class="border-b">
                             <td class="py-3 px-4">{{ $timeLog->logged_at->format('Y-m-d') }}</td>
                             <td class="py-3 px-4">{{ $timeLog->duration_minutes }} 分</td>
-                            <td class="py-3 px-4">
-                                <a href="{{ route('timelogs.edit', $timeLog) }}"
-                                    class="text-blue-500 hover:underline text-sm">編集</a>
-                                <form method="post" action="{{ route('timelogs.destroy', $timeLog) }}" class="inline">
-                                    @csrf
-                                    @method('delete')
-                                    <button class="text-red-500 hover:underline text-sm ml-2">削除</button>
-                                </form>
-                            </td>
                         </tr>
                     @empty
                         <tr>
@@ -88,3 +86,4 @@
         </div>
     </section>
 </x-app-layout>
+
