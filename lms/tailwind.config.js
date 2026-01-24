@@ -14,9 +14,26 @@ export default {
             fontFamily: {
                 sans: ["Figtree", ...defaultTheme.fontFamily.sans],
             },
+            colors: {
+                blade: {
+                    dark: "#55A603",
+                    main: "#9AD914",
+                    soft: "#E2F266",
+                    pale: "#E9F2A0",
+                    neon: "#F2F0D5",
+                },
+            },
         },
     },
-    safelist: ["bg-green-100", "bg-green-500"],
+    safelist: [
+        "bg-green-100",
+        "bg-green-500",
+        "bg-blade-dark",
+        "bg-blade-main",
+        "bg-blade-soft",
+        "bg-blade-pale",
+        "bg-blade-neon",
+    ],
 
     plugins: [forms],
 };
