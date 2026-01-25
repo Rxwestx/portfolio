@@ -1,11 +1,11 @@
 <x-app-layout>
     <x-slot name="header">
-        <<h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl text-gray-600 leading-tight">
             学習記録詳細
             </h2>
     </x-slot>
     <div class="max-w-7xl mx-auto px-6">
-        <div class="bg-white w-full rounded-2xl">
+        <div class="bg-blade-neon w-full rounded-2xl">
             <div class="mt-4 p-4">
                 <h1 class="text-lg font-semibold">
                     学習日：@if ($timeLog->logged_at)

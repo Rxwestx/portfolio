@@ -1,8 +1,8 @@
 @props(['action'])
 
-        <section class="px-4 py-8 mt-60  max-w-md rounded-md justify-center bg-neutral-100 shadow-md">
+        <section class="px-4 py-8 mt-48  max-w-md rounded-md justify-center bg-blade-neon shadow-md">
 
-            <h1 class="text-center text-lg font-semibold text-gray-800">目標設定</h1>
+            <h1 class="text-center text-lg font-semibold text-gray-600">目標設定</h1>
 
             <p class="mt-4 text-center text-xs text-gray-600 leading-relaxed">
               ◆ここで入力した目標は、変更することが出来ません◆<br>
@@ -13,13 +13,12 @@
 
         {{-- 目標 goal --}}
         <div>
-          <label class="block text-center text-xs text-gray-700 mb-2">あなたの目標は？</label>
+          <label class="block text-center text-xs text-gray-600 mb-2">あなたの目標は？</label>
           <input
             type="text"
             name="goal"
             value="{{ old('goal') }}"
-            class="w-full h-9 rounded border border-gray-300 px-3 text-sm bg-white"
-          >
+            class="w-full h-9 rounded border border-gray-300 px-3 text-sm bg-blade-neon shadow-sm">
           @error('goal')
             <p class="mt-1 text-xs text-red-600 text-center">{{ $message }}</p>
           @enderror
@@ -35,7 +34,7 @@
               type="date"
               name="goal_deadline"
               value="{{ old('goal_deadline') }}"
-              class="h-9 rounded border border-gray-300 px-3 text-sm bg-white"
+              class="h-9 rounded border border-gray-300 px-3 text-sm bg-blade-neon shadow-sm"
             >
           </div>
           @error('goal_deadline')
@@ -49,28 +48,23 @@
             目標達成までのトータル時間の入力して
           </label>
 
-          <div class="flex items-center justify-center gap-2">
-            <input
-              type="text"
-              inputmode="numeric"
-              pattern="[0-9]*"
-              name="target_hours"
-              value="{{ old('target_hours') }}"
-              class="w-16 h-8 rounded border border-gray-300 px-4 text-sm bg-white item-center"
-            >
-            <span class="text-lx text-gray-700 text-center">時間</span>
-          </div>
-
-          @error('target_hours')
-            <p class="mt-1 text-xs text-red-600 text-center">{{ $message }}</p>
-          @enderror
+            <div class="flex items-center justify-center gap-2">
+                <input
+                  type="text"
+                  inputmode="numeric"
+                  pattern="[0-9]*"
+                  name="target_hours"
+                  value="{{ old('target_hours') }}"
+                  class="w-16 h-8 rounded border border-gray-300 px-4 text-sm bg-blade-neon shadow-sm item-center"
+                >
+                <span class="text-lx text-gray-700 text-center">時間</span>
+              </div>
+              @error('target_hours')
+                <p class="mt-1 text-xs text-red-600 text-center">{{ $message }}</p>
+              @enderror
         </div>
-
         <div class="pt-2 flex justify-center">
-          <button
-            type="submit"
-            class="w-24 h-10 rounded-full bg-cyan-300 text-gray-800 text-sm shadow-sm active:scale-95"
-          >
+          <button type="submit" class="w-24 h-10 rounded-full bg-blade-main text-gray-700 text-sm shadow-sm active:scale-95 shadow-blade-dark transition-transform">
             登録
           </button>
         </div>
