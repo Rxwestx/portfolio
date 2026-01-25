@@ -33,6 +33,8 @@ export default {
         "bg-blade-soft",
         "bg-blade-pale",
         "bg-blade-neon",
+        "focus:ring-blade-dark",
+        "focus:border-blade-dark",
     ],
 
     plugins: [forms],
