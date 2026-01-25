@@ -1,8 +1,9 @@
 <x-app-layout>
-        <h2 class="font-bold text-xl text-gray-600 leading-tight mt-8">
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-600 leading-tight">
             ダッシュボード
         </h2>
-
+    </x-slot>
     <!-- ========== キャラクター詳細セクション ========== -->
     <section class="character-section mt-24 px-4 text-gray-600">
         <h2 class="text-2xl font-bold text-center flex items-center justify-center gap-2">
