@@ -5,60 +5,70 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Top</title>
         <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@300;400;500&display=swap" rel="stylesheet">
+
         <!-- Styles -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
 
-    <body class="font-sans antialiased bg-green-100">
+    <body class="m-plus-1p-regular antialiased bg-blade-pale">
         <main>
-            {{-- 画像 --}}
-            <div class="mt-24 flex justify-center">
-                <img src="{{ asset('img/characters/rank_0.png') }}" alt="Fox Image" class="w-128 h-128 object-cover border-4 border-blue-400">
-            </div>
-            {{-- タイトル --}}
-            <h2 class="m-16 text-2xl font-black text-center">
-                アプリ説明
-            </h2>
-            {{-- 説明文 --}}
-            <p class="text-xl leading-relaxed text-center whitespace-pre-line">
-                あなたは、日々の忙しさに疲れ、少しだけ現実から離れたくなっていた。</br>
-                そんなある日、ふと迷い込んだ神秘の森。</br>
-                深い緑の中、柔らかな光が差し込む場所で、一匹の小さな狐が怪我をして倒れていた。</br>
-                このアプリは、目標達成×育成アプリです。</br>
-                毎日、あなたの目標時間（例：30分読書、1時間勉強など）をセットしよう。<br>
-                目標を達成して報告すると、妖狐は少しずつ力を取り戻します。<br>
-                妖狐は成長とともに、さまざまな姿に進化していきますが、</br>
-                サボり過ぎると、退化してしまうので、ご注意を!!<br>
-                （ランクは、下がりますが猶予あります）
-            </p>
-            <div class="my-10 text-xl text-center flex flex-col items-center gap-4 ">
-            @if (Route::has('login'))
-                @auth
-                    <a
-                        href="{{ url('/dashboard') }}"
-                        class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-                    >
-                        Dashboard
-                    </a>
-                    @else
-                    <a
-                        href="{{ route('login') }}"
-                        class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-                    >
-                        Log in
-                    </a>
-                    @if (Route::has('register'))
+            <section class="app-description">
+                {{-- 画像 --}}
+                <div class="m-16 flex justify-center">
+                    <img src="{{ asset('img/characters/rank_0.png') }}" alt="Fox Image" class="w-128 h-128 object-cover rounded-lg shadow-lg">
+                </div>
+                {{-- タイトル --}}
+                <h1 class="m-4 text-2xl text-gray-900 text-center">
+                    アプリ説明
+                </h1>
+                    {{-- 説明文 --}}
+                    <p class="leading-relaxed text-gray-600 text-center whitespace-pre-line">
+                        あなたは、日々の忙しさに疲れ、少しだけ現実から離れたくなっていた。
+                        そんなある日、ふと迷い込んだ神秘の森。
+                        深い緑のなか、柔らかな光が差し込む場所で一匹の小さな狐が怪我をして倒れていた。
+                        あなたはその狐を助け、看病することにした。
+                    </p>
+                    <p class="text-xl leading-relaxed  text-blade-dark text-center whitespace-pre-line">
+                        このアプリは、習慣化達成×育成アプリです。
+                    </p>
+                    <p class="m-1 leading-relaxed text-gray-600 text-center whitespace-pre-line">
+                        まず、習慣を達成するための総時間(例:100時間読書/1000時間勉強など)をセットしましょう。
+                        時間を記録して報告すると、徐々に妖狐は力を取り戻していきます。
+                        妖狐は成長とともに、さまざまな姿に進化していきますが、
+                        記録入力をサボり過ぎると、退化してしまいますので、ご注意を!!
+                        （ランクは、下がりますが猶予あります）
+                    </p>
+                <div class="my-10 text-xl text-center flex flex-col items-center gap-4 ">
+                @if (Route::has('login'))
+                    @auth
                         <a
-                            href="{{ route('register') }}"
-                            class="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+                            href="{{ url('/dashboard') }}"
+                            class="rounded-md px-3 py-2 text-gray-900 ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
                         >
-                        今すぐ始める &gt;
+                            記録一覧へ &gt;
                         </a>
-                    @endif
-                @endauth
-            @endif
+                        @else
+                        <a
+                            href="{{ route('login') }}"
+                            class="rounded-md px-3 py-2 text-gray-900 ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+                        >
+                            Log in &gt;
+                        </a>
+                        @if (Route::has('register'))
+                            <a
+                                href="{{ route('register') }}"
+                                class="rounded-md px-3 py-2 text-gray-900 ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+                            >
+                            今すぐ始める &gt;
+                            </a>
+                        @endif
+                    @endauth
+                @endif
+                </div>
+            </section>
         </main>
     </body>
 </html>
