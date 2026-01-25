@@ -1,14 +1,12 @@
 <x-app-layout>
-     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-bold text-xl text-gray-600 leading-tight mt-8">
             ダッシュボード
         </h2>
-    </x-slot>
 
     <!-- ========== キャラクター詳細セクション ========== -->
     <section class="character-section mt-24 px-4 text-gray-600">
         <h2 class="text-2xl font-bold text-center flex items-center justify-center gap-2">
-            <img src="{{asset('img/icons/clock.svg')}}" alt="icon" width="32" height="32" class="icon-blade-dark"/>
+            <img src="{{ asset('img/icons/clock.svg') }}" alt="icon" width="32" height="32"/>
             <span>キャラクター詳細と達成状況</span>
         </h2>
 
@@ -49,7 +47,10 @@
 
     <!-- ========== 週別と月間別グラフ表示 ========== -->
     <section class="text-center border-collapse  mt-8 px-4 mx-auto text-gray-600">
-        <h2 class="text-2xl font-bold mb-4">📊 グラフ</h2>
+        <h2 class="text-2xl font-bold mb-4 flex items-center justify-center gap-2">
+            <img src="{{ asset('img/icons/stats-bars.svg') }}" alt="icon" width="32" height="32" />
+            <span>グラフ</span>
+        </h2>
 
         <div class="bg-blade-neon rounded-lg shadow p-4">
             <!-- グラフコンポーネントを呼び出し -->
@@ -59,7 +60,10 @@
 
     <!-- ========== 学習記録一覧 ========== -->
     <section class="records-section text-center border-collapse mt-8 px-4 mx-auto text-gray-600">
-        <h2 class="text-2xl font-bold mb-4">📚 最近の学習記録</h2>
+        <h2 class="text-2xl font-bold mb-4 text-center flex items-center justify-center gap-2">
+            <img src="{{ asset('img/icons/quill.svg') }}" alt="icon" width="32" height="32"/>
+            <span>最近の学習記録</span>
+        </h2>
         <div class="bg-blade-neon rounded-lg shadow overflow-hidden">
             <table class="text-center mx-auto">
                 <thead class="bg-gray-300 border-b font-bold">
@@ -86,4 +90,3 @@
         </div>
     </section>
 </x-app-layout>
-
