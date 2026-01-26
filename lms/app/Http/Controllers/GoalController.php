@@ -19,6 +19,11 @@ class GoalController extends Controller
             'goal' => 'required|string',
             'goal_deadline' => 'required|date',
             'target_hours' => 'required|integer|min:1',
+        ], [
+            // エラーメッセージ（日本語）
+            'goal.required' => '目標を入力してください',
+            'goal_deadline.required' => '期限を入力してください',
+            'target_hours.required' => 'トータル時間を入力してください',
         ]);
 
         \App\Models\Goal::create([
