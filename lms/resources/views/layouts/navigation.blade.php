@@ -1,6 +1,6 @@
-<nav x-data="{ open: false }" class="bg-green-800 border-b border-gray-100">
+<nav x-data="{ open: false }" class="bg-gradient-to-b from-blade-dark to-blade-soft shadow">
     <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md mx-auto">
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
@@ -13,14 +13,11 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex font-bold text-lg text-white-200">
                     <x-nav-link :href="route('timelogs.create')" :active="request()->routeIs('timelogs.create')">
-                        Main
+                        記録入力
                     </x-nav-link>
-                    <x-nav-link :href="route('timelogs.index')" :active="request()->routeIs('timelogs.index')" class="font-bold text-lg">
-                        マイページ
+                    <x-nav-link :href="route('timelogs.index')" :active="request()->routeIs('timelogs.index')" >
+                        学習記録一覧
                     </x-nav-link>
-                    {{-- <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')"> --}}
-                    {{-- {{ __('Dashboard') }} --}}
-                    {{-- </x-nav-link> --}}
                 </div>
             </div>
 
@@ -29,7 +26,7 @@
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button
-                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-blade-main hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
                             <div>
                                 @if (Auth::check())
                                     {{ Auth::user()->name }}
@@ -86,17 +83,16 @@
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('timelogs.create')" :active="request()->routeIs('timelogs.create')">
-                Main
+                記録入力
             </x-responsive-nav-link>
 
             <x-responsive-nav-link :href="route('timelogs.index')" :active="request()->routeIs('timelogs.index')">
-                マイページ
+                学習記録一覧
             </x-responsive-nav-link>
         </div>
-        {{-- <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')"> --}}
-        {{-- {{ __('Dashboard') }} --}}
-        {{-- </x-responsive-nav-link> --}}
-
+        <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+            {{ __('Dashboard') }}
+        </x-responsive-nav-link>
 
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
@@ -109,10 +105,9 @@
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-
                     <x-responsive-nav-link :href="route('logout')"
                         onclick="event.preventDefault();
-                                        this.closest('form').submit();">
+                                    this.closest('form').submit();">
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>
                 </form>

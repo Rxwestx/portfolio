@@ -4,10 +4,10 @@
             学習記録詳細
             </h2>
     </x-slot>
-    <div class="max-w-7xl mx-auto px-6">
+    <div class="max-w-md mx-auto px-6">
         <div class="bg-blade-neon w-full rounded-2xl">
-            <div class="mt-4 p-4">
-                <h1 class="text-lg font-semibold">
+            <div class="mt-16 p-4">
+                <h1 class="text-lg font-semibold text-gray-600 ">
                     学習日：@if ($timeLog->logged_at)
                         {{ $timeLog->logged_at->format('Y-m-d') }}
                     @else
@@ -23,16 +23,16 @@
                     <form method="post" action="{{ route('timelogs.destroy', $timeLog->id) }}" class="flex-2">
                         @csrf
                         @method('delete')
-                        <x-primary-button class="bg-red-700 ml-2">
+                        <x-tertiary-button class="!px-4 !py-2 !text-xs ml-2">
                             削除
-                        </x-primary-button>
+                        </x-tertiary-button>
                     </form>
                 </div>
                 <hr class="w-full">
-                <p class="mt-4 whitespace-pre-line">
+                <p class="mt-4 whitespace-pre-line font-medium text-gray-600">
                     学習時間：{{ $timeLog->duration_minutes }} 分
                 </p>
-                <div class="text-sm font-semibold flex flex-row-rerverse">
+                <div class="text-sm font-medium text-gray-600 flex flex-row-rerverse">
                     <p>記録日時：{{ $timeLog->created_at->format('Y-m-d H:i') }}</p>
                 </div>
             </div>
