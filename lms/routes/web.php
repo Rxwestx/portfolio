@@ -5,15 +5,19 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GoalController;
 use App\Http\Controllers\TimeLogsController;
+use App\Http\Controllers\Auth\GoogleController;
 
 Route::get('/', function () {
     return view('welcome');
 });
+    // ダッシュボードはTimeLogsControllerのindexを使う
+    Route::get('/dashboard', [TimeLogsController::class, 'dashboard'])
+        ->middleware(['auth'])
+        ->name('dashboard');
 
-// ダッシュボードはTimeLogsControllerのindexを使う
-Route::get('/dashboard', [TimeLogsController::class, 'dashboard'])
-    ->middleware(['auth'])
-    ->name('dashboard');
+    // Google認証用ルート
+        Route::get('/auth/google/redirect', [GoogleController::class, 'redirect'])->name('google.redirect');
+        Route::get('/auth/google/callback', [GoogleController::class, 'callback'])->name('google.callback');
 
 Route::middleware('auth')->group(function () {
     // 目標設定
