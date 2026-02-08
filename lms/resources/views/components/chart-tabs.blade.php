@@ -13,17 +13,17 @@
 <div x-data="chartTabs" class="mb-8">
     <!-- タブボタン -->
     <div class="flex gap-2 mb-4">
-        <button @click="setTab('weekly')"
+        <button @click = "setTab('weekly')"
             :class="activeTab === 'weekly' ? 'bg-blade-dark text-white' : 'bg-gray-300 text-gray-700'"
             class="px-4 py-2 rounded font-semibold transition">
              週間
         </button>
-        <button @click="setTab('monthly')"
+        <button @click = "setTab('monthly')"
             :class="activeTab === 'monthly' ? 'bg-blade-dark text-white' : 'bg-gray-300 text-gray-700'"
             class="px-4 py-2 rounded font-semibold transition">
              月間
         </button>
-        <button @click="setTab('yearly')"
+        <button @click = "setTab('yearly')"
             :class="activeTab === 'yearly' ? 'bg-blade-dark text-white' : 'bg-gray-300 text-gray-700'"
             class="px-4 py-2 rounded font-semibold transition">
              年別
@@ -38,7 +38,7 @@
                     <div class="flex flex-col items-center flex-1 ">
                         <div class="w-full h-40 flex items-end">
                         <!-- バーグラフ -->
-                            <div class="w-full bg-gradient-to-t from-bg-gradient-to-b from-blade-dark to-blade-soft rounded-t"
+                            <div class="w-full bg-blade-main rounded-t"
                                 :style="`height: ${getBarHeight(value, Math.max(0,...Object.values(getCurrentData())))}%`">
                             </div>
                         </div>

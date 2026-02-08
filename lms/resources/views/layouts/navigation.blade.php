@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-gradient-to-b from-blade-dark to-blade-soft shadow">
+<nav x-data="{ open: false }" class="bg-blade-dark shadow">
     <!-- Primary Navigation Menu -->
     <div class="max-w-md mx-auto">
         <div class="flex justify-between h-16">
