@@ -40,6 +40,13 @@
                 {{ __('Log in') }}
             </x-primary-button>
         </div>
+        <div class="mt-4">
+            <a href="{{ route('google.redirect') }}"
+                class="inline-flex w-full items-center justify-center gap-2 rounded-md border px-4 py-2 text-sm font-medium hover:bg-gray-50">
+            <img src="{{ asset('img/icons/google.svg') }}" alt="" class="h-5 w-5">
+            <span>Googleでログイン</span>
+            </a>
+        </div>
     </form>
     <script src="{{ asset('js/app.js') }}"></script>
 </x-guest-layout>
