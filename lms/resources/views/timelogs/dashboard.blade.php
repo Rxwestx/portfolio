@@ -1,13 +1,22 @@
 <x-app-layout>
+    {{-- ランクダウン通知モーダル --}}
+    @if (session('show_rank_down_alert'))
+        <x-rank-down-modal
+            :oldRankName="session('old_rank_name')"
+            :newRankName="session('new_rank_name')"
+            :daysInactive="session('days_inactive')"
+        />
+    @endif
+
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-600 leading-tight">
+        <h2 class="font-semibold text-xl text-gray-700 leading-tight">
             ダッシュボード
         </h2>
     </x-slot>
     <!-- ========== キャラクター詳細セクション ========== -->
     <section class="character-section mt-24 px-4 text-gray-600">
         <h2 class="text-2xl font-bold text-center flex items-center justify-center gap-2">
-            <img src="{{ asset('img/icons/clock.svg') }}" alt="icon" width="32" height="32"/>
+            <img src="{{ asset('img/icons/clock.svg') }}" alt="icon" width="32" height="32" />
             <span>キャラクター詳細と達成状況</span>
         </h2>
 
@@ -23,8 +32,12 @@
             <!-- キャラクター情報テーブル -->
             <table class="text-center border-collapse mx-auto">
                 <tr class="border-b">
+                    <td class="py-2 px-2 font-light">目標：</td>
+                    <td class="py-2 px-2 text-base font-normal text-blade-dark">{{ $goal ?? '未設定' }}</td>
+                </tr>
+                <tr class="border-b">
                     <td class="py-2 px-2 font-light">ランク名：</td>
-                    <td class="py-2 px-2 text-base">{{ $rankMessage }}</td>
+                    <td class="py-2 px-2 text-base font-normal text-blade-dark">{{ $rankName }}</td>
                 </tr>
                 <tr class="border-b">
                     <td class="py-2 px-2 font-light">目標時間：</td>
@@ -34,13 +47,13 @@
                     <td class="py-2 px-2 font-light">総学習時間：</td>
                     <td class="py-2 px-2 text-base font-normal text-blade-dark">{{ $totalHours }}時間</td>
                 </tr>
-                <tr class="border-b">
+                {{-- <tr class="border-b">
                     <td class="py-2 px-2 font-light">レベル：</td>
-                    <td class="py-2 px-2">{{ $character->level }}</td>
-                </tr>
+                    <td class="py-2 px-2 font-normal text-blade-dark">{{ $character->level }}</td>
+                </tr> --}}
                 <tr class="border-b">
                     <td class="py-2 px-2 font-light">ランクメッセージ：</td>
-                    <td class="py-2 px-2">{{ $character->rank_message }}</td>
+                    <td class="py-2 px-2 font-normal text-blade-dark">{{ $character->rank_message }}</td>
                 </tr>
             </table>
         </div>
@@ -62,7 +75,7 @@
     <!-- ========== 学習記録一覧 ========== -->
     <section class="records-section text-center border-collapse mt-8 px-4 mx-auto text-gray-600">
         <h2 class="text-2xl font-bold mb-4 text-center flex items-center justify-center gap-2">
-            <img src="{{ asset('img/icons/quill.svg') }}" alt="icon" width="32" height="32"/>
+            <img src="{{ asset('img/icons/quill.svg') }}" alt="icon" width="32" height="32" />
             <span>最近の学習記録</span>
         </h2>
         <div class="bg-blade-neon rounded-lg shadow overflow-hidden">
