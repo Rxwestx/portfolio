@@ -4,13 +4,13 @@
             記録入力
         </h2>
     </x-slot>
-    <div class="max-w-7xl mx-auto px-6">
+    <div class="max-w-3xl w-full mx-auto px-4 py-8 flex justify-center">
         @if (session('message'))
-            <div class="test-red-600 font-bold">
+            <div class="text-red-600 font-bold">
                 {{ session('message') }}
             </div>
         @endif
-        <form method="post" action="{{ route('timelogs.store') }}" Class="mt-16 text-center bg-blade-neon rounded-2xl px-6 py-8 shadow-md">
+        <form method="post" action="{{ route('timelogs.store') }}" class="mt-16 text-center bg-blade-neon rounded-2xl px-6 py-8 shadow-md max-w-sm w-full">
             @csrf
             <div class="mt-4 flex flex-col items-center gap-6">
                 <p>記録時間の入力してね</p>
@@ -30,6 +30,7 @@
                 <x-tertiary-button class="mt-8 w-40 h-8">
                     報告する
                 </x-tertiary-button>
+            </div>
         </form>
     </div>
 </x-app-layout>
