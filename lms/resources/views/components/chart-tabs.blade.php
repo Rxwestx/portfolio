@@ -44,10 +44,10 @@
         <div class="h-64 overflow-x-auto w-full">
             <div class="flex items-end gap-2 justify-center w-full min-w-[640px]">
                 <template x-for="(value, date) in getCurrentData()" :key="date">
-                    <div class="flex flex-col items-center flex-1 ">
+                    <div class="flex flex-col items-center w-10">
                         <div class="w-full h-40 flex items-end">
                             <!-- バーグラフ -->
-                            <div class="w-full bg-blade-main rounded-t"
+                            <div class="w-6 mx-auto bg-blade-main rounded-t"
                                 :style="`height: ${getBarHeight(value, Math.max(0,...Object.values(getCurrentData())))}%`">
                             </div>
                         </div>
