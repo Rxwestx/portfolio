@@ -1,6 +1,6 @@
 @props(['action'])
 
-<section class="px-4 py-8 mt-48  max-w-md rounded-md justify-center bg-blade-neon shadow-md">
+<section class="px-4 py-8 mt-48 max-w-md w-full mx-auto rounded-md justify-center bg-blade-neon shadow-md">
 
     <h1 class="text-center text-lg font-semibold text-gray-600">目標設定</h1>
 
