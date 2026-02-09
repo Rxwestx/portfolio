@@ -10,42 +10,51 @@
 </script>
 
 <!-- タブ切り替えコンポーネント -->
-<div x-data="chartTabs" class="mb-8">
+<div x-data="chartTabs" class="mb-8 w-full" data-week-offset="{{ $weekOffset ?? 0 }}"
+    data-month-offset="{{ $monthOffset ?? 0 }}">
     <!-- タブボタン -->
-    <div class="flex gap-2 mb-4">
-        <button @click = "setTab('weekly')"
+    <div class="flex gap-3 mb-4 items-center">
+        <button type="button" @click = "setTab('weekly')"
             :class="activeTab === 'weekly' ? 'bg-blade-dark text-white' : 'bg-gray-300 text-gray-700'"
             class="px-4 py-2 rounded font-semibold transition">
-             週間
+            Week
         </button>
-        <button @click = "setTab('monthly')"
+        <button type="button" @click = "setTab('monthly')"
             :class="activeTab === 'monthly' ? 'bg-blade-dark text-white' : 'bg-gray-300 text-gray-700'"
             class="px-4 py-2 rounded font-semibold transition">
-             月間
+            Month
         </button>
-        <button @click = "setTab('yearly')"
+        <button type="button" @click = "setTab('yearly')"
             :class="activeTab === 'yearly' ? 'bg-blade-dark text-white' : 'bg-gray-300 text-gray-700'"
             class="px-4 py-2 rounded font-semibold transition">
-             年別
+            Year
         </button>
-     </div>
+        <div class="ml-auto flex items-center gap-2">
+            <!-- 年月表示 -->
+            <button type="button"
+                @click="activeTab === 'weekly' ? changeWeekOffset(-1) : changeMonthOffset(-1)">&lt;</button>
+            <div class="ml-auto text-gray-600 font-semibold text-center" x-text="getPeriodLabel()"></div>
+            <button type="button"
+                @click="activeTab === 'weekly' ? changeWeekOffset(1) : changeMonthOffset(1)">&gt;</button>
+        </div>
+    </div>
 
     <!-- グラフコンテナ -->
-    <div class="bg-balde-pale rounded-lg shadow p-4">
-        <div class="h-64 overflow-x-auto">
-            <div class="flex items-end gap-2 justify-center">
+    <div id="chart" class="bg-blade-pale rounded-lg shadow p-6 w-full">
+        <div class="h-64 overflow-x-auto w-full">
+            <div class="flex items-end gap-2 justify-center w-full min-w-[640px]">
                 <template x-for="(value, date) in getCurrentData()" :key="date">
                     <div class="flex flex-col items-center flex-1 ">
                         <div class="w-full h-40 flex items-end">
-                        <!-- バーグラフ -->
+                            <!-- バーグラフ -->
                             <div class="w-full bg-blade-main rounded-t"
                                 :style="`height: ${getBarHeight(value, Math.max(0,...Object.values(getCurrentData())))}%`">
                             </div>
                         </div>
-                        <div class="mt-2 h-10 flex flex-col items-center justify-end">
-                        <!-- ラベル -->
-                        <p class="text-xs mt-2 text-gray-600" x-text="date"></p>
-                        <p class="text-xs text-gray-600" x-text="`${value}分`"></p>
+                        <div class="mt-2 h-10 flex flex-col items-center justify-center">
+                            <!-- ラベル -->
+                            <p class="text-xs text-gray-600" x-text="formatDateLabel(date)"></p>
+                            <p class="text-xs text-gray-600 font-normal" x-text="formatMinutes(value)"></p>
                         </div>
                     </div>
                 </template>

@@ -321,27 +321,44 @@ class TimeLogsController extends Controller
         $character->exp = $totalMinutes;
         $character->save();
 
-        // 週間集計
+        // 週間集計用のデータ作成
         $weeklyData = [];
-        for ($i = 6; $i >= 0; $i--) {
-            $date = now()->subDays($i)->format('m-d');
+
+        // week_offset を取る
+        $weekOffset = (int) request('week_offset', 0);
+        // 月曜0：00を週の始まりとする
+        $startOfWeek = now()->startOfWeek(Carbon::MONDAY)->addWeeks($weekOffset);
+
+        //  7日分をループして、1日ごとに集計する
+        for ($i = 0; $i < 7; $i++) {
+            $currentDate = $startOfWeek->copy()->addDays($i);
+            $dateKey = $currentDate->format('Y-m-d');
+
             $minutes = TimeLogs::whereHas('goal', function ($query) {
                 $query->where('user_id', Auth::id());
             })
-                ->whereDate('logged_at', now()->subDays($i)->format('Y-m-d'))
-                ->sum('duration_minutes');
-            $weeklyData[$date] = $minutes ?? 0;
+            ->whereDate('logged_at', $dateKey)
+            ->sum('duration_minutes');
+
+            $weeklyData[$dateKey] = $minutes ?? 0;
         }
 
-        // 月間集計（過去30日）
+        // 月間集計用のデータ作成
         $monthlyData = [];
-        for ($i = 29; $i >= 0; $i--) {
-            $date = now()->subDays($i)->format('m-d');
+        // month_offset を取る
+        $monthOffset = (int) request('month_offset', 0);
+        $startOfMonth = now()->startOfMonth()->addMonths($monthOffset);
+        //毎月1日0:00を月の始まりとし、月末日数可変
+        $daysInMonth = $startOfMonth->daysInMonth;
+        for ($i = 0; $i < $daysInMonth; $i++) {
+            $currentDate = $startOfMonth->copy()->addDays($i);
+            $date = $currentDate->format('Y-m-d');
             $minutes = TimeLogs::whereHas('goal', function ($query) {
                 $query->where('user_id', Auth::id());
             })
-                ->whereDate('logged_at', now()->subDays($i)->format('Y-m-d'))
+                ->whereDate('logged_at', $date)
                 ->sum('duration_minutes');
+
             $monthlyData[$date] = $minutes ?? 0;
         }
 
@@ -371,7 +388,9 @@ class TimeLogsController extends Controller
             'rankMessage',
             'character',
             'weeklyData',
+            "weekOffset",
             'monthlyData',
+            'monthOffset',
             'yearlyData'
         ));
     }
