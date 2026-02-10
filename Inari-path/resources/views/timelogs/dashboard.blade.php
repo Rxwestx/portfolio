@@ -1,11 +1,11 @@
 <x-app-layout>
     {{-- ランクダウン通知モーダル --}}
     @if (session('show_rank_down_alert'))
-        <x-rank-down-modal
-            :oldRankName="session('old_rank_name')"
-            :newRankName="session('new_rank_name')"
-            :daysInactive="session('days_inactive')"
-        />
+        <x-rank-down-modal :oldRankName="session('old_rank_name')" :newRankName="session('new_rank_name')" :daysInactive="session('days_inactive')" />
+        @php
+            // 表示したら、セッションから削除して再表示を防ぐ
+            session()->forget(['show_rank_down_alert', 'old_rank_name', 'new_rank_name', 'days_inactive']);
+        @endphp
     @endif
 
     <x-slot name="header">
@@ -14,19 +14,19 @@
         </h2>
     </x-slot>
     <!-- ========== キャラクター詳細セクション ========== -->
-    <section class="character-section mt-24 px-4 text-gray-600">
+    <section class="character-section mt-8 px-4 text-gray-600 w-full max-w-xl mx-auto">
         <h2 class="text-2xl font-bold text-center flex items-center justify-center gap-2">
             <img src="{{ asset('img/icons/clock.svg') }}" alt="icon" width="32" height="32" />
             <span>キャラクター詳細と達成状況</span>
         </h2>
 
-        <div class="bg-blade-neon rounded-lg shadow mt-8 p-8">
+        <div class="bg-blade-neon rounded-2xl shadow mt-8 p-8">
             <!-- キャラクター画像（ランク値に応じて自動選択） -->
             <div class="mb-4 text-center">
                 <!-- コメント: $rank の値（0～10）から自動的に画像ファイルを選ぶ -->
                 <!-- 例: $rank = 7 の場合、rank_7.png が表示される -->
                 <img src="{{ asset('img/characters/rank_' . $rank . '.png') }}" alt="ランク{{ $rank }}キャラクター"
-                    class="w-64 h-64 mx-auto rounded-lg shadow-lg object-cover">
+                    class="w-80 h-80 mx-auto rounded-2xl shadow-lg object-cover">
             </div>
 
             <!-- キャラクター情報テーブル -->
@@ -60,25 +60,25 @@
     </section>
 
     <!-- ========== 週別と月間別グラフ表示 ========== -->
-    <section class="text-center border-collapse  mt-8 px-4 mx-auto text-gray-600">
+    <section class="text-center border-collapse mt-8 px-4 mx-auto text-gray-600 w-full max-w-xl">
         <h2 class="text-2xl font-bold mb-4 flex items-center justify-center gap-2">
             <img src="{{ asset('img/icons/stats-bars.svg') }}" alt="icon" width="32" height="32" />
             <span>グラフ</span>
         </h2>
 
-        <div class="bg-blade-neon rounded-lg shadow p-4">
+        <div class="bg-blade-neon rounded-2xl shadow p-8 w-full">
             <!-- グラフコンポーネントを呼び出し -->
-            <x-chart-tabs :weeklyData="$weeklyData" :monthlyData="$monthlyData" :yearlyData="$yearlyData" />
+            <x-chart-tabs :weeklyData="$weeklyData" :monthlyData="$monthlyData" :yearlyData="$yearlyData" :weekOffset="$weekOffset" :monthOffset="$monthOffset" />
         </div>
     </section>
 
     <!-- ========== 学習記録一覧 ========== -->
-    <section class="records-section text-center border-collapse mt-8 px-4 mx-auto text-gray-600">
+    <section class="records-section text-center border-collapse mt-8 px-4 mx-auto text-gray-600 w-full max-w-xl">
         <h2 class="text-2xl font-bold mb-4 text-center flex items-center justify-center gap-2">
             <img src="{{ asset('img/icons/quill.svg') }}" alt="icon" width="32" height="32" />
             <span>最近の学習記録</span>
         </h2>
-        <div class="bg-blade-neon rounded-lg shadow overflow-hidden">
+        <div class="bg-blade-neon rounded-2xl shadow overflow-hidden p-8">
             <table class="text-center mx-auto">
                 <thead class="bg-gray-300 border-b font-bold">
                     <tr>

@@ -41,8 +41,9 @@
 
     <!-- グラフコンテナ -->
     <div id="chart" class="bg-blade-pale rounded-lg shadow p-6 w-full">
-        <div class="h-64 overflow-x-auto w-full">
-            <div class="flex items-end gap-2 justify-center w-full min-w-[640px]">
+        <div class="h-64 w-full" :class="activeTab === 'weekly' ? 'overflow-x-hidden' : 'overflow-x-auto'">
+            <div class="flex items-end gap-3 justify-center w-full"
+                :class="activeTab === 'weekly' ? '' : 'min-w-xl'">
                 <template x-for="(value, date) in getCurrentData()" :key="date">
                     <div class="flex flex-col items-center w-10">
                         <div class="w-full h-40 flex items-end">
@@ -51,7 +52,7 @@
                                 :style="`height: ${getBarHeight(value, Math.max(0,...Object.values(getCurrentData())))}%`">
                             </div>
                         </div>
-                        <div class="mt-2 h-10 flex flex-col items-center justify-center">
+                        <div class="mt-2 h-10 flex flex-col items-center justify-center text-center">
                             <!-- ラベル -->
                             <p class="text-xs text-gray-600" x-text="formatDateLabel(date)"></p>
                             <p class="text-xs text-gray-600 font-normal" x-text="formatMinutes(value)"></p>

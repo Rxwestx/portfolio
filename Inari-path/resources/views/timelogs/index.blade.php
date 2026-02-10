@@ -4,7 +4,7 @@
             学習記録一覧
         </h2>
     </x-slot>
-    <div class="mt-16 max-w-3xl w-full mx-auto px-4">
+    <div class="mt-16 max-w-md w-full mx-auto px-4">
         <x-message :message="session('message')" />
         @foreach ($timeLogs as $timeLog)
             <div class="mt-4 p-8 bg-blade-neon w-full rounded-2xl shadow-md ">
