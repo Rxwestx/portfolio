@@ -1,4 +1,3 @@
-<img width="984" height="988" alt="Inari-path_ER" src="https://github.com/user-attachments/assets/589d375c-6dee-4686-bab1-e4ec25e6ef94" />
 # Inari-path
 本アプリは、学習の目標設定・学習記録・達成率の可視化を一つにまとめた、学習ログ管理用のポートフォリオです。
 学習時間の積み重ねを狐のキャラクターの成長として可視化し、学びを楽しみながら継続できるようにしました。
@@ -34,6 +33,8 @@
 - PostgreSQL
 - Laravel Sail（Docker）
 
+##ER図
+<img width="984" height="988" alt="Inari-path_ER" src="https://github.com/user-attachments/assets/589d375c-6dee-4686-bab1-e4ec25e6ef94" />
 
 ## 非機能要件
 - モバイルファースト設計（スマートフォン最優先）
