@@ -35,7 +35,8 @@
 - Laravel Sail（Docker）
 
 ##ER図
-<img width="984" height="988" alt="Inari-path_ER" src="https://github.com/user-attachments/assets/589d375c-6dee-4686-bab1-e4ec25e6ef94" />
+<img width="958" height="934" alt="Inari-path_ER" src="https://github.com/user-attachments/assets/2e0d5443-3df2-4a0b-acf0-5ff2392fa5a2" />
+
 
 ## 非機能要件
 - モバイルファースト設計（スマートフォン最優先）
