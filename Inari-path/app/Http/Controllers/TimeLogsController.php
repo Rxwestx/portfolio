@@ -41,10 +41,10 @@ class TimeLogsController extends Controller
         $tempCharacter = Character::firstOrCreate(
             ['user_id' => Auth::id()],
             [
-                'level' => 1,
                 'exp' => 0,
                 'rank' => 0,
-                'rank_message' => '弱った狐',
+                'rank_name' => '弱った狐',
+                'rank_message' => '',
             ]
         );
 
