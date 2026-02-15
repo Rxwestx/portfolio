@@ -14,7 +14,7 @@
     </head>
 
     <body class="m-plus-1p-regular antialiased bg-blade-pale">
-        <main class="max-w-md mx-auto">
+        <main class="w-full mx-auto px-4 sm:px-6 lg:px-8">
             <section class="app-description">
                 {{-- 画像 --}}
                 <div class="m-16 flex justify-center">
