@@ -23,6 +23,9 @@ export default {
                     neon: "#F2F0D5",
                 },
             },
+            screens: {
+                sm435: "435px",
+            },
         },
     },
     safelist: [

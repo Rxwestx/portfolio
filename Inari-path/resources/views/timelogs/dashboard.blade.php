@@ -1,12 +1,12 @@
 <x-app-layout>
     {{-- ランクダウン通知モーダル --}}
-    @if (session('show_rank_down_alert'))
+    {{-- @if (session('show_rank_down_alert'))
         <x-rank-down-modal :oldRankName="session('old_rank_name')" :newRankName="session('new_rank_name')" :daysInactive="session('days_inactive')" />
         @php
             // 表示したら、セッションから削除して再表示を防ぐ
             session()->forget(['show_rank_down_alert', 'old_rank_name', 'new_rank_name', 'days_inactive']);
         @endphp
-    @endif
+    @endif --}}
 
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-700 leading-tight">
@@ -15,9 +15,9 @@
     </x-slot>
     <!-- ========== キャラクター詳細セクション ========== -->
     <section class="character-section mt-8 px-4 text-gray-600 w-full max-w-xl mx-auto">
-        <h2 class="text-2xl font-bold text-center flex items-center justify-center gap-2">
+        <h2 class="font-bold text-center flex items-center justify-center gap-2">
             <img src="{{ asset('img/icons/clock.svg') }}" alt="icon" width="32" height="32" />
-            <span>キャラクター詳細と達成状況</span>
+            <span class="text-lg sm435:text-2xl">キャラクター詳細と達成状況</span>
         </h2>
 
         <div class="bg-blade-neon rounded-2xl shadow mt-8 p-4 sm:p-6 md:p-8">
@@ -61,9 +61,9 @@
 
     <!-- ========== 週別と月間別グラフ表示 ========== -->
     <section class="text-center border-collapse mt-8 px-4 mx-auto text-gray-600 w-full max-w-xl">
-        <h2 class="text-2xl font-bold mb-4 flex items-center justify-center gap-2">
+        <h2 class="font-bold mb-4 flex items-center justify-center gap-2">
             <img src="{{ asset('img/icons/stats-bars.svg') }}" alt="icon" width="32" height="32" />
-            <span>グラフ</span>
+            <span class="text-lg sm435:text-2xl">グラフ</span>
         </h2>
 
         <div class="bg-blade-neon rounded-2xl shadow p-4 sm:p-6 md:p-8 w-full">
@@ -74,9 +74,9 @@
 
     <!-- ========== 学習記録一覧 ========== -->
     <section class="records-section text-center border-collapse mt-8 px-4 mx-auto text-gray-600 w-full max-w-xl">
-        <h2 class="text-2xl font-bold mb-4 text-center flex items-center justify-center gap-2">
+        <h2 class="font-bold mb-4 text-center flex items-center justify-center gap-2">
             <img src="{{ asset('img/icons/quill.svg') }}" alt="icon" width="32" height="32" />
-            <span>最近の学習記録</span>
+            <span class="text-lg sm435:text-2xl">最近の学習記録</span>
         </h2>
         <div class="bg-blade-neon rounded-2xl shadow overflow-hidden p-4 sm:p-6 md:p-8">
             <table class="text-center mx-auto">
