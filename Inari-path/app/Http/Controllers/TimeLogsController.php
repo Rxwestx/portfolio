@@ -29,7 +29,7 @@ class TimeLogsController extends Controller
 
     // 最新記録からの経過日数を計算
     if ($latestLog) {
-        $daysSinceLastLog = $latestLog->logged_at->diffInDays(now());
+        $daysSinceLastLog = (int)$latestLog->logged_at->diffInDays(now());
     } else {
         $daysSinceLastLog = 999;
     }
@@ -283,7 +283,7 @@ class TimeLogsController extends Controller
             : 0;
         // ランクの計算（例: 10%ごとにランクアップ、最大ランク10）
         $rank = min(10, intdiv($percent, 10));
-
+        
         $rankMessages = [
             0 => 'まだ何も始まっていない。
                     けれど、この場所に立ったという事実が、すでに最初の一歩だ。',
