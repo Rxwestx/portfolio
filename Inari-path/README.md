@@ -19,7 +19,8 @@
     -直近の記録一覧
 - 学習記録の一覧・編集・削除
 <img width="893" height="952" alt="Wireframe" src="https://github.com/user-attachments/assets/27ac9dd4-3bf9-4860-b68a-7f6292b86992" />
-<img width="1261" height="250" alt="Character_rank" src="https://github.com/user-attachments/assets/d5a7eb80-04f6-4e86-b05a-6a70efe68e0c" />
+<img width="1239" height="205" alt="Character_rank" src="https://github.com/user-attachments/assets/c4dceaae-2731-4a20-9403-baefeb4b8cc0" />
+
 
 ## 使用技術
 - HTML / CSS / JavaScript
@@ -34,7 +35,8 @@
 - Laravel Sail（Docker）
 
 ##ER図
-<img width="984" height="988" alt="Inari-path_ER" src="https://github.com/user-attachments/assets/589d375c-6dee-4686-bab1-e4ec25e6ef94" />
+<img width="958" height="934" alt="Inari-path_ER" src="https://github.com/user-attachments/assets/2e0d5443-3df2-4a0b-acf0-5ff2392fa5a2" />
+
 
 ## 非機能要件
 - モバイルファースト設計（スマートフォン最優先）
