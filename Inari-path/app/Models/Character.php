@@ -16,6 +16,11 @@ class Character extends Model
         'rank',
         'rank_name',
         'rank_message',
+        'last_rank_down_at',
+    ];
+
+    protected $casts = [
+        'last_rank_down_at' => 'datetime',
     ];
     // users に紐づく（1対1の関係）
     public function user()
