@@ -3,11 +3,9 @@
     <div class="w-full mx-auto px-4">
         <div class="flex justify-between h-16">
             <div class="flex">
-                <!-- Logo -->
-                <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-logo width='20' class="block text-gray-800" />
-                    </a>
+                <!-- App Name -->
+                <div class="shrink-0 flex items-center font-bold text-lg text-gray-700 text-white-200 text-gray-600">
+                    Inari-Path
                 </div>
 
                 <!-- Navigation Links -->
@@ -17,6 +15,9 @@
                     </x-nav-link>
                     <x-nav-link :href="route('timelogs.index')" :active="request()->routeIs('timelogs.index')" >
                         学習記録一覧
+                    </x-nav-link>
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                        {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
             </div>
