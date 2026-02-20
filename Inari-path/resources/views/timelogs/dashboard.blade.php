@@ -9,7 +9,7 @@
     @endif --}}
 
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-700 leading-tight">
+        <h2 class="font-semibold text-xl text-gray-600 leading-tight">
             ダッシュボード
         </h2>
     </x-slot>
