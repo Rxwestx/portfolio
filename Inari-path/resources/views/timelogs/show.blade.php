@@ -16,27 +16,28 @@
                             記録がありません
                         @endif
                     </h1>
-                    <div class="text-right flex">
-                        <a href="{{ route('timelogs.edit', $timeLog->id) }}" class="flex-1">
-                            <x-primary-button>
-                                編集
-                            </x-primary-button>
-                        </a>
-                        <form method="post" action="{{ route('timelogs.destroy', $timeLog->id) }}" class="flex-2">
-                            @csrf
-                            @method('delete')
-                            <x-tertiary-button class="!px-4 !py-2 !text-xs ml-2">
-                                削除
-                            </x-tertiary-button>
-                        </form>
-                    </div>
-                    <hr class="w-full">
-                    <p class="mt-4 whitespace-pre-line font-medium text-gray-600">
-                        学習時間：{{ $timeLog->duration_minutes }} 分
-                    </p>
-                    <div class="text-sm font-medium text-gray-600 flex flex-row-reverse">
-                        <p>記録日時：{{ $timeLog->created_at->format('Y-m-d H:i') }}</p>
-                    </div>
+                </div>
+
+                <hr class="w-full">
+                <p class="p-4 whitespace-pre-line font-medium text-gray-600">
+                    学習時間：{{ $timeLog->duration_minutes }} 分
+                </p>
+                <div class="p-4 text-sm font-medium text-gray-600 flex ">
+                    <p>記録日時：{{ $timeLog->created_at->format('Y-m-d H:i') }}</p>
+                </div>
+                <div class="text-right flex justify-end p-4">
+                    <a href="{{ route('timelogs.edit', $timeLog->id) }}" class="flex-1">
+                        <x-primary-button>
+                            編集
+                        </x-primary-button>
+                    </a>
+                    <form method="post" action="{{ route('timelogs.destroy', $timeLog->id) }}" class="flex-2">
+                        @csrf
+                        @method('delete')
+                        <x-tertiary-button class="!px-4 !py-2 !text-xs ml-2">
+                            削除
+                        </x-tertiary-button>
+                    </form>
                 </div>
             </div>
     </div>
