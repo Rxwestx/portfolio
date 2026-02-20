@@ -8,12 +8,12 @@
         <x-message :message="session('message')" />
         @foreach ($timeLogs as $timeLog)
             <div class="mt-4 p-8 bg-blade-neon w-full rounded-2xl shadow-md ">
-                <h1 class="p-4 text-lg font-2xl text-gray-600">
+                <h2 class="p-4 font-xl text-gray-600 whitespace-nowrap">
                     学習日：
                     <a href="{{ route('timelogs.show', $timeLog->id) }}" class="text-blade-dark">
                         {{ $timeLog->logged_at->format('Y年m月d日') }}
                     </a>
-                </h1>
+                </h2>
                 <hr class="w-full">
                 <p class="mt-4 p-4 text-gray-600">
                     学習時間：{{ $timeLog->duration_minutes }} 分
