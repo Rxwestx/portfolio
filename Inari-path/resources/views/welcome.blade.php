@@ -21,7 +21,7 @@
                     <img src="{{ asset('img/characters/rank_0.png') }}" alt="Fox Image" class="w-128 h-128 object-cover rounded-lg shadow-lg">
                 </div>
                 {{-- タイトル --}}
-                <h1 class="m-4 text-2xl text-gray-900 text-center">
+                <h1 class="m-4 text-2xl text-gray-600 text-center">
                     アプリ説明
                 </h1>
                     {{-- 説明文 --}}
@@ -46,21 +46,21 @@
                     @auth
                         <a
                             href="{{ url('/dashboard') }}"
-                            class="rounded-md px-3 py-2 text-gray-900 ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+                            class="rounded-md px-3 py-2 text-gray-600 ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
                         >
                             記録一覧へ &gt;
                         </a>
                         @else
                         <a
                             href="{{ route('login') }}"
-                            class="rounded-md px-3 py-2 text-gray-900 ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+                            class="rounded-md px-3 py-2 text-gray-600 ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
                         >
                             Log in &gt;
                         </a>
                         @if (Route::has('register'))
                             <a
                                 href="{{ route('register') }}"
-                                class="rounded-md px-3 py-2 text-gray-900 ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+                                class="rounded-md px-3 py-2 text-gray-600 ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
                             >
                             今すぐ始める &gt;
                             </a>
