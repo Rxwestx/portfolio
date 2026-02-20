@@ -43,7 +43,9 @@
 
     <!-- グラフコンテナ -->
     <div id="chart" class="bg-blade-pale rounded-lg shadow p-6 w-full mt-6">
-        <div class="h-64 w-full" :class="activeTab === 'weekly' ? 'overflow-x-hidden' : 'overflow-x-auto'">
+        <div class="h-64 w-full"
+        {{-- 週タブはスマホのみ横スクロール、sm以上は隠す --}}
+            :class="activeTab === 'weekly' ? 'overflow-x-auto sm:overflow-x-hidden' : 'overflow-x-auto'">
             <div class="flex items-end gap-3 justify-center w-full"
                 :class="activeTab === 'weekly' ? '' : 'min-w-xl'">
                 <template x-for="(value, date) in getCurrentData()" :key="date">
