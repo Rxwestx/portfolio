@@ -46,9 +46,8 @@
 ## 仕様書
 
 ### プロトタイプ
-<img width="893" height="952" alt="Wireframe" src="https://github.com/user-attachments/assets/27ac9dd4-3bf9-4860-b68a-7f6292b86992" />
+<img width="1180" height="1019" alt="Wirefreme2" src="https://github.com/user-attachments/assets/c5c11936-bc8f-4bf5-bb35-13c787d005d5" />
 <img width="1239" height="205" alt="Character_rank" src="https://github.com/user-attachments/assets/c4dceaae-2731-4a20-9403-baefeb4b8cc0" />
 
 ## ER図
  <img width="958" height="934" alt="Inari-path_ER" src="https://github.com/user-attachments/assets/2e0d5443-3df2-4a0b-acf0-5ff2392fa5a2" />
-
