@@ -14,9 +14,9 @@ document.addEventListener("alpine:init", () => {
             const h = Math.floor(m / 60);
             const r = m % 60;
 
-            if (h === 0) return `${r}分`;
-            if (r === 0) return `${h}時間`;
-            return `${h}時間${r}分`;
+            if (h === 0) return `${r}min`;
+            if (r === 0) return `${h}h`;
+            return `${h}h${r}min`;
         },
 
         // 日付ラベルをフォーマット（タブに応じて表示を変える）
