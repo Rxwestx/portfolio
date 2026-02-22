@@ -30,36 +30,36 @@
             Year
         </button>
     </div>
-    <div class="w-full flex items-center justify-center gap-2 text-base my-5">
+    <div class="w-full flex flex-wrap items-center justify-center gap-2 text-sm sm:text-base my-5">
         <!-- 年月表示 -->
         <button type="button" @click="activeTab === 'weekly' ? changeWeekOffset(-1) : changeMonthOffset(-1)">
             &lt;
         </button>
-        <div class="text-gray-600 font-semibold text-center" x-text="getPeriodLabel()"></div>
+        <div class="text-gray-600 font-semibold text-center px-1" x-text="getPeriodLabel()"></div>
         <button type="button" @click="activeTab === 'weekly' ? changeWeekOffset(1) : changeMonthOffset(1)">
             &gt;
         </button>
     </div>
 
     <!-- グラフコンテナ -->
-    <div id="chart" class="bg-blade-pale rounded-lg shadow p-6 w-full mt-6">
+    <div id="chart" class="bg-blade-pale rounded-lg shadow p-3 sm:p-6 w-full mt-6">
         <div class="h-64 w-full"
         {{-- 週タブはスマホのみ横スクロール、sm以上は隠す --}}
             :class="activeTab === 'weekly' ? 'overflow-x-auto sm:overflow-x-hidden' : 'overflow-x-auto'">
             <div class="flex items-end gap-3 justify-center w-full"
                 :class="activeTab === 'weekly' ? '' : 'min-w-xl'">
                 <template x-for="(value, date) in getCurrentData()" :key="date">
-                    <div class="flex flex-col items-center w-10">
+                    <div class="flex flex-col items-center w-12 sm:w-10">
                         <div class="w-full h-40 flex items-end">
                             <!-- バーグラフ -->
                             <div class="w-6 mx-auto bg-blade-main rounded-t"
                                 :style="`height: ${getBarHeight(value, Math.max(0,...Object.values(getCurrentData())))}%`">
                             </div>
                         </div>
-                        <div class="mt-2 h-10 flex flex-col items-center justify-center text-center">
-                            <!-- ラベル -->
-                            <p class="text-sm text-gray-600" x-text="formatDateLabel(date)"></p>
-                            <p class="text-sm text-gray-600 font-normal" x-text="formatMinutes(value)"></p>
+                        <div class="mt-2 min-h-11 sm:h-10 flex flex-col items-center justify-center text-center leading-tight">
+                            <!-- 日付・分ラベル　折り返し禁止　-->
+                            <p class="text-sm text-gray-600 whitespace-nowrap" x-text="formatDateLabel(date)"></p>
+                            <p class="text-sm text-gray-600 font-normal whitespace-nowrap" x-text="formatMinutes(value)"></p>
                         </div>
                     </div>
                 </template>
