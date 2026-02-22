@@ -29,31 +29,51 @@
                     class="w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 mx-auto rounded-2xl shadow-lg object-cover">
             </div>
 
-            <!-- キャラクター情報テーブル -->
-            <table class="text-center border-collapse mx-auto">
+            <!-- キャラクター情報（モバイル）長文のレイアウト崩れ対策済み -->
+            <dl class="sm:hidden space-y-3 text-left">
+                <div class="border-b pb-3">
+                    <dt class="text-sm font-light text-gray-600">目標:</dt>
+                    <dd class="text-base font-normal text-blade-dark">{{ $goal ?? '未設定' }}</dd>
+                </div>
+                <div class="border-b pb-3">
+                    <dt class="text-sm font-light text-gray-600">ランク名:</dt>
+                    <dd class="text-base font-normal text-blade-dark">{{ $rankName }}</dd>
+                </div>
+                <div class="border-b pb-3">
+                    <dt class="text-sm font-light text-gray-600">目標時間:</dt>
+                    <dd class="text-base font-normal text-blade-dark">{{ $targetHours }}時間</dd>
+                </div>
+                <div class="border-b pb-3">
+                    <dt class="text-sm font-light text-gray-600">総学習時間:</dt>
+                    <dd class="text-base font-normal text-blade-dark">{{ $totalHours }}時間</dd>
+                </div>
+                <div class="border-b pb-3">
+                    <dt class="text-sm font-light text-gray-600">ランクメッセージ:</dt>
+                    <dd class="text-base font-normal text-blade-dark break-words">{{ $character->rank_message }}</dd>
+                </div>
+            </dl>
+
+            <!-- キャラクター情報テーブル（タブレット以上） -->
+            <table class="hidden sm:table w-full border-collapse mx-auto text-left">
                 <tr class="border-b">
-                    <td class="py-2 px-2 font-light">目標：</td>
+                    <td class="py-2 px-2 font-light w-1/3">目標：</td>
                     <td class="py-2 px-2 text-base font-normal text-blade-dark">{{ $goal ?? '未設定' }}</td>
                 </tr>
                 <tr class="border-b">
-                    <td class="py-2 px-2 font-light">ランク名：</td>
+                    <td class="py-2 px-2 font-light w-1/3">ランク名：</td>
                     <td class="py-2 px-2 text-base font-normal text-blade-dark">{{ $rankName }}</td>
                 </tr>
                 <tr class="border-b">
-                    <td class="py-2 px-2 font-light">目標時間：</td>
+                    <td class="py-2 px-2 font-light w-1/3">目標時間：</td>
                     <td class="py-2 px-2 text-base font-normal text-blade-dark">{{ $targetHours }}時間</td>
                 </tr>
                 <tr class="border-b">
-                    <td class="py-2 px-2 font-light">総学習時間：</td>
+                    <td class="py-2 px-2 font-light w-1/3">総学習時間：</td>
                     <td class="py-2 px-2 text-base font-normal text-blade-dark">{{ $totalHours }}時間</td>
                 </tr>
-                {{-- <tr class="border-b">
-                    <td class="py-2 px-2 font-light">レベル：</td>
-                    <td class="py-2 px-2 font-normal text-blade-dark">{{ $character->level }}</td>
-                </tr> --}}
                 <tr class="border-b">
-                    <td class="py-2 px-2 font-light">ランクメッセージ：</td>
-                    <td class="py-2 px-2 font-normal text-blade-dark">{{ $character->rank_message }}</td>
+                    <td class="py-2 px-2 font-light w-1/3 align-top">ランクメッセージ：</td>
+                    <td class="py-2 px-2 font-normal text-blade-dark break-words">{{ $character->rank_message }}</td>
                 </tr>
             </table>
         </div>
