@@ -20,13 +20,13 @@
             <span class="text-lg sm435:text-2xl">キャラクター詳細と達成状況</span>
         </h2>
 
-        <div class="bg-blade-neon rounded-2xl shadow mt-8 p-4 sm:p-6 md:p-8">
+        <div class="bg-blade-neon rounded-3xl shadow mt-8 p-4 sm:p-6 md:p-8">
             <!-- キャラクター画像（ランク値に応じて自動選択） -->
             <div class="mb-4 text-center">
                 <!-- コメント: $rank の値（0～10）から自動的に画像ファイルを選ぶ -->
                 <!-- 例: $rank = 7 の場合、rank_7.png が表示される -->
                 <img src="{{ asset('img/characters/rank_' . $rank . '.png') }}" alt="ランク{{ $rank }}キャラクター"
-                    class="w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 mx-auto rounded-2xl shadow-lg object-cover">
+                    class="w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 mx-auto rounded-3xl shadow-lg object-cover">
             </div>
 
             <!-- キャラクター情報（モバイル）長文のレイアウト崩れ対策済み -->
@@ -86,7 +86,7 @@
             <span class="text-lg sm435:text-2xl">グラフ</span>
         </h2>
 
-        <div class="bg-blade-neon rounded-2xl shadow p-4 sm:p-6 md:p-8 w-full">
+        <div class="bg-blade-neon rounded-3xl shadow p-4 sm:p-6 md:p-8 w-full">
             <!-- グラフコンポーネントを呼び出し -->
             <x-chart-tabs :weeklyData="$weeklyData" :monthlyData="$monthlyData" :yearlyData="$yearlyData" :weekOffset="$weekOffset" :monthOffset="$monthOffset" />
         </div>
@@ -98,12 +98,12 @@
             <img src="{{ asset('img/icons/quill.svg') }}" alt="icon" width="32" height="32" />
             <span class="text-lg sm435:text-2xl">最近の学習記録</span>
         </h2>
-        <div class="bg-blade-neon rounded-2xl shadow overflow-hidden p-4 sm:p-6 md:p-8">
+        <div class="bg-blade-neon rounded-3xl shadow overflow-hidden p-4 sm:p-6 md:p-8">
             <table class="text-center mx-auto">
                 <thead class="bg-gray-300 border-b font-bold">
                     <tr>
-                        <th class="py-3 px-4">日付</th>
-                        <th class="py-3 px-4">学習時間</th>
+                        <th class="py-3 px-4 rounded-tl-3xl">日付</th>
+                        <th class="py-3 px-4 rounded-tr-3xl">学習時間</th>
                     </tr>
                 </thead>
                 <tbody>

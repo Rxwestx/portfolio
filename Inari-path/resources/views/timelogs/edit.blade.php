@@ -12,7 +12,7 @@
         @endif
 
         <form method="post" action="{{ route('timelogs.update', $timeLog) }}"
-            class="mt-16 mx-auto max-w-md bg-blade-neon rounded-2xl px-6 py-8 shadow-md">
+            class="mt-16 mx-auto max-w-md bg-blade-neon rounded-3xl px-6 py-8 shadow-md">
             @csrf
             @method('put')
             <div class="mt-8 flex flex-col items-center gap-4">

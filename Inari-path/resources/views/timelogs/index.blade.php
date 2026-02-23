@@ -7,7 +7,7 @@
     <div class="mt-16 max-w-md w-full mx-auto px-4">
         <x-message :message="session('message')" />
         @foreach ($timeLogs as $timeLog)
-            <div class="mt-4 p-8 bg-blade-neon w-full rounded-2xl shadow-md ">
+            <div class="mt-4 p-8 bg-blade-neon w-full rounded-3xl shadow-md ">
                 <h2 class="p-4 font-xl text-gray-600 whitespace-nowrap">
                     学習日：
                     <a href="{{ route('timelogs.show', $timeLog->id) }}" class="text-blade-dark">

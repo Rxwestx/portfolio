@@ -7,7 +7,7 @@
     <div class="max-w-md mx-auto px-6">
         {{-- フラッシュメッセージ表示 --}}
         <x-message :message="session('message')" />
-            <div class="bg-blade-neon w-full rounded-2xl">
+            <div class="bg-blade-neon w-full rounded-3xl">
                 <div class="mt-16 p-4">
                     <h1 class="text-lg font-semibold text-gray-600 ">
                         学習日：@if ($timeLog->logged_at)

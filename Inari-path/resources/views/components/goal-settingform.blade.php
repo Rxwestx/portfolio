@@ -1,16 +1,14 @@
 @props(['action'])
 
-<h1 class="text-center text-lg font-semibold text-gray-600">目標設定</h1>
 
-<section class="mt-8 px-4 py-8 max-w-md w-full mx-auto rounded-md justify-center bg-blade-neon shadow-md">
-
+<section class="mt-4 px-4 py-8 max-w-md w-full mx-auto rounded-md justify-center ">
+    <h1 class="text-center mt-4 text-lg font-semibold text-gray-600">目標設定</h1>
     <p class="mt-4 text-center text-xs text-gray-600 leading-relaxed">
         ◆ここで入力した目標は、変更することが出来ません◆<br>
         よく、考えてから入力してね
     </p>
-    <form method="POST" action="{{ $action }}" class="mt-6 space-y-5">
+    <form method="POST" action="{{ $action }}" class="mt-6 space-y-5 bg-blade-neon  shadow-md rounded-3xl p-6">
         @csrf
-
         {{-- 目標 goal --}}
         <div>
             <label class="block text-center text-xs text-gray-600 mb-2">あなたの目標は？</label>
