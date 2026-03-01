@@ -1,5 +1,29 @@
 app = "inari-path-12345"
 primary_region = "nrt"
+console_command = 'php /var/www/html/artisan tinker'
+
+[build]
+  [build.args]
+    NODE_VERSION = '20'
+    PHP_VERSION = '8.4'
+
+[deploy]
+  release_command = "php artisan migrate --force"
+
+[env]
+  APP_NAME = 'Inari-path'
+  APP_ENV = 'production'
+  LOG_CHANNEL = 'stderr'
+  LOG_STACK = 'info'
+  LOG_STDERR_FORMATTER = 'Monolog\Formatter\JsonFormatter'
+  SESSION_DRIVER = 'cookie'
+  SESSION_SECURE_COOKIE = 'true'
+  DB_CONNECTION = 'pgsql'
+  DB_HOST = 'pgsql'
+  DB_PORT = '5432'
+  DB_DATABASE = 'laravel'
+  DB_USERNAME = 'sail'
+  DB_PASSWORD = 'password'
 
 [http_service]
   internal_port = 8080
