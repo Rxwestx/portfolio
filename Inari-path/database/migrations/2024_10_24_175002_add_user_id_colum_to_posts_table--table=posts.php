@@ -11,10 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        schema::table('posts', function (Blueprint $table) {
-            $table->foreignId('user_id');
+        if (!Schema::hasTable('posts') || Schema::hasColumn('posts', 'user_id')) {
+            return;
+        }
+
+        Schema::table('posts', function (Blueprint $table) {
+            // Existing rows can make non-null column additions fail on PostgreSQL.
+            $table->foreignId('user_id')->nullable()->index();
         });
-        //
     }
 
     /**
@@ -22,8 +26,11 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
-        schema::table('posts', function (Blueprint $table) {
+        if (!Schema::hasTable('posts') || !Schema::hasColumn('posts', 'user_id')) {
+            return;
+        }
+
+        Schema::table('posts', function (Blueprint $table) {
             $table->dropColumn('user_id');
         });
     }
