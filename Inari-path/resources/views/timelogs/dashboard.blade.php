@@ -88,7 +88,7 @@
 
         <div class="bg-blade-neon rounded-3xl shadow p-4 sm:p-6 md:p-8 w-full">
             <!-- グラフコンポーネントを呼び出し -->
-            <x-chart-tabs :weeklyData="$weeklyData" :monthlyData="$monthlyData" :yearlyData="$yearlyData" :weekOffset="$weekOffset" :monthOffset="$monthOffset" />
+            <x-chart-tabs :weeklyData="$weeklyData" :monthlyData="$monthlyData" :yearlyData="$yearlyData" :weekOffset="$weekOffset" :monthOffset="$monthOffset" :yearOffset="$yearOffset" />
         </div>
     </section>
 
