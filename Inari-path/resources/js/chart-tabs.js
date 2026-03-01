@@ -7,6 +7,7 @@ document.addEventListener("alpine:init", () => {
         yearly: {},
         weekOffset: 0,
         monthOffset: 0,
+        yearOffset: 0,
 
         // 分を「X時間Y分」形式にフォーマットして返す
         formatMinutes(value) {
@@ -91,6 +92,9 @@ document.addEventListener("alpine:init", () => {
             // 月のずらしを取得（0=今月, -1=前月, -2=前々月）
             const monthOffset = this.$el?.dataset?.monthOffset;
             this.monthOffset = Number(monthOffset || 0);
+            // 年のずらしを取得（0=今年, -1=前年, -2=前々年）
+            const yearOffset = this.$el?.dataset?.yearOffset;
+            this.yearOffset = Number(yearOffset || 0);
             // URLからタブを復元して、再読み込み後も同じ表示にする
             const tab = new URLSearchParams(window.location.search).get("tab");
             if (tab) this.activeTab = tab;
@@ -124,9 +128,20 @@ document.addEventListener("alpine:init", () => {
             const next = this.monthOffset + delta;
             if (next > 0) return; // 未来月は不可
             this.monthOffset = next;
-
             const url = new URL(window.location.href);
             url.searchParams.set("month_offset", String(this.monthOffset));
+            // 再読み込み後も同じタブになるようURLに保持
+            url.searchParams.set("tab", this.activeTab);
+            url.hash = "chart";
+            window.location.href = url.toString();
+        },
+        changeYearOffset(delta) {
+            if (this.activeTab !== "yearly") return;
+            const next = this.yearOffset + delta;
+            if (next > 0) return; // 未来年は不可
+            this.yearOffset = next;
+            const url = new URL(window.location.href);
+            url.searchParams.set("year_offset", String(this.yearOffset));
             // 再読み込み後も同じタブになるようURLに保持
             url.searchParams.set("tab", this.activeTab);
             url.hash = "chart";
