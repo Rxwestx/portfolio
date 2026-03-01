@@ -283,7 +283,7 @@ class TimeLogsController extends Controller
             : 0;
         // ランクの計算（例: 10%ごとにランクアップ、最大ランク10）
         $rank = min(10, intdiv($percent, 10));
-        
+
         $rankMessages = [
             0 => 'まだ何も始まっていない。
                     けれど、この場所に立ったという事実が、すでに最初の一歩だ。',
@@ -375,8 +375,14 @@ class TimeLogsController extends Controller
 
         // 年別集計（過去12ヶ月）
         $yearlyData = [];
-        for ($i = 11; $i >= 0; $i--) {
-            $month = now()->subMonths($i)->format('Y-m');
+        // yar_offset を取る
+        $yearOffset = (int) request('year_offset', 0);
+        $startOfYear = now()->startOfYear()->addYears($yearOffset);
+        // 毎年1月1日0:00を年の始まりとし、過去12ヶ月分をループ
+        for ($i = 0; $i < 12; $i++) {
+            $currentMonth = $startOfYear->copy()->addMonths($i);
+            $month = $currentMonth->format('Y-m');
+
             $minutes = TimeLogs::whereHas('goal', function ($query) {
                 $query->where('user_id', Auth::id());
             })
@@ -402,7 +408,8 @@ class TimeLogsController extends Controller
             "weekOffset",
             'monthlyData',
             'monthOffset',
-            'yearlyData'
+            'yearlyData',
+            'yearOffset'
         ));
     }
 
