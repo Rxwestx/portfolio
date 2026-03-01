@@ -11,7 +11,7 @@
 
 <!-- タブ切り替えコンポーネント -->
 <div x-data="chartTabs" class="mb-8 w-full" data-week-offset="{{ $weekOffset ?? 0 }}"
-    data-month-offset="{{ $monthOffset ?? 0 }}">
+    data-month-offset="{{ $monthOffset ?? 0 }}" data-year-offset="{{ $yearOffset ?? 0 }}">
     <!-- タブボタン -->
     <div class="flex gap-3 mb-2 items-center">
         <button type="button" @click = "setTab('weekly')"
@@ -32,11 +32,11 @@
     </div>
     <div class="w-full flex flex-wrap items-center justify-center gap-2 text-sm sm:text-base my-5">
         <!-- 年月表示 -->
-        <button type="button" @click="activeTab === 'weekly' ? changeWeekOffset(-1) : changeMonthOffset(-1)">
+        <button type="button" @click="activeTab === 'weekly' ? changeWeekOffset(-1) : activeTab === 'monthly' ? changeMonthOffset(-1) : activeTab === 'yearly' ? changeYearOffset(-1) : null">
             &lt;
         </button>
         <div class="text-gray-600 font-semibold text-center px-1" x-text="getPeriodLabel()"></div>
-        <button type="button" @click="activeTab === 'weekly' ? changeWeekOffset(1) : changeMonthOffset(1)">
+        <button type="button" @click="activeTab === 'weekly' ? changeWeekOffset(1) : activeTab === 'monthly' ? changeMonthOffset(1) : activeTab === 'yearly' ? changeYearOffset(1) : null">
             &gt;
         </button>
     </div>
