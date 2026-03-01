@@ -43,13 +43,13 @@
 
     <!-- グラフコンテナ -->
     <div id="chart" class="bg-blade-pale rounded-lg shadow p-3 sm:p-6 w-full mt-6">
-        <div class="h-64 w-full"
+        <div class="h-64 w-full overflow-x-auto pb-2"
         {{-- 週タブはスマホのみ横スクロール、sm以上は隠す --}}
-            :class="activeTab === 'weekly' ? 'overflow-x-auto sm:overflow-x-hidden' : 'overflow-x-auto'">
-            <div class="flex items-end gap-3 justify-center w-full"
-                :class="activeTab === 'weekly' ? '' : 'min-w-xl'">
+            :class="activeTab === 'weekly' ? 'sm:overflow-x-hidden' : ''">
+            <div class="flex items-end gap-3 justify-center w-max min-w-full"
+                :class="activeTab === 'weekly' ? '' : 'min-w-max'">
                 <template x-for="(value, date) in getCurrentData()" :key="date">
-                    <div class="flex flex-col items-center w-12 sm:w-10">
+                    <div class="flex flex-col items-center w-12 sm:w-10 shrink-0">
                         <div class="w-full h-40 flex items-end">
                             <!-- バーグラフ -->
                             <div class="w-6 mx-auto bg-blade-main rounded-t"
