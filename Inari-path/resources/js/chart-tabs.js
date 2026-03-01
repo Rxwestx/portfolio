@@ -8,6 +8,8 @@ document.addEventListener("alpine:init", () => {
         weekOffset: 0,
         monthOffset: 0,
         yearOffset: 0,
+        isLoading: false,
+        error: "",
 
         // 分を「X時間Y分」形式にフォーマットして返す
         formatMinutes(value) {
