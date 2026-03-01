@@ -6,7 +6,7 @@
     </x-slot>
     <div class="mt-16 max-w-md w-full mx-auto px-4">
         <x-message :message="session('message')" />
-        @foreach ($timeLogs as $timeLog)
+        @forelse ($timeLogs as $timeLog)
             <div class="mt-4 p-8 bg-blade-neon w-full rounded-3xl shadow-md ">
                 <h2 class="p-4 font-xl text-gray-600 whitespace-nowrap">
                     学習日：
@@ -24,7 +24,11 @@
                     </p>
                 </div>
             </div>
-        @endforeach
+        @empty
+            <div class="text-gray-600 text-center">
+                記録がありません
+            </div>
+        @endforelse
         <div class="mb-4">
             {{ $timeLogs->links() }}
         </div>

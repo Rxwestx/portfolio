@@ -10,11 +10,7 @@
             <div class="bg-blade-neon w-full rounded-3xl">
                 <div class="mt-16 p-4">
                     <h1 class="text-lg font-semibold text-gray-600 ">
-                        学習日：@if ($timeLog->logged_at)
-                            {{ $timeLog->logged_at->format('Y-m-d') }}
-                        @else
-                            記録がありません
-                        @endif
+                        学習日：{{ $timeLog->logged_at->format('Y-m-d') }}
                     </h1>
                 </div>
 
