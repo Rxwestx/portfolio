@@ -1,5 +1,4 @@
 document.addEventListener("alpine:init", () => {
-    console.log("chart-tabs loaded"); // ←追加
     Alpine.data("chartTabs", () => ({
         activeTab: "weekly",
         weekly: {},
@@ -10,10 +9,19 @@ document.addEventListener("alpine:init", () => {
         yearOffset: 0,
         isLoading: false,
         error: "",
+        updateUrl() {
+            const url = new URL(window.location.href);
+            url.searchParams.set("tab", this.activeTab);
+            url.searchParams.set("week_offset", String(this.weekOffset));
+            url.searchParams.set("month_offset", String(this.monthOffset));
+            url.searchParams.set("year_offset", String(this.yearOffset));
+            window.history.replaceState(null, "", url.toString());
+        },
 
         // 分を「X時間Y分」形式にフォーマットして返す
         formatMinutes(value) {
             const m = Math.round(Number(value) || 0);
+
             const h = Math.floor(m / 60);
             const r = m % 60;
 
@@ -80,26 +88,6 @@ document.addEventListener("alpine:init", () => {
                 return `${year}年`;
             }
             return "";
-        },
-
-        init() {
-            // Bladeに埋め込まれたJSONを読む
-            this.weekly = this.readJsonById("weeklyData");
-            this.monthly = this.readJsonById("monthlyData");
-            this.yearly = this.readJsonById("yearlyData");
-
-            // 週のずらしを取得（0=今週, -1=前週, -2=前々週）
-            const offset = this.$el?.dataset?.weekOffset;
-            this.weekOffset = Number(offset || 0);
-            // 月のずらしを取得（0=今月, -1=前月, -2=前々月）
-            const monthOffset = this.$el?.dataset?.monthOffset;
-            this.monthOffset = Number(monthOffset || 0);
-            // 年のずらしを取得（0=今年, -1=前年, -2=前々年）
-            const yearOffset = this.$el?.dataset?.yearOffset;
-            this.yearOffset = Number(yearOffset || 0);
-            // URLからタブを復元して、再読み込み後も同じ表示にする
-            const tab = new URLSearchParams(window.location.search).get("tab");
-            if (tab) this.activeTab = tab;
         },
 
         setTab(tab) {
