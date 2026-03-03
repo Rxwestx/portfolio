@@ -367,6 +367,24 @@ class TimeLogsController extends Controller
             'yearOffset'
         ));
     }
+        public function chartData(Request $request)
+    {
+        $weekOffset = (int) $request->query('week_offset', 0);
+        $monthOffset = (int) $request->query('month_offset', 0);
+        $yearOffset = (int) $request->query('year_offset', 0);
+
+        $chartData = $this->buildChartData($weekOffset, $monthOffset, $yearOffset);
+
+        return response()->json([
+            'weeklyData' => $chartData['weeklyData'],
+            'monthlyData' => $chartData['monthlyData'],
+            'yearlyData' => $chartData['yearlyData'],
+            'weekOffset' => $weekOffset,
+            'monthOffset' => $monthOffset,
+            'yearOffset' => $yearOffset,
+        ]);
+    }
+
 
     private function buildChartData(int $weekOffset, int $monthOffset, int $yearOffset): array
     {
