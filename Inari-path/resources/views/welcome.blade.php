@@ -16,58 +16,62 @@
     <body class="m-plus-1p-regular antialiased bg-blade-pale">
         <main class="w-full mx-auto px-4 sm:px-6 lg:px-8">
             <section class="app-description">
-                {{-- 画像 --}}
-                <div class="m-16 flex justify-center">
-                    <img src="{{ asset('img/characters/rank_0.png') }}" alt="Fox Image" class="w-128 h-128 object-cover rounded-lg shadow-lg">
-                </div>
-                {{-- タイトル --}}
-                <h1 class="m-4 text-2xl text-gray-600 text-center">
-                    アプリ説明
-                </h1>
-                    {{-- 説明文 --}}
-                    <p class="leading-relaxed text-gray-600 text-center whitespace-pre-line">
-                        あなたは、日々の忙しさに疲れ、少しだけ現実から離れたくなっていた。
-                        そんなある日、ふと迷い込んだ神秘の森。
-                        深い緑のなか、柔らかな光が差し込む場所で一匹の小さな狐が怪我をして倒れていた。
-                        あなたはその狐を助け、看病することにした。
-                    </p>
-                    <p class="text-xl leading-relaxed  text-blade-dark text-center whitespace-pre-line">
-                        このアプリは、習慣化達成×育成アプリです。
-                    </p>
-                    <p class="m-1 leading-relaxed text-gray-600 text-center whitespace-pre-line">
-                        まず、習慣を達成するための総時間(例:100時間読書/1000時間勉強など)をセットしましょう。
-                        時間を記録して報告すると、徐々に妖狐は力を取り戻していきます。
-                        妖狐は成長とともに、さまざまな姿に進化していきますが、
-                        記録入力をサボり過ぎると、退化してしまいますので、ご注意を!!
-                        （ランクは、下がりますが猶予あります）
-                    </p>
-                <div class="my-10 text-xl text-center flex flex-col items-center gap-4 ">
-                @if (Route::has('login'))
-                    @auth
-                        <a
-                            href="{{ url('/dashboard') }}"
-                            class="rounded-md px-3 py-2 text-gray-600 ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-                        >
-                            記録一覧へ &gt;
-                        </a>
+                <h1 class="m-16 text-3xl text-gray-600 text-center">Inari-Path</h1>
+                {{-- ログイン・登録へのリンク --}}
+                <div class="my-10 text-xl text-center flex flex-col sm:flex-row items-center justify-center gap-3">
+                    @if (Route::has('login'))
+                        @auth
+                            <a
+                                href="{{ url('/dashboard') }}"
+                                class="inline-flex items-center justify-center rounded-full px-5 py-2.5 text-sm font-semibold text-gray-600 bg-blade-dark shadow-sm transition hover:-translate-y-0.5 hover:bg-blade-main focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+                            >
+                                記録一覧へ &gt;
+                            </a>
                         @else
-                        <a
-                            href="{{ route('login') }}"
-                            class="rounded-md px-3 py-2 text-gray-600 ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-                        >
-                            Log in &gt;
-                        </a>
-                        @if (Route::has('register'))
                             <a
                                 href="{{ route('register') }}"
-                                class="rounded-md px-3 py-2 text-gray-600 ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+                                class="inline-flex items-center justify-center rounded-full px-5 py-2.5 text-sm font-semibold text-gray-600 bg-amber-400 shadow-sm transition hover:-translate-y-0.5 hover:bg-amber-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2"
                             >
-                            今すぐ始める &gt;
+                                今すぐ始める &gt;
+                            </a>
+                        @if (Route::has('register'))
+                            <a
+                                href="{{ route('login') }}"
+                                class="inline-flex items-center justify-center rounded-full px-5 py-2.5 text-sm font-semibold text-gray-600 bg-blade-main shadow-sm transition hover:-translate-y-0.5 hover:bg-blade-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blade-main focus-visible:ring-offset-2"
+                            >
+                                Log in &gt;
                             </a>
                         @endif
-                    @endauth
-                @endif
+                        @endauth
+                    @endif
                 </div>
+                {{-- アプリ説明 --}}
+                <h2 class="m-4 text-lg text-gray-600 text-center">
+                    このアプリについて
+                </h2>                {{-- アプリ説明 --}}
+                <p class="leading-relaxed text-blade-dark text-center whitespace-pre-line">
+                    Inari-Pathは、習慣形成のためのモチベーション維持を目的とした学習ログ管理アプリです。
+                    学習時間の積み重ねを妖狐の成長として可視化し、学びを楽しみながら継続できるように設計しました。
+                </p>
+
+                {{-- 使い方 --}}
+                <h3 class="mt-8 text-lg text-gray-600 text-center">使い方</h3>
+                <p class="m-1 leading-relaxed text-gray-600 text-center whitespace-pre-line">
+                    1. 習慣を達成するための総時間を設定します（例: 読書100時間 / 勉強1000時間）。
+                    2. 毎日の取り組み時間を記録して報告します。
+                    3. 記録を重ねるほど、妖狐が力を取り戻し、姿が進化していきます。
+                    （例: 目標設定を、”読書をする”目標時間を”100時間”に設定して1日1時間記録すると、約3か月で達成できます）
+                </p>
+
+                {{-- 世界観（補足） --}}
+                <h3 class="mt-8 text-gray-500 text-center">世界観（補足）</h3>
+                <p class="leading-relaxed text-gray-500 text-center whitespace-pre-line">
+                    あなたは、日々の忙しさに心をすり減らしていました。
+                    ある日、ほんの少し現実から離れたくなり、神秘の森へと迷い込みます。
+                    深い緑と木漏れ日に包まれた静かな場所で、傷ついた小さな妖狐が、ひとりうずくまっていました。
+                    あなたはその妖狐にそっと手を差し伸べ、回復を見守る日々を始めます。
+                </p>
+
             </section>
         </main>
     </body>
