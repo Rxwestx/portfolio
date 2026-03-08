@@ -90,6 +90,47 @@ document.addEventListener("alpine:init", () => {
             return "";
         },
 
+        async fetchChartData() {
+            // 読み込み開始フラグを立て,前回エラー表示を消す。
+
+            this.isLoading = true;
+            this.error = "";
+
+            try {
+            // URLSearchParamsを使ってtab と各 offset をクエリ文字列化する。
+            const params = new URLSearchParams({
+                tab: this.activeTab,
+                week_offset: String(this.weekOffset),
+                month_offset: String(this.monthOffset),
+                year_offset: String(this.yearOffset),
+            });
+            // APIへ非同期リクエストを送る。
+            const res = await fetch(`/dashboard/chart-data?${params.toString()}`, {
+                headers: { "X-Requested-With": "XMLHttpRequest" },
+            });
+            // 200番台以外なら失敗として例外にする。
+            if (!res.ok) throw new Error("Fetch failed");
+            // JSONレスポンスをJSオブジェクトに変換する。
+            const data = await res.json();
+            // 取得データをAlpineのAPIのレスポンスに応じて、weeklyData, monthlyData, yearlyData, weekoffset, monthoffset, yearoffset をstateにセットする。
+            this.weekly = data.weeklyData ?? {};
+            this.monthly = data.monthlyData ?? {};
+            this.yearly = data.yearlyData ?? {};
+            // サーバーから返ったoffsetでstateを同期する。
+            this.weekOffset = Number(data.weekoffset ?? this.weekOffset);
+            this.monthOffset = Number(data.monthoffset ?? this.monthOffset);
+            this.yearOffset = Number(data.yearoffset ?? this.yearOffset);
+            // 現在stateをURLに反映する（リロードなし）。
+            this.updateUrl();
+            // 通信失敗時にユーザー向けエラー文言をセット。
+            } catch (e) {
+                this.error = "データの取得に失敗しました,再試行してください。";
+            // 成功/失敗に関係なく読み込み終了フラグを下げる。
+            } finally {
+                this.isLoading = false;
+            }
+        },
+
         setTab(tab) {
             this.activeTab = tab;
             // setTabでURLにtabを保存する
