@@ -117,9 +117,9 @@ document.addEventListener("alpine:init", () => {
             this.monthly = data.monthlyData ?? {};
             this.yearly = data.yearlyData ?? {};
             // サーバーから返ったoffsetでstateを同期する。
-            this.weekOffset = Number(data.weekoffset ?? this.weekOffset);
-            this.monthOffset = Number(data.monthoffset ?? this.monthOffset);
-            this.yearOffset = Number(data.yearoffset ?? this.yearOffset);
+            this.weekOffset = Number(data.weekOffset ?? this.weekOffset);
+            this.monthOffset = Number(data.monthOffset ?? this.monthOffset);
+            this.yearOffset = Number(data.yearOffset ?? this.yearOffset);
             // 現在stateをURLに反映する（リロードなし）。
             this.updateUrl();
             // 通信失敗時にユーザー向けエラー文言をセット。
@@ -132,53 +132,33 @@ document.addEventListener("alpine:init", () => {
         },
 
         setTab(tab) {
+            // タブ切替の処理。引数のtabをactiveTabにセットしてfetchChartDataを一本化。
+            if (this.activeTab === tab) return; // 同じタブなら何もしない（任意）
             this.activeTab = tab;
-            // setTabでURLにtabを保存する
-            const url = new URL(window.location.href);
-            url.searchParams.set("tab", tab);
-            window.history.replaceState(null, "", url.toString());
-            //this.render()
+            this.fetchChartData();
         },
-
         changeWeekOffset(delta) {
             // 表示中タブが違う場合は切替しない
             if (this.activeTab !== "weekly") return;
             const next = this.weekOffset + delta;
             if (next > 0) return; // 未来週は不可
             this.weekOffset = next;
-
-            const url = new URL(window.location.href);
-            url.searchParams.set("week_offset", String(this.weekOffset));
-            // 再読み込み後も同じタブになるようURLに保持
-            url.searchParams.set("tab", this.activeTab);
-            url.hash = "chart";
-            window.location.href = url.toString();
+            this.fetchChartData();
         },
         changeMonthOffset(delta) {
             if (this.activeTab !== "monthly") return;
             const next = this.monthOffset + delta;
             if (next > 0) return; // 未来月は不可
             this.monthOffset = next;
-            const url = new URL(window.location.href);
-            url.searchParams.set("month_offset", String(this.monthOffset));
-            // 再読み込み後も同じタブになるようURLに保持
-            url.searchParams.set("tab", this.activeTab);
-            url.hash = "chart";
-            window.location.href = url.toString();
+            this.fetchChartData();
         },
         changeYearOffset(delta) {
             if (this.activeTab !== "yearly") return;
             const next = this.yearOffset + delta;
             if (next > 0) return; // 未来年は不可
             this.yearOffset = next;
-            const url = new URL(window.location.href);
-            url.searchParams.set("year_offset", String(this.yearOffset));
-            // 再読み込み後も同じタブになるようURLに保持
-            url.searchParams.set("tab", this.activeTab);
-            url.hash = "chart";
-            window.location.href = url.toString();
+            this.fetchChartData();
         },
-
         // いま表示すべきデータを返す（Bladeのx-forが期待するのは「オブジェクト」）
 
         getCurrentData() {
