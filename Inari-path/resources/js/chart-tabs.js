@@ -89,6 +89,30 @@ document.addEventListener("alpine:init", () => {
             }
             return "";
         },
+        //コンポーネントの初期化処理
+        init() {
+            this.weekly = this.readJsonById("weeklyData");
+            this.monthly = this.readJsonById("monthlyData");
+            this.yearly = this.readJsonById("yearlyData");
+
+            this.weekOffset = Number(this.$el?.dataset?.weekOffset ?? 0);
+            this.monthOffset = Number(this.$el?.dataset?.monthOffset ?? 0);
+            this.yearOffset = Number(this.$el?.dataset?.yearOffset ?? 0);
+
+            const params = new URLSearchParams(window.location.search);
+            const tab = params.get("tab");
+            if (["weekly", "monthly", "yearly"].includes(tab)) {
+                this.activeTab = tab;
+            }
+
+            const weekOffset = Number(params.get("week_offset"));
+            const monthOffset = Number(params.get("month_offset"));
+            const yearOffset = Number(params.get("year_offset"));
+
+            if (Number.isInteger(weekOffset) && weekOffset <= 0) this.weekOffset = weekOffset;
+            if (Number.isInteger(monthOffset) && monthOffset <= 0) this.monthOffset = monthOffset;
+            if (Number.isInteger(yearOffset) && yearOffset <= 0) this.yearOffset = yearOffset;
+        },
 
         async fetchChartData() {
             // 読み込み開始フラグを立て,前回エラー表示を消す。
@@ -98,30 +122,30 @@ document.addEventListener("alpine:init", () => {
 
             try {
             // URLSearchParamsを使ってtab と各 offset をクエリ文字列化する。
-            const params = new URLSearchParams({
-                tab: this.activeTab,
-                week_offset: String(this.weekOffset),
-                month_offset: String(this.monthOffset),
-                year_offset: String(this.yearOffset),
-            });
+                const params = new URLSearchParams({
+                    tab: this.activeTab,
+                    week_offset: String(this.weekOffset),
+                    month_offset: String(this.monthOffset),
+                    year_offset: String(this.yearOffset),
+                });
             // APIへ非同期リクエストを送る。
-            const res = await fetch(`/dashboard/chart-data?${params.toString()}`, {
-                headers: { "X-Requested-With": "XMLHttpRequest" },
-            });
+                const res = await fetch(`/dashboard/chart-data?${params.toString()}`, {
+                    headers: { "X-Requested-With": "XMLHttpRequest" },
+                });
             // 200番台以外なら失敗として例外にする。
-            if (!res.ok) throw new Error("Fetch failed");
+                if (!res.ok) throw new Error("Fetch failed");
             // JSONレスポンスをJSオブジェクトに変換する。
-            const data = await res.json();
+                const data = await res.json();
             // 取得データをAlpineのAPIのレスポンスに応じて、weeklyData, monthlyData, yearlyData, weekoffset, monthoffset, yearoffset をstateにセットする。
-            this.weekly = data.weeklyData ?? {};
-            this.monthly = data.monthlyData ?? {};
-            this.yearly = data.yearlyData ?? {};
+                this.weekly = data.weeklyData ?? {};
+                this.monthly = data.monthlyData ?? {};
+                this.yearly = data.yearlyData ?? {};
             // サーバーから返ったoffsetでstateを同期する。
-            this.weekOffset = Number(data.weekOffset ?? this.weekOffset);
-            this.monthOffset = Number(data.monthOffset ?? this.monthOffset);
-            this.yearOffset = Number(data.yearOffset ?? this.yearOffset);
+                this.weekOffset = Number(data.weekOffset ?? this.weekOffset);
+                this.monthOffset = Number(data.monthOffset ?? this.monthOffset);
+                this.yearOffset = Number(data.yearOffset ?? this.yearOffset);
             // 現在stateをURLに反映する（リロードなし）。
-            this.updateUrl();
+                this.updateUrl();
             // 通信失敗時にユーザー向けエラー文言をセット。
             } catch (e) {
                 this.error = "データの取得に失敗しました,再試行してください。";
