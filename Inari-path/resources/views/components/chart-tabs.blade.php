@@ -9,9 +9,20 @@
     {!! json_encode($yearlyData ?? []) !!}
 </script>
 
-<!-- タブ切り替えコンポーネント -->
-<div x-data="chartTabs" class="mb-8 w-full" data-week-offset="{{ $weekOffset ?? 0 }}"
-    data-month-offset="{{ $monthOffset ?? 0 }}" data-year-offset="{{ $yearOffset ?? 0 }}">
+    <!-- タブ切り替えコンポーネント -->
+    <div x-data="chartTabs" class="mb-8 w-full" data-week-offset="{{ $weekOffset ?? 0 }}"
+        data-month-offset="{{ $monthOffset ?? 0 }}" data-year-offset="{{ $yearOffset ?? 0 }}">
+        {{-- 読み込み中 --}}
+        <div x-show="isLoading" x-cloak class="text-sm text-gray-500 my-2">
+            読み込み中...</div>
+        {{-- エラー --}}
+        <div x-show="error" x-cloak class="my-2 flex items-center gap-3 text-sm text-red-500">
+            <span x-text="error"></span>
+            <button type="button" @click="fetchChartData()"
+                class="rounded bg-red-500 px-3 py-1 text-xs font-semibold text-white transition hover:bg-red-600">
+                再試行
+            </button>
+    </div>
     <!-- タブボタン -->
     <div class="flex gap-3 mb-2 items-center">
         <button type="button" @click = "setTab('weekly')"
@@ -42,8 +53,12 @@
     </div>
 
     <!-- グラフコンテナ -->
-    <div id="chart" class="bg-blade-pale rounded-lg shadow p-3 sm:p-6 w-full mt-6">
+    <div id="chart" x-show="!isLoading" class="bg-blade-pale rounded-lg shadow p-3 sm:p-6 w-full mt-6">
+        <div x-show="!error && Object.keys(getCurrentData()).length === 0" class="py-10 text-sm text-gray-500">
+            データがありません
+        </div>
         <div class="h-64 w-full overflow-x-auto pb-2"
+            x-show="!error && Object.keys(getCurrentData()).length > 0"
         {{-- 週タブはスマホのみ横スクロール、sm以上は隠す --}}
             :class="activeTab === 'weekly' ? 'sm:overflow-x-hidden' : ''">
             <div class="flex items-end gap-3 justify-center w-max min-w-full"
@@ -57,7 +72,7 @@
                             </div>
                         </div>
                         <div class="mt-2 min-h-11 sm:h-10 flex flex-col items-center justify-center text-center leading-tight">
-                            <!-- 日付・分ラベル　折り返し禁止　-->
+                            <!-- 日付・分ラベル 折り返し禁止 -->
                             <p class="text-sm text-gray-600 whitespace-nowrap" x-text="formatDateLabel(date)"></p>
                             <p class="text-sm text-gray-600 font-normal whitespace-nowrap" x-text="formatMinutes(value)"></p>
                         </div>
