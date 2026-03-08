@@ -115,6 +115,8 @@ document.addEventListener("alpine:init", () => {
         },
 
         async fetchChartData() {
+            // 多重実行を避けて表示のガタつきを減らす
+            if (this.isLoading) return;
             // 読み込み開始フラグを立て,前回エラー表示を消す。
 
             this.isLoading = true;
@@ -156,12 +158,16 @@ document.addEventListener("alpine:init", () => {
         },
 
         setTab(tab) {
+            // 通信中の切り替え連打を抑止
+            if (this.isLoading) return;
             // タブ切替の処理。引数のtabをactiveTabにセットしてfetchChartDataを一本化。
             if (this.activeTab === tab) return; // 同じタブなら何もしない（任意）
             this.activeTab = tab;
             this.fetchChartData();
         },
         changeWeekOffset(delta) {
+            // 通信中の連打を抑止
+            if (this.isLoading) return;
             // 表示中タブが違う場合は切替しない
             if (this.activeTab !== "weekly") return;
             const next = this.weekOffset + delta;
@@ -170,6 +176,8 @@ document.addEventListener("alpine:init", () => {
             this.fetchChartData();
         },
         changeMonthOffset(delta) {
+            // 通信中の連打を抑止
+            if (this.isLoading) return;
             if (this.activeTab !== "monthly") return;
             const next = this.monthOffset + delta;
             if (next > 0) return; // 未来月は不可
@@ -177,6 +185,8 @@ document.addEventListener("alpine:init", () => {
             this.fetchChartData();
         },
         changeYearOffset(delta) {
+            // 通信中の連打を抑止
+            if (this.isLoading) return;
             if (this.activeTab !== "yearly") return;
             const next = this.yearOffset + delta;
             if (next > 0) return; // 未来年は不可
