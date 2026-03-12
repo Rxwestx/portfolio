@@ -184,14 +184,16 @@ class TimeLogsController extends Controller
      */
     public function dashboard()
     {
+        $userId = Auth::id();
+
         // ========== ランクダウンチェック処理==========
 
-    // 1. このユーザーの最新の学習記録を1件だけ取得
-    $latestLog = TimeLogs::whereHas('goal', function ($query) {
-        $query->where('user_id', Auth::id());
-    })
-    ->latest('logged_at')
-    ->first();
+        // 1. このユーザーの最新の学習記録を1件だけ取得
+        $latestLog = TimeLogs::whereHas('goal', function ($query) {
+            $query->where('user_id', Auth::id());
+        })
+        ->latest('logged_at')
+        ->first();
 
     // 2. 最新の学習記録から今日まで何日経ったか計算
     if ($latestLog) {
@@ -203,43 +205,43 @@ class TimeLogsController extends Controller
     // 3. 3日以上経過していて、まだ通知していない場合
     $notificationKey = 'rank_down_notified_' . Auth::id();
 
-    if ($daysSinceLastLog >= 3 && !session($notificationKey)) {
+        if ($daysSinceLastLog >= 3 && !session($notificationKey)) {
         // キャラクターを取得
-        $tempCharacter = Character::firstOrCreate(
-            ['user_id' => Auth::id()],
-            [
-                'exp' => 0,
-                'rank' => 0,
-                'rank_name' => '弱った狐',
-                'rank_message' => '弱った狐',
-            ]
-        );
+            $tempCharacter = Character::firstOrCreate(
+                ['user_id' => $userId],
+                [
+                    'exp' => 0,
+                    'rank' => 0,
+                    'rank_name' => '弱った狐',
+                    'rank_message' => '弱った狐',
+                ]
+            );
 
         // ランクダウン実行
-        if ($tempCharacter->rank > 0) {
+            if ($tempCharacter->rank > 0) {
             $oldRank = $tempCharacter->rank;
             // 元のランク名を保存
-            $oldRankName = $tempCharacter->rank_name;
+                $oldRankName = $tempCharacter->rank_name;
 
             // ランクを1つ下げる
             $tempCharacter->rank = $tempCharacter->rank - 1;
 
             // 新しいランク名を設定
-            $tempCharacter->rank_name = Character::getRankNameFromLevel($tempCharacter->rank);
+                $tempCharacter->rank_name = Character::getRankNameFromLevel($tempCharacter->rank);
 
             // rank_messageは既存のものを使うか、必要に応じて更新
-            $tempCharacter->save();
+                $tempCharacter->save();
 
             // ポップアップ表示用データをセッションにランク名を保存
-            session([
-                'show_rank_down_alert' => true,
-                'old_rank_name' => $oldRankName,
-                'new_rank_name' => $tempCharacter->rank_name,
-                'days_inactive' => $daysSinceLastLog,
+                session([
+                    'show_rank_down_alert' => true,
+                    'old_rank_name' => $oldRankName,
+                    'new_rank_name' => $tempCharacter->rank_name,
+                    'days_inactive' => $daysSinceLastLog,
                 $notificationKey => true
-            ]);
+                ]);
+            }
         }
-    }
 
     // ========== ランクダウンチェック処理 ==========
     $timeLogs = TimeLogs::whereHas('goal', function ($query) {
@@ -315,7 +317,7 @@ class TimeLogsController extends Controller
         // 1. 現在のユーザーがキャラクターを持っているか確認
         // 持っていなければ初期状態で作成、持っていれば取得
         $character = Character::firstOrCreate(
-            ['user_id' => Auth::id()],
+            ['user_id' => $userId],
             [
                 'exp' => 0,
                 'rank' => 0,
@@ -337,61 +339,14 @@ class TimeLogsController extends Controller
 
         // week_offset を取る
         $weekOffset = (int) request('week_offset', 0);
-        // 月曜0：00を週の始まりとする
-        $startOfWeek = now()->startOfWeek(Carbon::MONDAY)->addWeeks($weekOffset);
-
-        //  7日分をループして、1日ごとに集計する
-        for ($i = 0; $i < 7; $i++) {
-            $currentDate = $startOfWeek->copy()->addDays($i);
-            $dateKey = $currentDate->format('Y-m-d');
-
-            $minutes = TimeLogs::whereHas('goal', function ($query) {
-                $query->where('user_id', Auth::id());
-            })
-            ->whereDate('logged_at', $dateKey)
-            ->sum('duration_minutes');
-
-            $weeklyData[$dateKey] = $minutes ?? 0;
-        }
-
-        // 月間集計用のデータ作成
-        $monthlyData = [];
-        // month_offset を取る
         $monthOffset = (int) request('month_offset', 0);
-        $startOfMonth = now()->startOfMonth()->addMonths($monthOffset);
-        //毎月1日0:00を月の始まりとし、月末日数可変
-        $daysInMonth = $startOfMonth->daysInMonth;
-        for ($i = 0; $i < $daysInMonth; $i++) {
-            $currentDate = $startOfMonth->copy()->addDays($i);
-            $date = $currentDate->format('Y-m-d');
-            $minutes = TimeLogs::whereHas('goal', function ($query) {
-                $query->where('user_id', Auth::id());
-            })
-                ->whereDate('logged_at', $date)
-                ->sum('duration_minutes');
-
-            $monthlyData[$date] = $minutes ?? 0;
-        }
-
-        // 年別集計（過去12ヶ月）
-        $yearlyData = [];
-        // yar_offset を取る
         $yearOffset = (int) request('year_offset', 0);
-        $startOfYear = now()->startOfYear()->addYears($yearOffset);
-        // 毎年1月1日0:00を年の始まりとし、過去12ヶ月分をループ
-        for ($i = 0; $i < 12; $i++) {
-            $currentMonth = $startOfYear->copy()->addMonths($i);
-            $month = $currentMonth->format('Y-m');
 
-            $minutes = TimeLogs::whereHas('goal', function ($query) {
-                $query->where('user_id', Auth::id());
-            })
-                ->whereRaw("to_char(logged_at, 'YYYY-MM') = ?", [$month])
-                ->sum('duration_minutes');
-            $yearlyData[$month] = $minutes ?? 0;
-        }
+        $chartData = $this->buildChartData($weekOffset, $monthOffset, $yearOffset);
+        $weeklyData = $chartData['weeklyData'];
+        $monthlyData = $chartData['monthlyData'];
+        $yearlyData = $chartData['yearlyData'];
 
-        // ビューへデータを渡す（学習記録、時間情報、達成率・ランク、キャラクター情報をダッシュボードに送信）
         return view('timelogs.dashboard', compact(
             'timeLogs',
             'goal',
@@ -405,12 +360,78 @@ class TimeLogsController extends Controller
             'rankMessage',
             'character',
             'weeklyData',
-            "weekOffset",
+            'weekOffset',
             'monthlyData',
             'monthOffset',
             'yearlyData',
             'yearOffset'
         ));
     }
+        public function chartData(Request $request)
+    {
+        $weekOffset = (int) $request->query('week_offset', 0);
+        $monthOffset = (int) $request->query('month_offset', 0);
+        $yearOffset = (int) $request->query('year_offset', 0);
 
+        $chartData = $this->buildChartData($weekOffset, $monthOffset, $yearOffset);
+
+        return response()->json([
+            'weeklyData' => $chartData['weeklyData'],
+            'monthlyData' => $chartData['monthlyData'],
+            'yearlyData' => $chartData['yearlyData'],
+            'weekOffset' => $weekOffset,
+            'monthOffset' => $monthOffset,
+            'yearOffset' => $yearOffset,
+        ]);
+    }
+
+
+    private function buildChartData(int $weekOffset, int $monthOffset, int $yearOffset): array
+    {
+        $userId = Auth::id();
+        $weeklyData = [];
+        $startOfWeek = now()->startOfWeek(Carbon::MONDAY)->addWeeks($weekOffset);
+
+        for ($i = 0; $i < 7; $i++) {
+            $currentDate = $startOfWeek->copy()->addDays($i);
+            $dateKey = $currentDate->format('Y-m-d');
+
+            $minutes = TimeLogs::whereHas('goal', function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            })->whereDate('logged_at', $dateKey)->sum('duration_minutes');
+
+            $weeklyData[$dateKey] = $minutes ?? 0;
+        }
+
+        $monthlyData = [];
+        $startOfMonth = now()->startOfMonth()->addMonths($monthOffset);
+        $daysInMonth = $startOfMonth->daysInMonth;
+        for ($i = 0; $i < $daysInMonth; $i++) {
+            $currentDate = $startOfMonth->copy()->addDays($i);
+            $date = $currentDate->format('Y-m-d');
+            $minutes = TimeLogs::whereHas('goal', function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            })->whereDate('logged_at', $date)->sum('duration_minutes');
+
+            $monthlyData[$date] = $minutes ?? 0;
+        }
+
+        $yearlyData = [];
+        $startOfYear = now()->startOfYear()->addYears($yearOffset);
+        for ($i = 0; $i < 12; $i++) {
+            $currentMonth = $startOfYear->copy()->addMonths($i);
+            $month = $currentMonth->format('Y-m');
+
+            $minutes = TimeLogs::whereHas('goal', function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            })->whereRaw("to_char(logged_at, 'YYYY-MM') = ?", [$month])->sum('duration_minutes');
+            $yearlyData[$month] = $minutes ?? 0;
+        }
+
+        return [
+            'weeklyData' => $weeklyData,
+            'monthlyData' => $monthlyData,
+            'yearlyData' => $yearlyData,
+        ];
+    }
 }

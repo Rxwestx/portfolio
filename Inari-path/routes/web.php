@@ -16,10 +16,10 @@ Route::get('/', function () {
         ->name('dashboard');
 
     // Google認証用ルート
-        Route::get('/auth/google/redirect', [GoogleController::class, 'redirect'])->name('google.redirect');
-        Route::get('/auth/google/callback', [GoogleController::class, 'callback'])->name('google.callback');
+    Route::get('/auth/google/redirect', [GoogleController::class, 'redirect'])->name('google.redirect');
+    Route::get('/auth/google/callback', [GoogleController::class, 'callback'])->name('google.callback');
 
-Route::middleware('auth')->group(function () {
+    Route::middleware('auth')->group(function () {
     // 目標設定
     Route::get('/goals/create', [GoalController::class, 'create'])->name('goals.create');
     Route::post('/goals', [GoalController::class, 'store'])->name('goals.store');
@@ -40,6 +40,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    // チャートデータ取得（APIエンドポイント）
+    Route::get('/dashboard/chart-data', [TimeLogsController::class, 'chartData'])->name('dashboard.chart-data');
+
+
 });
 
 require __DIR__.'/auth.php';

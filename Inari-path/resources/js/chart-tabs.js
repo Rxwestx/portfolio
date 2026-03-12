@@ -1,5 +1,4 @@
 document.addEventListener("alpine:init", () => {
-    console.log("chart-tabs loaded"); // ←追加
     Alpine.data("chartTabs", () => ({
         activeTab: "weekly",
         weekly: {},
@@ -8,10 +7,21 @@ document.addEventListener("alpine:init", () => {
         weekOffset: 0,
         monthOffset: 0,
         yearOffset: 0,
+        isLoading: false,
+        error: "",
+        updateUrl() {
+            const url = new URL(window.location.href);
+            url.searchParams.set("tab", this.activeTab);
+            url.searchParams.set("week_offset", String(this.weekOffset));
+            url.searchParams.set("month_offset", String(this.monthOffset));
+            url.searchParams.set("year_offset", String(this.yearOffset));
+            window.history.replaceState(null, "", url.toString());
+        },
 
         // 分を「X時間Y分」形式にフォーマットして返す
         formatMinutes(value) {
             const m = Math.round(Number(value) || 0);
+
             const h = Math.floor(m / 60);
             const r = m % 60;
 
@@ -79,82 +89,124 @@ document.addEventListener("alpine:init", () => {
             }
             return "";
         },
-
+        //コンポーネントの初期化処理
         init() {
-            // Bladeに埋め込まれたJSONを読む
             this.weekly = this.readJsonById("weeklyData");
             this.monthly = this.readJsonById("monthlyData");
             this.yearly = this.readJsonById("yearlyData");
 
-            // 週のずらしを取得（0=今週, -1=前週, -2=前々週）
-            const offset = this.$el?.dataset?.weekOffset;
-            this.weekOffset = Number(offset || 0);
-            // 月のずらしを取得（0=今月, -1=前月, -2=前々月）
-            const monthOffset = this.$el?.dataset?.monthOffset;
-            this.monthOffset = Number(monthOffset || 0);
-            // 年のずらしを取得（0=今年, -1=前年, -2=前々年）
-            const yearOffset = this.$el?.dataset?.yearOffset;
-            this.yearOffset = Number(yearOffset || 0);
-            // URLからタブを復元して、再読み込み後も同じ表示にする
-            const tab = new URLSearchParams(window.location.search).get("tab");
-            if (tab) this.activeTab = tab;
+            this.weekOffset = Number(this.$el?.dataset?.weekOffset ?? 0);
+            this.monthOffset = Number(this.$el?.dataset?.monthOffset ?? 0);
+            this.yearOffset = Number(this.$el?.dataset?.yearOffset ?? 0);
+
+            const params = new URLSearchParams(window.location.search);
+            const tab = params.get("tab");
+            if (["weekly", "monthly", "yearly"].includes(tab)) {
+                this.activeTab = tab;
+            }
+
+            const weekOffset = Number(params.get("week_offset"));
+            const monthOffset = Number(params.get("month_offset"));
+            const yearOffset = Number(params.get("year_offset"));
+
+            if (Number.isInteger(weekOffset) && weekOffset <= 0) this.weekOffset = weekOffset;
+            if (Number.isInteger(monthOffset) && monthOffset <= 0) this.monthOffset = monthOffset;
+            if (Number.isInteger(yearOffset) && yearOffset <= 0) this.yearOffset = yearOffset;
+        },
+
+        async fetchChartData() {
+            // 多重実行を避けて表示のガタつきを減らす
+            if (this.isLoading) return;
+            // 読み込み開始フラグを立て,前回エラー表示を消す。
+
+            this.isLoading = true;
+            this.error = "";
+
+            try {
+            // URLSearchParamsを使ってtab と各 offset をクエリ文字列化する。
+                const params = new URLSearchParams({
+                    tab: this.activeTab,
+                    week_offset: String(this.weekOffset),
+                    month_offset: String(this.monthOffset),
+                    year_offset: String(this.yearOffset),
+                });
+            // APIへ非同期リクエストを送る。
+                const res = await fetch(`/dashboard/chart-data?${params.toString()}`, {
+                    headers: { "X-Requested-With": "XMLHttpRequest" },
+                });
+            // 200番台以外なら失敗として例外にする。
+                if (!res.ok) throw new Error("Fetch failed");
+            // JSONレスポンスをJSオブジェクトに変換する。
+                const data = await res.json();
+            // 取得データをAlpineのAPIのレスポンスに応じて、weeklyData, monthlyData, yearlyData, weekoffset, monthoffset, yearoffset をstateにセットする。
+                this.weekly = data.weeklyData ?? {};
+                this.monthly = data.monthlyData ?? {};
+                this.yearly = data.yearlyData ?? {};
+            // サーバーから返ったoffsetでstateを同期する。
+                this.weekOffset = Number(data.weekOffset ?? this.weekOffset);
+                this.monthOffset = Number(data.monthOffset ?? this.monthOffset);
+                this.yearOffset = Number(data.yearOffset ?? this.yearOffset);
+            // 現在stateをURLに反映する（リロードなし）。
+                this.updateUrl();
+            // 通信失敗時にユーザー向けエラー文言をセット。
+            } catch (e) {
+                this.error = "データの取得に失敗しました,再試行してください。";
+            // 成功/失敗に関係なく読み込み終了フラグを下げる。
+            } finally {
+                this.isLoading = false;
+            }
         },
 
         setTab(tab) {
+            // 通信中の切り替え連打を抑止
+            if (this.isLoading) return;
+            // タブ切替の処理。引数のtabをactiveTabにセットしてfetchChartDataを一本化。
+            if (this.activeTab === tab) return; // 同じタブなら何もしない（任意）
             this.activeTab = tab;
-            // setTabでURLにtabを保存する
-            const url = new URL(window.location.href);
-            url.searchParams.set("tab", tab);
-            window.history.replaceState(null, "", url.toString());
-            //this.render()
+            this.fetchChartData();
         },
-
         changeWeekOffset(delta) {
+            // 通信中の連打を抑止
+            if (this.isLoading) return;
             // 表示中タブが違う場合は切替しない
             if (this.activeTab !== "weekly") return;
             const next = this.weekOffset + delta;
             if (next > 0) return; // 未来週は不可
             this.weekOffset = next;
-
-            const url = new URL(window.location.href);
-            url.searchParams.set("week_offset", String(this.weekOffset));
-            // 再読み込み後も同じタブになるようURLに保持
-            url.searchParams.set("tab", this.activeTab);
-            url.hash = "chart";
-            window.location.href = url.toString();
+            this.fetchChartData();
         },
         changeMonthOffset(delta) {
+            // 通信中の連打を抑止
+            if (this.isLoading) return;
             if (this.activeTab !== "monthly") return;
             const next = this.monthOffset + delta;
             if (next > 0) return; // 未来月は不可
             this.monthOffset = next;
-            const url = new URL(window.location.href);
-            url.searchParams.set("month_offset", String(this.monthOffset));
-            // 再読み込み後も同じタブになるようURLに保持
-            url.searchParams.set("tab", this.activeTab);
-            url.hash = "chart";
-            window.location.href = url.toString();
+            this.fetchChartData();
         },
         changeYearOffset(delta) {
+            // 通信中の連打を抑止
+            if (this.isLoading) return;
             if (this.activeTab !== "yearly") return;
             const next = this.yearOffset + delta;
             if (next > 0) return; // 未来年は不可
             this.yearOffset = next;
-            const url = new URL(window.location.href);
-            url.searchParams.set("year_offset", String(this.yearOffset));
-            // 再読み込み後も同じタブになるようURLに保持
-            url.searchParams.set("tab", this.activeTab);
-            url.hash = "chart";
-            window.location.href = url.toString();
+            this.fetchChartData();
         },
-
         // いま表示すべきデータを返す（Bladeのx-forが期待するのは「オブジェクト」）
-
         getCurrentData() {
             if (this.activeTab === "weekly") return this.weekly || {};
             if (this.activeTab === "monthly") return this.monthly || {};
             if (this.activeTab === "yearly") return this.yearly || {};
             return {};
+        },
+        // 現在のタブデータが「空」かを判定する
+        // キーがなくても、全て 0 の場合でも空扱いにする
+                isCurrentDataEmpty() {
+            const data = this.getCurrentData();
+            const values = Object.values(data);
+
+            return values.length === 0 || values.every((value) => Number(value) === 0);
         },
         // 棒の高さ（%）を返す
         getBarHeight(value, maxValue) {
