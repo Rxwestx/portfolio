@@ -194,12 +194,19 @@ document.addEventListener("alpine:init", () => {
             this.fetchChartData();
         },
         // いま表示すべきデータを返す（Bladeのx-forが期待するのは「オブジェクト」）
-
         getCurrentData() {
             if (this.activeTab === "weekly") return this.weekly || {};
             if (this.activeTab === "monthly") return this.monthly || {};
             if (this.activeTab === "yearly") return this.yearly || {};
             return {};
+        },
+        // 現在のタブデータが「空」かを判定する
+        // キーがなくても、全て 0 の場合でも空扱いにする
+                isCurrentDataEmpty() {
+            const data = this.getCurrentData();
+            const values = Object.values(data);
+
+            return values.length === 0 || values.every((value) => Number(value) === 0);
         },
         // 棒の高さ（%）を返す
         getBarHeight(value, maxValue) {
