@@ -64,11 +64,11 @@
             </div>
         </div>
 
-        <div x-show="!error && Object.keys(getCurrentData()).length === 0" class="py-10 text-sm text-gray-500">
+        <div x-show="!error && isCurrentDataEmpty()" class="py-10 text-sm text-gray-500">
             データがありません
         </div>
 
-        <div class="h-64 w-full overflow-x-auto pb-2" x-show="!error && Object.keys(getCurrentData()).length > 0"
+        <div class="h-64 w-full overflow-x-auto pb-2" x-show="!error && !isCurrentDataEmpty()"
             {{-- 週タブはスマホのみ横スクロール、sm以上は隠す --}}
             :class="activeTab === 'weekly' ? 'sm:overflow-x-hidden' : ''">
             <div class="flex min-w-full w-max items-end justify-center gap-3"
