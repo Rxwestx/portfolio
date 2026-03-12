@@ -150,6 +150,7 @@ document.addEventListener("alpine:init", () => {
                 this.updateUrl();
             // 通信失敗時にユーザー向けエラー文言をセット。
             } catch (e) {
+                // 通信失敗時はエラー文言を保持し、Blade側で再試行ボタンを表示する
                 this.error = "データの取得に失敗しました,再試行してください。";
             // 成功/失敗に関係なく読み込み終了フラグを下げる。
             } finally {
@@ -202,7 +203,7 @@ document.addEventListener("alpine:init", () => {
         },
         // 現在のタブデータが「空」かを判定する
         // キーがなくても、全て 0 の場合でも空扱いにする
-                isCurrentDataEmpty() {
+        isCurrentDataEmpty() {
             const data = this.getCurrentData();
             const values = Object.values(data);
 
