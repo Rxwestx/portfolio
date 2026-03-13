@@ -79,48 +79,48 @@
         </div>
     </section>
 
-    <!-- ========== 週別と月間別グラフ表示 ========== -->
-    <section class="text-center border-collapse mt-8 px-4 mx-auto text-gray-600 w-full max-w-xl">
-        <h2 class="font-bold mb-4 flex items-center justify-center gap-2">
-            <img src="{{ asset('img/icons/stats-bars.svg') }}" alt="icon" width="32" height="32" />
-            <span class="text-lg sm435:text-2xl">グラフ</span>
-        </h2>
+        <!-- ========== 週別と月間別グラフ表示 ========== -->
+        <section class="text-center border-collapse mt-8 px-4 mx-auto text-gray-600 w-full max-w-xl">
+            <h2 class="font-bold mb-4 flex items-center justify-center gap-2">
+                <img src="{{ asset('img/icons/stats-bars.svg') }}" alt="icon" width="32" height="32" />
+                <span class="text-lg sm435:text-2xl">グラフ</span>
+            </h2>
 
-        <div class="bg-blade-neon rounded-3xl shadow p-4 sm:p-6 md:p-8 w-full">
-            <!-- グラフコンポーネントを呼び出し -->
-            <x-chart-tabs :weeklyData="$weeklyData" :monthlyData="$monthlyData" :yearlyData="$yearlyData" :weekOffset="$weekOffset" :monthOffset="$monthOffset" :yearOffset="$yearOffset" />
-        </div>
-    </section>
+            <div class="bg-blade-neon rounded-3xl shadow p-4 sm:p-6 md:p-8 w-full">
+                <!-- グラフコンポーネントを呼び出し -->
+                <x-chart-tabs :weeklyData="$weeklyData" :monthlyData="$monthlyData" :yearlyData="$yearlyData" :weekOffset="$weekOffset" :monthOffset="$monthOffset" :yearOffset="$yearOffset" />
+            </div>
+        </section>
 
-    <!-- ========== 学習記録一覧 ========== -->
-    <section class="records-section text-center border-collapse mt-8 px-4 mx-auto text-gray-600 w-full max-w-xl">
-        <h2 class="font-bold mb-4 text-center flex items-center justify-center gap-2">
-            <img src="{{ asset('img/icons/quill.svg') }}" alt="icon" width="32" height="32" />
-            <span class="text-lg sm435:text-2xl">最近の学習記録</span>
-        </h2>
-        <div class="bg-blade-neon rounded-3xl shadow overflow-hidden p-4 sm:p-6 md:p-8">
-            <table class="text-center mx-auto">
-                <thead class="bg-gray-300 border-b font-bold">
-                    <tr>
-                        <th class="py-3 px-4 rounded-tl-3xl">日付</th>
-                        <th class="py-3 px-4 rounded-tr-3xl">学習時間</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse ($timeLogs as $timeLog)
-                        <tr class="border-b">
-                            <td class="py-3 px-4">{{ $timeLog->logged_at->format('Y-m-d') }}</td>
-                            <td class="py-3 px-4">{{ $timeLog->duration_minutes }} 分</td>
-                        </tr>
-                    @empty
+        <!-- ========== 学習記録一覧 ========== -->
+        <section class="records-section text-center border-collapse mt-8 px-4 mx-auto text-gray-600 w-full max-w-xl">
+            <h2 class="font-bold mb-4 text-center flex items-center justify-center gap-2">
+                <img src="{{ asset('img/icons/quill.svg') }}" alt="icon" width="32" height="32" />
+                <span class="text-lg sm435:text-2xl">最近の学習記録</span>
+            </h2>
+            <div class="bg-blade-neon rounded-3xl shadow overflow-hidden p-4 sm:p-6 md:p-8">
+                <table class="text-center mx-auto">
+                    <thead class="bg-blade-main text-white font-bold">
                         <tr>
-                            <td colspan="3" class="py-4 px-4 text-center text-gray-500">
-                                学習記録がありません
-                            </td>
+                            <th class="py-3 px-4 rounded-2xl">日付</th>
+                            <th class="py-3 px-4 rounded-2xl">学習時間</th>
                         </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
+                    </thead>
+                    <tbody>
+                        @forelse ($timeLogs as $timeLog)
+                            <tr class="border-b">
+                                <td class="py-3 px-4">{{ $timeLog->logged_at->format('Y-m-d') }}</td>
+                                <td class="py-3 px-4">{{ $timeLog->duration_minutes }} 分</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="3" class="py-4 px-4 text-center text-gray-500">
+                                    学習記録がありません
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
     </section>
 </x-app-layout>
