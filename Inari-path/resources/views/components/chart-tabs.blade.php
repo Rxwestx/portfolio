@@ -52,7 +52,7 @@
             読み込み中...
         </div>
 
-        {{-- 読み込み中と同じ位置にエラー＋再試行を表示 --}}
+        {{-- fetch失敗時は同じ位置にエラーと再試行導線を重ねて表示する --}}
         <div x-show="!isLoading && error" x-cloak
             class="absolute inset-0 z-10 grid place-items-center rounded-lg bg-white/70 text-sm text-red-500">
             <div class="flex flex-wrap items-center justify-center gap-3 px-4 text-center">
@@ -64,11 +64,13 @@
             </div>
         </div>
 
-        <div x-show="!error && isCurrentDataEmpty()" class="py-10 text-sm text-gray-500">
+        {{-- 記録が未作成、または表示期間の値が全て0なら空メッセージを出す --}}
+        <div x-show="!error && isCurrentDataEmpty()" class="py-4 text-center text-sm text-gray-500">
             データがありません
         </div>
 
-        <div class="h-64 w-full overflow-x-auto pb-2" x-show="!error && !isCurrentDataEmpty()"
+        {{-- グラフ枠は残し、エラー時だけ非表示にする --}}
+        <div class="h-64 w-full overflow-x-auto pb-2" x-show="!error"
             {{-- 週タブはスマホのみ横スクロール、sm以上は隠す --}}
             :class="activeTab === 'weekly' ? 'sm:overflow-x-hidden' : ''">
             <div class="flex min-w-full w-max items-end justify-center gap-3"
