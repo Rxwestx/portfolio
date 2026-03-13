@@ -102,8 +102,8 @@
                 <table class="text-center mx-auto">
                     <thead class="bg-blade-main text-white font-bold">
                         <tr>
-                            <th class="py-3 px-4 rounded-2xl">日付</th>
-                            <th class="py-3 px-4 rounded-2xl">学習時間</th>
+                            <th class="py-3 px-4 rounded-l-2xl">日付</th>
+                            <th class="py-3 px-4 rounded-r-2xl">学習時間</th>
                         </tr>
                     </thead>
                     <tbody>
