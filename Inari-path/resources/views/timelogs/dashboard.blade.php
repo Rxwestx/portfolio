@@ -100,10 +100,10 @@
             </h2>
             <div class="bg-blade-neon rounded-3xl shadow overflow-hidden p-4 sm:p-6 md:p-8">
                 <table class="text-center mx-auto">
-                    <thead class="bg-blade-main text-white font-bold">
+                    <thead class="text-gray-600 font-bold">
                         <tr>
-                            <th class="py-3 px-4 rounded-l-2xl">日付</th>
-                            <th class="py-3 px-4 rounded-r-2xl">学習時間</th>
+                            <th class="py-3 px-4">日付</th>
+                            <th class="py-3 px-4">学習時間</th>
                         </tr>
                     </thead>
                     <tbody>
