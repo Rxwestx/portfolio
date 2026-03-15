@@ -37,7 +37,7 @@
             @click="activeTab === 'weekly' ? changeWeekOffset(-1) : activeTab === 'monthly' ? changeMonthOffset(-1) : activeTab === 'yearly' ? changeYearOffset(-1) : null">
             &lt;
         </button>
-        <div class="px-1 text-center font-semibold text-gray-600" x-text="getPeriodLabel()"></div>
+        <div class="px-5 text-center font-semibold text-gray-600" x-text="getPeriodLabel()"></div>
         <button type="button" :disabled="isLoading"
             @click="activeTab === 'weekly' ? changeWeekOffset(1) : activeTab === 'monthly' ? changeMonthOffset(1) : activeTab === 'yearly' ? changeYearOffset(1) : null">
             &gt;
