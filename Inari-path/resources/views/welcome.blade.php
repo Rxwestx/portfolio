@@ -64,7 +64,7 @@
                 </p>
 
                 {{-- 世界観（補足） --}}
-                <h3 class="mt-8 text-gray-500 text-center">世界観（補足）</h3>
+                <h3 class="mt-8 text-gray-500 text-center">Episode 0</h3>
                 <p class="leading-relaxed text-gray-500 text-center whitespace-pre-line">
                     あなたは、日々の忙しさに心をすり減らしていました。
                     ある日、ほんの少し現実から離れたくなり、神秘の森へと迷い込みます。
