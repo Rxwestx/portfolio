@@ -280,13 +280,6 @@ class TimeLogsController extends Controller
             ->value('target_hours');
         // 時間を分に変換
         $targetMinutes = $targetHours ? $targetHours * 60 : 0;
-        // 達成率の計算 目標が 0 なら、達成率も 0% とし、小数をパーセントに変換
-        $percent = $targetMinutes > 0
-            ? min(100, floor(($totalMinutes / $targetMinutes) * 100))
-            : 0;
-        // ランクの計算（例: 10%ごとにランクアップ、最大ランク10）
-        $rank = min(10, intdiv($percent, 10));
-
         $rankMessages = [
             0 => 'まだ何も始まっていない。
                     けれど、この場所に立ったという事実が、すでに最初の一歩だ。',
@@ -311,7 +304,7 @@ class TimeLogsController extends Controller
             10 => '覚醒せし妖狐。
                     学びの旅は終わらない。新たな伝説が、今ここに始まる。',
         ];
-        
+
         // ========== キャラクター操作 ==========
         // 1. 現在のユーザーがキャラクターを持っているか確認
         // 持っていなければ初期状態で作成、持っていれば取得
@@ -324,8 +317,8 @@ class TimeLogsController extends Controller
                 'rank_message' => '弱った狐',
             ]
         );
-        // 累計学習時間から本来の達成率を計算する
-        $basePercent = $targetMinutes > 0 ? floor(($totalMinutes / $targetMinutes) * 100) : 0;
+        // 累計学習時間から本来の達成率を計算する(ランクは最大10なので、ここは 100% で止める)
+        $basePercent = $targetMinutes > 0 ? min(100, floor(($totalMinutes / $targetMinutes) * 100)) : 0;
 
         // ペナルティ中だけ、表示用達成率を1ランク分下げる
         $displayPercent = $character->is_penalized ? max(0, $basePercent - 10) : $basePercent;
