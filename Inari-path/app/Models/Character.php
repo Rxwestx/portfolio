@@ -17,10 +17,12 @@ class Character extends Model
         'rank_name',
         'rank_message',
         'last_rank_down_at',
+        'is_penalized',
     ];
 
     protected $casts = [
         'last_rank_down_at' => 'datetime',
+        'is_penalized' => 'boolean',
     ];
     // users に紐づく（1対1の関係）
     public function user()
