@@ -70,23 +70,24 @@
         </div>
 
         {{-- グラフ枠は残し、エラー時だけ非表示にする --}}
-        <div class="h-64 w-full overflow-x-auto pb-2" x-show="!error"
-            {{-- 週タブはスマホのみ横スクロール、sm以上は隠す --}}
+        <div class="h-64 w-full overflow-x-auto pb-2" x-show="!error" {{-- 週タブはスマホのみ横スクロール、sm以上は隠す --}}
             :class="activeTab === 'weekly' ? 'sm:overflow-x-hidden' : ''">
             <div class="flex min-w-full w-max items-end justify-center gap-3"
                 :class="activeTab === 'weekly' ? '' : 'min-w-max'">
                 <template x-for="(value, date) in getCurrentData()" :key="date">
-                    <div class="w-12 shrink-0 flex flex-col items-center sm:w-10">
+                    <div class="w-16 shrink-0 flex flex-col items-center sm:w-14">
                         <div class="flex h-40 w-full items-end">
                             <!-- バーグラフ -->
-                            <div class="mx-auto w-6 rounded-t bg-blade-main"
+                            <div class="mx-auto w-7 rounded-t bg-blade-main sm:w-6"
                                 :style="`height: ${getBarHeight(value, Math.max(0,...Object.values(getCurrentData())))}%`">
                             </div>
                         </div>
-                        <div class="mt-2 flex min-h-11 flex-col items-center justify-center text-center leading-tight sm:h-10">
+                        <div
+                            class="mt-2 flex min-h-11 w-full flex-col items-center justify-center px-1 text-center leading-tight sm:h-10">
                             <!-- 日付・分ラベル 折り返し禁止 -->
                             <p class="whitespace-nowrap text-sm text-gray-600" x-text="formatDateLabel(date)"></p>
-                            <p class="whitespace-nowrap text-sm font-normal text-gray-600" x-text="formatMinutes(value)"></p>
+                            <p class="whitespace-nowrap text-sm font-normal text-gray-600"
+                                x-text="formatMinutes(value)"></p>
                         </div>
                     </div>
                 </template>
