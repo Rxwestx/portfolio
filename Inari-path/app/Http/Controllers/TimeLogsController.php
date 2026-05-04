@@ -12,30 +12,16 @@ use Illuminate\Support\Facades\Auth;
 
 class TimeLogsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
+    /** * Display a listing of the resource.
      */
     public function index()
     {
         $userId = Auth::id();
-            // ========== ランクダウンチェック処理 ==========
 
-    // 最新の学習記録を取得
-    $latestLog = TimeLogs::whereHas('goal', function ($query) {
-        $query->where('user_id', Auth::id());
-    })
-    ->latest('logged_at')
-    ->first();
-
-    // 最新記録からの経過日数を計算
-    if ($latestLog) {
-        $daysSinceLastLog = (int)$latestLog->logged_at->diffInDays(now());
-    } else {
-        $daysSinceLastLog = 999;
-    }
 
     // 3日以上経過 & 未通知の場合
     $notificationKey = 'rank_down_notified_' . Auth::id();
+    $daysSinceLastLog = $this->getDaysSinceLastLog($userId);
 
     if ($daysSinceLastLog >= 3 && !session($notificationKey)) {
         $tempCharacter = Character::firstOrCreate(
@@ -186,21 +172,8 @@ class TimeLogsController extends Controller
     {
         $userId = Auth::id();
 
-        // ========== ランクダウンチェック処理==========
-
-        // 1. このユーザーの最新の学習記録を1件だけ取得
-        $latestLog = TimeLogs::whereHas('goal', function ($query) {
-            $query->where('user_id', Auth::id());
-        })
-        ->latest('logged_at')
-        ->first();
-
-    // 2. 最新の学習記録から今日まで何日経ったか計算
-    if ($latestLog) {
-        $daysSinceLastLog = (int)$latestLog->logged_at->diffInDays(now());
-    } else {
-        $daysSinceLastLog = 999;
-    }
+    // ========== ランクダウンチェック処理(共通メソッドを利用)==========
+    $daysSinceLastLog = $this->getDaysSinceLastLog($userId);
 
     // 3. 3日以上経過していて、まだ通知していない場合
     $notificationKey = 'rank_down_notified_' . Auth::id();
@@ -215,7 +188,7 @@ class TimeLogsController extends Controller
                     'rank_name' => '弱った狐',
                     'rank_message' => '弱った狐',
                 ]
-            );
+        );
 
         // ランクダウン実行
             if ($tempCharacter->rank > 0) {
@@ -245,7 +218,7 @@ class TimeLogsController extends Controller
 
     // ========== ランクダウンチェック処理 ==========
     $timeLogs = TimeLogs::whereHas('goal', function ($query) {
-        $query->where('user_id', Auth::id());
+        $query->where('user_id', $userId);
     })
         ->orderBy('logged_at', 'desc')
         ->limit(10)
@@ -389,7 +362,21 @@ class TimeLogsController extends Controller
             'yearOffset' => $yearOffset,
         ]);
     }
+    // 最新の学習記録からの経過日数を計算する共通メソッド
+    private function getDaysSinceLastLog(int $userId): int
+    {
+        $latestLog = TimeLogs::whereHas('goal', function ($query) use ($userId) {
+            $query->where('user_id', $userId);
+        })
+            ->latest('logged_at')
+            ->first();
+        // 最新記録からの経過日数を計算
+        if (!$latestLog) {
+            return 999;
+        }
 
+        return (int) $latestLog->logged_at->diffInDays(now());
+    }
 
     private function buildChartData(int $weekOffset, int $monthOffset, int $yearOffset): array
     {
