@@ -270,6 +270,7 @@ class TimeLogsController extends Controller
         })
             ->sum('duration_minutes');
 
+
         // ダッシュボード用に分を時間に変換（小数1桁で丸め）
         $totalHours = round($totalMinutes / 60, 1);
 
@@ -310,9 +311,7 @@ class TimeLogsController extends Controller
             10 => '覚醒せし妖狐。
                     学びの旅は終わらない。新たな伝説が、今ここに始まる。',
         ];
-        $rankMessage = $rankMessages[$rank];
-        $rankName = Character::getRankNameFromLevel($rank);
-
+        
         // ========== キャラクター操作 ==========
         // 1. 現在のユーザーがキャラクターを持っているか確認
         // 持っていなければ初期状態で作成、持っていれば取得
@@ -325,11 +324,24 @@ class TimeLogsController extends Controller
                 'rank_message' => '弱った狐',
             ]
         );
-        // 2. 計算した達成率に基づいてキャラクターのランクとメッセージを更新
-        $character->rank = $rank;
+        // 累計学習時間から本来の達成率を計算する
+        $basePercent = $targetMinutes > 0 ? floor(($totalMinutes / $targetMinutes) * 100) : 0;
+
+        // ペナルティ中だけ、表示用達成率を1ランク分下げる
+        $displayPercent = $character->is_penalized ? max(0, $basePercent - 10) : $basePercent;
+
+        // 画面表示と保存値は、ペナルティ反映後のランクに揃える
+        $displayRank = min(10, intdiv($displayPercent, 10));
+        $percent = $displayPercent;
+        $rank = $displayRank;
+
+        // ランク名とメッセージも表示ランクに揃える
+        $rankName = Character::getRankNameFromLevel($displayRank);
+        $rankMessage = $rankMessages[$displayRank];
+
+        $character->rank = $displayRank;
         $character->rank_name = $rankName;
         $character->rank_message = $rankMessage;
-
         // 総学習時間をEXPとして記録
         $character->exp = $totalMinutes;
         $character->save();
