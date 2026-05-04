@@ -18,59 +18,13 @@ class TimeLogsController extends Controller
     {
         $userId = Auth::id();
 
-
-    // 3日以上経過 & 未通知の場合
-    $notificationKey = 'rank_down_notified_' . Auth::id();
-    $daysSinceLastLog = $this->getDaysSinceLastLog($userId);
-
-    if ($daysSinceLastLog >= 3 && !session($notificationKey)) {
-        $tempCharacter = Character::firstOrCreate(
-            ['user_id' => Auth::id()],
-            [
-                'exp' => 0,
-                'rank' => 0,
-                'rank_name' => '弱った狐',
-                'rank_message' => '',
-            ]
-        );
-
-        if ($tempCharacter->rank > 0) {
-            $oldRank = $tempCharacter->rank;
-            $tempCharacter->rank = $tempCharacter->rank - 1;
-
-            $rankMessages = [
-                0 => '弱った狐',
-                1 => '一尾',
-                2 => '二尾',
-                3 => '三尾',
-                4 => '四尾',
-                5 => '五尾',
-                6 => '六尾',
-                7 => '七尾',
-                8 => '八尾',
-                9 => '九尾',
-                10 => '伝説の妖狐',
-            ];
-
-            $tempCharacter->rank_message = $rankMessages[$tempCharacter->rank];
-            $tempCharacter->save();
-
-            session([
-                'show_rank_down_alert' => true,
-                'old_rank' => $oldRank,
-                'new_rank' => $tempCharacter->rank,
-                'days_inactive' => $daysSinceLastLog,
-                $notificationKey => true
-            ]);
-        }
-    }
-
         $timeLogs = TimeLogs::whereHas('goal', function ($query) use ($userId) {
             $query->where('user_id', $userId);
         })->orderByDesc('logged_at')->paginate(10);
 
         return view('timelogs.index', compact('timeLogs'));
     }
+
         // 学習記録一覧ではなくダッシュボード表示へ統一
         // return $this->dashboard();
 
@@ -172,59 +126,35 @@ class TimeLogsController extends Controller
     {
         $userId = Auth::id();
 
-    // ========== ランクダウンチェック処理(共通メソッドを利用)==========
-    $daysSinceLastLog = $this->getDaysSinceLastLog($userId);
+        // ========== ランクダウンチェック処理(共通メソッドを利用)==========
+        $daysSinceLastLog = $this->getDaysSinceLastLog($userId);
 
-    // 3. 3日以上経過していて、まだ通知していない場合
-    $notificationKey = 'rank_down_notified_' . Auth::id();
-
-        if ($daysSinceLastLog >= 3 && !session($notificationKey)) {
-        // キャラクターを取得
-            $tempCharacter = Character::firstOrCreate(
-                ['user_id' => $userId],
-                [
-                    'exp' => 0,
-                    'rank' => 0,
-                    'rank_name' => '弱った狐',
-                    'rank_message' => '弱った狐',
-                ]
+        $character = Character::firstOrCreate(
+            ['user_id' => $userId],
+            [
+                'exp' => 0,
+                'rank' => 0,
+                'rank_name' => '弱った狐',
+                'rank_message' => '弱った狐',
+                'is_penalized' => false,
+            ]
         );
 
-        // ランクダウン実行
-            if ($tempCharacter->rank > 0) {
-            $oldRank = $tempCharacter->rank;
-            // 元のランク名を保存
-                $oldRankName = $tempCharacter->rank_name;
+        if ($daysSinceLastLog >= 3 && !$character->is_penalized) {
+            $oldRankName = $character->rank_name;
 
-            // ランクを1つ下げる
-            $tempCharacter->rank = $tempCharacter->rank - 1;
+            $character->is_penalized = true;
+            $character->last_rank_down_at = now();
+            $character->save();
 
-            // 新しいランク名を設定
-                $tempCharacter->rank_name = Character::getRankNameFromLevel($tempCharacter->rank);
-
-            // rank_messageは既存のものを使うか、必要に応じて更新
-                $tempCharacter->save();
-
-            // ポップアップ表示用データをセッションにランク名を保存
-                session([
-                    'show_rank_down_alert' => true,
-                    'old_rank_name' => $oldRankName,
-                    'new_rank_name' => $tempCharacter->rank_name,
-                    'days_inactive' => $daysSinceLastLog,
-                $notificationKey => true
-                ]);
-            }
+            session([
+                'show_rank_down_alert' => true,
+                'old_rank_name' => $oldRankName,
+                'days_inactive' => $daysSinceLastLog,
+            ]);
         }
 
-    // ========== ランクダウンチェック処理 ==========
-    $timeLogs = TimeLogs::whereHas('goal', function ($query) {
-        $query->where('user_id', $userId);
-    })
-        ->orderBy('logged_at', 'desc')
-        ->limit(10)
-        ->get();
-
-    // 1. このユーザーの最新の学習記録を1件だけ取得
+        // ========== 学習記録一覧取得 ==========
         $timeLogs = TimeLogs::whereHas('goal', function ($query) {
             $query->where('user_id', Auth::id());
         })
@@ -278,18 +208,6 @@ class TimeLogsController extends Controller
                     学びの旅は終わらない。新たな伝説が、今ここに始まる。',
         ];
 
-        // ========== キャラクター操作 ==========
-        // 1. 現在のユーザーがキャラクターを持っているか確認
-        // 持っていなければ初期状態で作成、持っていれば取得
-        $character = Character::firstOrCreate(
-            ['user_id' => $userId],
-            [
-                'exp' => 0,
-                'rank' => 0,
-                'rank_name' => '弱った狐',
-                'rank_message' => '弱った狐',
-            ]
-        );
         // 累計学習時間から本来の達成率を計算する(ランクは最大10なので、ここは 100% で止める)
         $basePercent = $targetMinutes > 0 ? min(100, floor(($totalMinutes / $targetMinutes) * 100)) : 0;
 
