@@ -139,7 +139,7 @@ class TimeLogsController extends Controller
                 'is_penalized' => false,
             ]
         );
-    // ペナルティ判定：最後の学習記録から3日以上経過している＆現在ペナルティ中でない場合
+        // ペナルティ判定：最後の学習記録から3日以上経過している＆現在ペナルティ中でない場合
         if ($daysSinceLastLog !== null && $daysSinceLastLog >= 3 && !$character->is_penalized) {
             // ランクダウン処理oldRankNameを取得し、新しいランク名も取得してセッションに保存
             $oldRankName = $character->rank_name;
