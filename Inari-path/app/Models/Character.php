@@ -29,29 +29,6 @@ class Character extends Model
     {
         return $this->belongsTo(User::class);
     }
-    /**
-     * ランクを1段階下げる
-     * @return bool 下げたかどうか
-     */
-    public function decreaseRank()
-    {
-        // 現在のランクが0より大きい場合のみ下げる
-    if ($this->rank > 0) {
-        $this->rank = $this->rank - 1;
-
-        // ランクメッセージも更新
-        $rankMessages = [
-            0 => '弱った狐',
-            1 => '一尾',
-            // ... 省略
-        ];
-        $this->rank_message = $rankMessages[$this->rank];
-
-        $this->save();
-        return true; // 下げた
-    }
-        return false; // 既に最低ランク
-        }
     public static function getRankNames()
     {
         return [
