@@ -139,8 +139,8 @@ class TimeLogsController extends Controller
                 'is_penalized' => false,
             ]
         );
-
-        if ($daysSinceLastLog >= 3 && !$character->is_penalized) {
+    // ペナルティ判定：最後の学習記録から3日以上経過している＆現在ペナルティ中でない場合
+        if ($daysSinceLastLog !== null && $daysSinceLastLog >= 3 && !$character->is_penalized) {
             // ランクダウン処理oldRankNameを取得し、新しいランク名も取得してセッションに保存
             $oldRankName = $character->rank_name;
             $newRankName = Character::getRankNameFromLevel(max(0, $character->rank - 1));
@@ -283,16 +283,17 @@ class TimeLogsController extends Controller
         ]);
     }
     // 最新の学習記録からの経過日数を計算する共通メソッド
-    private function getDaysSinceLastLog(int $userId): int
+    private function getDaysSinceLastLog(int $userId): ?int
     {
         $latestLog = TimeLogs::whereHas('goal', function ($query) use ($userId) {
             $query->where('user_id', $userId);
         })
             ->latest('logged_at')
             ->first();
-        // 最新記録からの経過日数を計算
+
+        // 初回ユーザーなど記録が1件もない場合は、ペナルティ判定を行わない
         if (!$latestLog) {
-            return 999;
+            return null;
         }
 
         return (int) $latestLog->logged_at->diffInDays(now());
