@@ -141,10 +141,9 @@ class TimeLogsController extends Controller
         );
 
         if ($daysSinceLastLog >= 3 && !$character->is_penalized) {
-            // ランクダウン処理　oldRankNameを取得し、ランクを1つ下げ新たなrank_nameを作る
+            // ランクダウン処理　oldRankNameを取得作る
             $oldRankName = $character->rank_name;
-            $character->rank = max(0, $character->rank - 1);
-            $character->rank_name = Character::getRankNameFromLevel($character->rank);
+            $newRankName = Character::getRankNameFromLevel(max(0, $character->rank - 1));
             $character->is_penalized = true;
             $character->last_rank_down_at = now();
             $character->save();
@@ -153,7 +152,7 @@ class TimeLogsController extends Controller
                 'show_rank_down_alert' => true,
                 'old_rank_name' => $oldRankName,
                 'days_since_last_log' => $daysSinceLastLog,
-                'new_rank_name' => $character->rank_name,
+                'new_rank_name' => $newRankName,
             ]);
         }
 
