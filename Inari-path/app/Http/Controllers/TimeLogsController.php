@@ -141,7 +141,7 @@ class TimeLogsController extends Controller
         );
 
         if ($daysSinceLastLog >= 3 && !$character->is_penalized) {
-            // ランクダウン処理　oldRankNameを取得作る
+            // ランクダウン処理oldRankNameを取得し、新しいランク名も取得してセッションに保存
             $oldRankName = $character->rank_name;
             $newRankName = Character::getRankNameFromLevel(max(0, $character->rank - 1));
             $character->is_penalized = true;
