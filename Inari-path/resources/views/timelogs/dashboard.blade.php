@@ -1,12 +1,12 @@
 <x-app-layout>
     {{-- ランクダウン通知モーダル --}}
-    {{-- @if (session('show_rank_down_alert'))
-        <x-rank-down-modal :oldRankName="session('old_rank_name')" :newRankName="session('new_rank_name')" :daysInactive="session('days_inactive')" />
+    @if (session('show_rank_down_alert'))
+        <x-rank-down-modal :oldRankName="session('old_rank_name')" :newRankName="session('new_rank_name')" :daysSinceLastLog="session('days_since_last_log')" />
         @php
             // 表示したら、セッションから削除して再表示を防ぐ
-            session()->forget(['show_rank_down_alert', 'old_rank_name', 'new_rank_name', 'days_inactive']);
+            session()->forget(['show_rank_down_alert', 'old_rank_name', 'new_rank_name', 'days_since_last_log']);
         @endphp
-    @endif --}}
+    @endif
 
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-600 leading-tight">
