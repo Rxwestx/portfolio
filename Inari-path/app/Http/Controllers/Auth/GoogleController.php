@@ -27,6 +27,7 @@ class GoogleController extends Controller
             $user = User::create([
                 'name' => $googleUser->getName() ?? 'Google User',
                 'email' => $googleUser->getEmail(),
+                'google_id' => $googleUser->getId(),
                 'password' => bcrypt(Str::random(32)), // password NOT NULL対策（Breeze等）
             ]);
         }
