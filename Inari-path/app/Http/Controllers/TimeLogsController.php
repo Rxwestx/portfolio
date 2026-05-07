@@ -152,7 +152,7 @@ class TimeLogsController extends Controller
             session([
                 'show_rank_down_alert' => true,
                 'old_rank_name' => $oldRankName,
-                'days_inactive' => $daysSinceLastLog,
+                'days_since_last_log' => $daysSinceLastLog,
                 'new_rank_name' => $character->rank_name,
             ]);
         }

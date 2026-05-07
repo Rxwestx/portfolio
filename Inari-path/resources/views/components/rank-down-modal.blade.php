@@ -1,4 +1,4 @@
-@props(['oldRankName', 'newRankName', 'daysInactive'])
+@props(['oldRankName', 'newRankName', 'daysSinceLastLog'])
 
 {{-- 背景オーバーレイ（画面全体を覆う半透明の背景） --}}
 <div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50" id="rank-down-modal"
@@ -26,7 +26,7 @@
             {{-- メッセージ本文 --}}
             <div class="mt-2 px-7 py-3">
                 <p class="text-sm text-gray-500">
-                    {{ $daysInactive }}日間、学習記録がありませんでした。
+                    {{ $daysSinceLastLog }}日間、学習記録がありませんでした。
                 </p>
                 <p class="text-lg font-bold text-red-600 mt-2">
                     ランク名: {{ $oldRankName }} → ランク名: {{ $newRankName }}
