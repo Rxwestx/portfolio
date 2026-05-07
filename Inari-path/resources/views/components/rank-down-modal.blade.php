@@ -29,7 +29,7 @@
                     {{ $daysSinceLastLog }}日間、学習記録がありませんでした。
                 </p>
                 <p class="text-lg font-bold text-red-600 mt-2">
-                    ランク名: {{ $oldRankName }} → ランク名: {{ $newRankName }}
+                    ランク名: {{ $oldRankName }} → {{ $newRankName }}
                 </p>
                 <p class="text-xs text-gray-400 mt-2">
                     継続して学習を記録しましょう！
