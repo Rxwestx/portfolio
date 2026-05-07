@@ -30,6 +30,8 @@ class GoogleController extends Controller
                 'google_id' => $googleUser->getId(),
                 'password' => bcrypt(Str::random(32)), // password NOT NULL対策（Breeze等）
             ]);
+        } elseif (!$user->google_id) {
+            $user->update(['google_id' => $googleUser->getId()]);
         }
 
         Auth::login($user, true);
