@@ -70,6 +70,9 @@ class TimeLogsController extends Controller
             'duration_minutes' => $request->duration_minutes,
         ]);
 
+        // 学習再開後（最終記録から3日未満）はペナルティ状態を解除する
+        $this->clearPenaltyIfResumed($userId);
+
         return redirect()->route('timelogs.index')
             ->with('message', '学習記録を保存しました！');
     }
@@ -106,6 +109,9 @@ class TimeLogsController extends Controller
             'duration_minutes' => $validated['duration_minutes'],
         ]);
 
+        // 記録更新で最終記録が新しくなった場合にペナルティ状態を解除する
+        $this->clearPenaltyIfResumed(Auth::id());
+
         return redirect()->route('timelogs.show', $timeLog)
             ->with('message', '更新しました');
     }
@@ -139,6 +145,13 @@ class TimeLogsController extends Controller
                 'is_penalized' => false,
             ]
         );
+
+        // 学習再開後（最終記録から3日未満）はペナルティ状態を解除する
+        if ($daysSinceLastLog !== null && $daysSinceLastLog < 3 && $character->is_penalized) {
+            $character->is_penalized = false;
+            $character->save();
+        }
+
         // ペナルティ判定：最後の学習記録から3日以上経過している＆現在ペナルティ中でない場合
         if ($daysSinceLastLog !== null && $daysSinceLastLog >= 3 && !$character->is_penalized) {
             // ランクダウン処理oldRankNameを取得し、新しいランク名も取得してセッションに保存
@@ -297,6 +310,21 @@ class TimeLogsController extends Controller
         }
 
         return (int) $latestLog->logged_at->diffInDays(now());
+    }
+
+    private function clearPenaltyIfResumed(int $userId): void
+    {
+        $daysSinceLastLog = $this->getDaysSinceLastLog($userId);
+
+        if ($daysSinceLastLog === null || $daysSinceLastLog >= 3) {
+            return;
+        }
+
+        Character::where('user_id', $userId)
+            ->where('is_penalized', true)
+            ->update([
+                'is_penalized' => false,
+            ]);
     }
 
     private function buildChartData(int $weekOffset, int $monthOffset, int $yearOffset): array
