@@ -10,7 +10,7 @@
         <link href="https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@300;400;500&display=swap" rel="stylesheet">
 
         <!-- Styles -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @vite(['resources/css/app.css', 'resources/css/custom.css', 'resources/js/app.js'])
     </head>
 
     <body class="m-plus-1p-regular antialiased bg-blade-pale">
