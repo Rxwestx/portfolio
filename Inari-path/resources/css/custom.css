@@ -1,0 +1,179 @@
+.welcome-shell {
+    min-height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    background:
+        linear-gradient(180deg, rgba(242, 240, 213, 0.92) 0%, rgba(233, 242, 160, 0.86) 44%, rgba(255, 255, 255, 0.72) 100%),
+        radial-gradient(circle at top left, rgba(154, 217, 20, 0.24), transparent 34%),
+        #e9f2a0;
+}
+
+.welcome-hero {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: center;
+    gap: 2rem;
+    width: min(1120px, calc(100% - 2rem));
+    min-height: min(720px, 92vh);
+    margin: 0 auto;
+    padding: 3rem 0 2rem;
+}
+
+.welcome-hero-copy {
+    position: relative;
+    z-index: 1;
+    max-width: 38rem;
+    text-align: center;
+}
+
+.welcome-title {
+    margin: 0;
+    color: #334155;
+    font-size: clamp(2.75rem, 10vw, 6.75rem);
+    font-weight: 500;
+    line-height: 0.95;
+}
+
+.welcome-lead {
+    margin-top: 1.5rem;
+    font-size: clamp(0.95rem, 1.7vw, 1.1rem);
+}
+
+.welcome-visual {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: 18rem;
+}
+
+.welcome-visual::before {
+    position: absolute;
+    width: min(72vw, 28rem);
+    aspect-ratio: 1;
+    content: "";
+    border: 1px solid rgba(85, 166, 3, 0.2);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.34);
+    box-shadow: 0 24px 70px rgba(51, 65, 85, 0.12);
+}
+
+.welcome-character {
+    position: relative;
+    width: min(74vw, 25rem);
+    height: auto;
+    filter: drop-shadow(0 18px 28px rgba(51, 65, 85, 0.18));
+}
+
+.welcome-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 10.5rem;
+    min-height: 3rem;
+    border-radius: 999px;
+    padding: 0.75rem 1.35rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1;
+    text-align: center;
+    box-shadow: 0 12px 24px rgba(51, 65, 85, 0.12);
+    transition: transform 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
+}
+
+.welcome-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 30px rgba(51, 65, 85, 0.16);
+}
+
+.welcome-button:focus-visible {
+    outline: 3px solid rgba(245, 158, 11, 0.42);
+    outline-offset: 4px;
+}
+
+.welcome-button-primary {
+    color: #334155;
+    background: #f59e0b;
+}
+
+.welcome-button-primary:hover {
+    background: #fbbf24;
+}
+
+.welcome-button-secondary {
+    color: #334155;
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(85, 166, 3, 0.24);
+}
+
+.welcome-button-secondary:hover {
+    background: #e2f266;
+}
+
+.welcome-content {
+    display: grid;
+    gap: 1rem;
+    width: min(920px, calc(100% - 2rem));
+    margin: 0 auto;
+    padding: 0 0 4rem;
+}
+
+.welcome-panel {
+    border: 1px solid rgba(85, 166, 3, 0.16);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.58);
+    padding: clamp(1.25rem, 4vw, 2rem);
+    box-shadow: 0 14px 36px rgba(51, 65, 85, 0.08);
+}
+
+.welcome-panel-about {
+    background: rgba(242, 240, 213, 0.72);
+}
+
+.welcome-panel-story {
+    background: rgba(255, 255, 255, 0.42);
+}
+
+.welcome-section-title {
+    margin: 0 0 0.85rem;
+    color: #475569;
+    font-size: clamp(1.05rem, 2vw, 1.3rem);
+    font-weight: 500;
+    line-height: 1.4;
+    text-align: center;
+}
+
+.welcome-text {
+    margin: 0;
+    font-size: clamp(0.9rem, 1.6vw, 1rem);
+    text-align: left;
+}
+
+@media (min-width: 768px) {
+    .welcome-hero {
+        grid-template-columns: minmax(0, 1fr) minmax(20rem, 0.82fr);
+        padding-top: 2rem;
+    }
+
+    .welcome-hero-copy {
+        text-align: left;
+    }
+
+    .welcome-content {
+        gap: 1.25rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .welcome-hero {
+        min-height: auto;
+    }
+
+    .welcome-hero-copy .mt-8 {
+        width: 100%;
+    }
+
+    .welcome-button {
+        width: 100%;
+    }
+}
