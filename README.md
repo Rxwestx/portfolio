@@ -63,4 +63,4 @@
 <img width="1239" height="205" alt="Character_rank" src="https://github.com/user-attachments/assets/c4dceaae-2731-4a20-9403-baefeb4b8cc0" />
 
 ## ER図
- <img width="958" height="934" alt="Inari-path_ER" src="https://github.com/user-attachments/assets/2e0d5443-3df2-4a0b-acf0-5ff2392fa5a2" />
+<img width="769" height="844" alt="スクリーンショット 2026-05-11 20 35 53" src="https://github.com/user-attachments/assets/348ad4d5-db45-400c-877e-6691dba802bc" />
