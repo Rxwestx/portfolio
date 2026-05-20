@@ -18,10 +18,6 @@
             <section class="welcome-hero">
                 <div class="welcome-hero-copy">
                     <h1 class="welcome-title">Inari-Path</h1>
-                    <p class="welcome-lead leading-relaxed text-blade-dark whitespace-pre-line">
-                        Inari-Pathは、習慣形成のためのモチベーション維持を目的とした学習ログ管理アプリです。
-                        学習時間の積み重ねを妖狐の成長として可視化し、学びを楽しみながら継続できるように設計しました。
-                    </p>
                 {{-- ログイン・登録へのリンク --}}
                     <div class="mt-8 flex flex-col sm:flex-row items-center gap-3">
                     @if (Route::has('login'))
@@ -51,13 +47,13 @@
                     @endif
                     </div>
                 </div>
-                <div class="welcome-visual" aria-hidden="true">
+                {{-- <div class="welcome-visual" aria-hidden="true">
                     <img
                         src="{{ asset('img/characters/rank_1.png') }}"
                         alt=""
                         class="welcome-character"
                     >
-                </div>
+                </div> --}}
             </section>
 
             <section class="app-description welcome-content">
