@@ -25,13 +25,13 @@
         <!-- Remember Me -->
         <div class="block mt-4">
             <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded border-gray-300 bg-blade-neon text-blade-dark shadow-sm focus:ring-blade-dark" name="remember">
+                <input id="remember_me" type="checkbox" class="rounded-[5px] border-gray-300 bg-blade-neon text-blade-dark focus:ring-blade-dark" name="remember">
                 <span class="ms-2 text-sm text-gray-600 ">{{ __('Remember me') }}</span>
             </label>
         </div>
         <div class="flex items-center justify-end mt-4">
             @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-800 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blade-dark" href="{{ route('password.request') }}">
+                <a class="underline text-sm text-gray-600 hover:text-gray-800 rounded-[5px] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blade-dark" href="{{ route('password.request') }}">
                     {{ __('Forgot your password?') }}
                 </a>
             @endif
@@ -42,7 +42,7 @@
         </div>
         <div class="mt-4">
             <a href="{{ route('google.redirect') }}"
-                class="inline-flex w-full items-center justify-center gap-2 rounded-md border px-4 py-2 text-sm font-medium hover:bg-gray-50">
+                class="inline-flex w-full items-center justify-center gap-2 rounded-[5px] border border-blade-main bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-blade-soft focus:outline-none focus:ring-2 focus:ring-blade-dark focus:ring-offset-2">
             <img src="{{ asset('img/icons/google.svg') }}" alt="" class="h-5 w-5">
             <span>Googleでログイン</span>
             </a>
