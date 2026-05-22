@@ -1,68 +1,256 @@
+.inari-page-bg,
 .welcome-shell {
     min-height: 100vh;
     width: 100%;
-    overflow: hidden;
     background:
-        linear-gradient(180deg, rgba(242, 240, 213, 0.92) 0%, rgba(233, 242, 160, 0.86) 44%, rgba(255, 255, 255, 0.72) 100%),
-        radial-gradient(circle at top left, rgba(154, 217, 20, 0.24), transparent 34%),
+        linear-gradient(180deg, rgba(242, 240, 213, 0.98) 0%, rgba(233, 242, 160, 0.82) 46%, rgba(255, 255, 255, 0.92) 100%),
         #e9f2a0;
+}
+
+.welcome-shell {
+    overflow: hidden;
+}
+
+.inari-page-shell {
+    width: min(960px, 100%);
+    margin: 0 auto;
+    padding-top: clamp(2rem, 5vw, 3.5rem);
+}
+
+.inari-page-header {
+    background: rgba(242, 240, 213, 0.64);
+    border-bottom: 1px solid rgba(85, 166, 3, 0.16);
+}
+
+.inari-page-header h1,
+.inari-page-header h2,
+.inari-page-title,
+.inari-section-heading,
+.inari-brand,
+.welcome-title {
+    font-family: "Montserrat", "M PLUS 1p", sans-serif;
+}
+
+.inari-page-header h1,
+.inari-page-header h2 {
+    color: #334155;
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1.35;
+}
+
+.inari-section {
+    width: min(720px, 100%);
+    margin: 0 auto;
+    padding: 0 0 clamp(2rem, 5vw, 3rem);
+}
+
+.inari-section + .inari-section {
+    margin-top: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.inari-section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin: 0 0 1rem;
+    color: #334155;
+    font-size: clamp(1.25rem, 3vw, 1.75rem);
+    font-weight: 600;
+    line-height: 1.35;
+    text-align: center;
+}
+
+.inari-heading-icon {
+    width: 2rem;
+    height: 2rem;
+    flex: 0 0 auto;
+    padding: 0.25rem;
+    background: rgba(242, 240, 213, 0.76);
+    border: 1px solid rgba(85, 166, 3, 0.2);
+}
+
+.inari-card {
+    width: 100%;
+    background: rgba(242, 240, 213, 0.7);
+    border: 1px solid rgba(85, 166, 3, 0.18);
+    padding: clamp(1.5rem, 4vw, 2rem);
+}
+
+.inari-form-page {
+    width: min(448px, 100%);
+    margin: 0 auto;
+    padding-top: clamp(2rem, 6vw, 4rem);
+}
+
+.inari-form-card {
+    margin-top: 0;
+}
+
+.inari-list-page {
+    width: min(560px, 100%);
+    margin: 0 auto;
+    padding-top: clamp(2rem, 6vw, 4rem);
+}
+
+.inari-list-card + .inari-list-card {
+    margin-top: 1rem;
+}
+
+.inari-character-image {
+    width: min(18rem, 74vw);
+    height: auto;
+    margin: 0 auto;
+    object-fit: contain;
+    filter: drop-shadow(0 16px 20px rgba(51, 65, 85, 0.14));
+}
+
+.inari-dashboard-section {
+    width: min(880px, 100%);
+}
+
+.inari-dashboard-hero {
+    display: grid;
+    align-items: center;
+    gap: clamp(1.5rem, 5vw, 3rem);
+    background:
+        linear-gradient(135deg, rgba(242, 240, 213, 0.86), rgba(226, 242, 102, 0.28)),
+        rgba(242, 240, 213, 0.72);
+}
+
+.inari-dashboard-character {
+    display: grid;
+    place-items: center;
+}
+
+.inari-dashboard-character .inari-character-image {
+    width: min(19rem, 70vw);
+}
+
+.inari-dashboard-status {
+    min-width: 0;
+}
+
+.inari-dashboard-stats {
+    display: grid;
+    gap: 0;
+}
+
+.inari-dashboard-stats > div {
+    display: grid;
+    gap: 0.35rem;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid rgba(85, 166, 3, 0.16);
+}
+
+.inari-dashboard-stats dt {
+    color: #64748b;
+    font-size: 0.875rem;
+    font-weight: 400;
+}
+
+
+.inari-dashboard-rank {
+    padding-top: 0;
+}
+
+.inari-dashboard-rank dd {
+    color: #55A603;
+    font-family: "Montserrat", "M PLUS 1p", sans-serif;
+    font-size: clamp(1.75rem, 5vw, 2.75rem);
+    font-weight: 300;
+    line-height: 1.15;
+}
+
+.inari-dashboard-message {
+    border-bottom: 0;
+}
+
+.inari-progress-block {
+    margin-top: 1.25rem;
+}
+
+.inari-progress-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+    color: #64748b;
+    font-size: 0.875rem;
+    font-weight: 400;
+}
+
+.inari-progress-label span:last-child {
+    color: #55A603;
+    font-weight: 500;
+}
+
+.inari-progress {
+    height: 0.75rem;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(85, 166, 3, 0.2);
+}
+
+.inari-progress > div {
+    height: 100%;
+    background: #9AD914;
+}
+
+.inari-auth-card {
+    background: rgba(242, 240, 213, 0.78);
+    border: 1px solid rgba(85, 166, 3, 0.18);
+}
+
+.inari-nav {
+    background: rgba(242, 240, 213, 0.86);
+    border-bottom: 1px solid rgba(85, 166, 3, 0.18);
+    backdrop-filter: blur(10px);
 }
 
 .welcome-hero {
     position: relative;
     display: grid;
-    grid-template-columns: minmax(0, 1fr);
+    place-items: center;
     align-items: center;
-    gap: 2rem;
-    width: min(1120px, calc(100% - 2rem));
-    min-height: min(720px, 92vh);
+    width: min(960px, calc(100% - 2rem));
+    min-height: clamp(380px, 60svh, 560px);
     margin: 0 auto;
-    padding: 3rem 0 2rem;
+    padding: clamp(2.5rem, 7vw, 5rem) 0 clamp(2rem, 6vw, 4rem);
+    text-align: center;
 }
 
 .welcome-hero-copy {
     position: relative;
     z-index: 1;
-    max-width: 38rem;
+    width: min(100%, 42rem);
+    margin: 0 auto;
     text-align: center;
 }
 
 .welcome-title {
     margin: 0;
     color: #334155;
-    font-size: clamp(2.75rem, 10vw, 6.75rem);
+    font-size: clamp(3rem, 9vw, 6rem);
     font-weight: 500;
-    line-height: 0.95;
+    line-height: 0.94;
 }
 
 .welcome-lead {
-    margin-top: 1.5rem;
-    font-size: clamp(0.95rem, 1.7vw, 1.1rem);
+    max-width: 36rem;
+    margin-top: 1.25rem;
+    color: #475569;
+    font-size: clamp(0.95rem, 1.5vw, 1.08rem);
 }
 
-.welcome-visual {
-    position: relative;
-    display: grid;
-    place-items: center;
-    min-height: 18rem;
-}
-
-.welcome-visual::before {
-    position: absolute;
-    width: min(72vw, 28rem);
-    aspect-ratio: 1;
-    content: "";
-    border: 1px solid rgba(85, 166, 3, 0.2);
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.34);
-    box-shadow: 0 24px 70px rgba(51, 65, 85, 0.12);
-}
 
 .welcome-character {
     position: relative;
-    width: min(74vw, 25rem);
+    width: min(72vw, 24rem);
     height: auto;
-    filter: drop-shadow(0 18px 28px rgba(51, 65, 85, 0.18));
+    filter: drop-shadow(0 20px 24px rgba(51, 65, 85, 0.18));
 }
 
 .welcome-button {
@@ -70,8 +258,8 @@
     align-items: center;
     justify-content: center;
     min-width: 10.5rem;
-    min-height: 3rem;
-    border-radius: 999px;
+    min-height: 2.875rem;
+    border-radius: 5px;
     padding: 0.75rem 1.35rem;
     font-size: 0.95rem;
     font-weight: 500;
@@ -81,92 +269,105 @@
     transition: transform 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
 }
 
+.welcome-hero-copy .mt-8 {
+    justify-content: center;
+}
+
 .welcome-button:hover {
     transform: translateY(-2px);
     box-shadow: 0 16px 30px rgba(51, 65, 85, 0.16);
 }
 
 .welcome-button:focus-visible {
-    outline: 3px solid rgba(245, 158, 11, 0.42);
+    outline: 3px solid rgba(154, 217, 20, 0.42);
     outline-offset: 4px;
 }
 
 .welcome-button-primary {
     color: #334155;
-    background: #f59e0b;
+    background: #9AD914;
 }
 
 .welcome-button-primary:hover {
-    background: #fbbf24;
+    color: #ffffff;
+    background: #55A603;
 }
 
 .welcome-button-secondary {
-    color: #334155;
-    background: rgba(255, 255, 255, 0.72);
-    border: 1px solid rgba(85, 166, 3, 0.24);
+    color: #55A603;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid #9AD914;
 }
 
 .welcome-button-secondary:hover {
-    background: #e2f266;
+    color: #334155;
+    background: #E2F266;
 }
 
 .welcome-content {
     display: grid;
-    gap: 1rem;
-    width: min(920px, calc(100% - 2rem));
+    gap: 0;
+    width: min(860px, calc(100% - 2rem));
     margin: 0 auto;
-    padding: 0 0 4rem;
+    padding: 0 0 clamp(3rem, 8vw, 5rem);
 }
 
 .welcome-panel {
-    border: 1px solid rgba(85, 166, 3, 0.16);
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.58);
-    padding: clamp(1.25rem, 4vw, 2rem);
-    box-shadow: 0 14px 36px rgba(51, 65, 85, 0.08);
+    border-top: 1px solid rgba(51, 65, 85, 0.12);
+    background: transparent;
+    padding: clamp(1.35rem, 4vw, 2.25rem) 0;
 }
 
 .welcome-panel-about {
-    background: rgba(242, 240, 213, 0.72);
+    border-top-color: rgba(85, 166, 3, 0.22);
 }
 
 .welcome-panel-story {
-    background: rgba(255, 255, 255, 0.42);
+    border-bottom: 1px solid rgba(51, 65, 85, 0.12);
 }
 
 .welcome-section-title {
-    margin: 0 0 0.85rem;
+    margin: 0 0 0.7rem;
     color: #475569;
-    font-size: clamp(1.05rem, 2vw, 1.3rem);
+    font-size: clamp(1rem, 1.6vw, 1.22rem);
     font-weight: 500;
     line-height: 1.4;
-    text-align: center;
+    text-align: left;
 }
 
 .welcome-text {
     margin: 0;
-    font-size: clamp(0.9rem, 1.6vw, 1rem);
+    color: #475569;
+    font-size: clamp(0.9rem, 1.35vw, 1rem);
     text-align: left;
 }
 
 @media (min-width: 768px) {
-    .welcome-hero {
-        grid-template-columns: minmax(0, 1fr) minmax(20rem, 0.82fr);
-        padding-top: 2rem;
-    }
-
-    .welcome-hero-copy {
-        text-align: left;
+    .inari-dashboard-hero {
+        grid-template-columns: minmax(16rem, 0.9fr) minmax(0, 1.1fr);
+        padding: clamp(2rem, 5vw, 3rem);
     }
 
     .welcome-content {
-        gap: 1.25rem;
+        grid-template-columns: minmax(12rem, 0.36fr) minmax(0, 1fr);
+    }
+
+    .welcome-panel {
+        display: grid;
+        grid-column: 1 / -1;
+        grid-template-columns: subgrid;
+        column-gap: clamp(2rem, 6vw, 4rem);
+    }
+
+    .welcome-section-title {
+        margin-bottom: 0;
     }
 }
 
 @media (max-width: 640px) {
     .welcome-hero {
         min-height: auto;
+        padding-top: 2.25rem;
     }
 
     .welcome-hero-copy .mt-8 {
