@@ -13,52 +13,54 @@
 <div x-data="chartTabs" class="mb-8 w-full" data-week-offset="{{ $weekOffset ?? 0 }}"
     data-month-offset="{{ $monthOffset ?? 0 }}" data-year-offset="{{ $yearOffset ?? 0 }}">
     <!-- タブボタン -->
-    <div class="mb-2 flex items-center gap-3">
+    <div class="mb-4 flex items-center justify-center gap-3">
         <button type="button" @click="setTab('weekly')" :disabled="isLoading"
-            :class="activeTab === 'weekly' ? 'bg-blade-dark text-white' : 'bg-gray-300 text-gray-700'"
-            class="rounded px-4 py-2 font-semibold transition">
+            :class="activeTab === 'weekly' ? 'bg-blade-main text-gray-700' : 'bg-blade-neon text-gray-700 border border-blade-main'"
+            class="rounded-[5px] px-4 py-2 font-semibold transition">
             Week
         </button>
         <button type="button" @click="setTab('monthly')" :disabled="isLoading"
-            :class="activeTab === 'monthly' ? 'bg-blade-dark text-white' : 'bg-gray-300 text-gray-700'"
-            class="rounded px-4 py-2 font-semibold transition">
+            :class="activeTab === 'monthly' ? 'bg-blade-main text-gray-700' : 'bg-blade-neon text-gray-700 border border-blade-main'"
+            class="rounded-[5px] px-4 py-2 font-semibold transition">
             Month
         </button>
         <button type="button" @click="setTab('yearly')" :disabled="isLoading"
-            :class="activeTab === 'yearly' ? 'bg-blade-dark text-white' : 'bg-gray-300 text-gray-700'"
-            class="rounded px-4 py-2 font-semibold transition">
+            :class="activeTab === 'yearly' ? 'bg-blade-main text-gray-700' : 'bg-blade-neon text-gray-700 border border-blade-main'"
+            class="rounded-[5px] px-4 py-2 font-semibold transition">
             Year
         </button>
     </div>
 
-    <div class="my-5 flex w-full flex-wrap items-center justify-center gap-2 text-sm sm:text-base">
+    <div class="my-4 flex w-full flex-wrap items-center justify-center gap-3 text-sm sm:text-base">
         <!-- 年月表示 -->
         <button type="button" :disabled="isLoading"
+            class="rounded-[5px] border border-blade-main bg-blade-neon px-3 py-1 text-gray-700 transition hover:bg-blade-soft focus:outline-none focus:ring-2 focus:ring-blade-dark focus:ring-offset-2"
             @click="activeTab === 'weekly' ? changeWeekOffset(-1) : activeTab === 'monthly' ? changeMonthOffset(-1) : activeTab === 'yearly' ? changeYearOffset(-1) : null">
             &lt;
         </button>
         <div class="px-5 text-center font-semibold text-gray-600" x-text="getPeriodLabel()"></div>
         <button type="button" :disabled="isLoading"
+            class="rounded-[5px] border border-blade-main bg-blade-neon px-3 py-1 text-gray-700 transition hover:bg-blade-soft focus:outline-none focus:ring-2 focus:ring-blade-dark focus:ring-offset-2"
             @click="activeTab === 'weekly' ? changeWeekOffset(1) : activeTab === 'monthly' ? changeMonthOffset(1) : activeTab === 'yearly' ? changeYearOffset(1) : null">
             &gt;
         </button>
     </div>
 
     <!-- グラフコンテナ -->
-    <div id="chart" class="relative mt-6 w-full rounded-lg bg-blade-pale p-3 shadow sm:p-6">
+    <div id="chart" class="relative mt-6 w-full border border-blade-dark/10 bg-blade-pale/70 p-3 sm:p-6">
         {{-- レイアウトを動かさないため、読み込み中は重ね表示 --}}
         <div x-show="isLoading" x-cloak
-            class="absolute inset-0 z-10 grid place-items-center rounded-lg bg-white/60 text-sm text-gray-700 backdrop-blur-[1px]">
+            class="absolute inset-0 z-10 grid place-items-center bg-white/60 text-sm text-gray-700 backdrop-blur-[1px]">
             読み込み中...
         </div>
 
         {{-- fetch失敗時は同じ位置にエラーと再試行導線を重ねて表示する --}}
         <div x-show="!isLoading && error" x-cloak
-            class="absolute inset-0 z-10 grid place-items-center rounded-lg bg-white/70 text-sm text-red-500">
+            class="absolute inset-0 z-10 grid place-items-center bg-white/70 text-sm text-red-500">
             <div class="flex flex-wrap items-center justify-center gap-3 px-4 text-center">
                 <span x-text="error"></span>
                 <button type="button" @click="fetchChartData()"
-                    class="rounded bg-red-500 px-3 py-1 text-xs font-semibold text-white transition hover:bg-red-600">
+                    class="rounded-[5px] bg-red-500 px-3 py-1 text-xs font-semibold text-white transition hover:bg-red-600">
                     再試行
                 </button>
             </div>
@@ -78,7 +80,7 @@
                     <div class="w-16 shrink-0 flex flex-col items-center sm:w-14">
                         <div class="flex h-40 w-full items-end">
                             <!-- バーグラフ -->
-                            <div class="mx-auto w-7 rounded-t bg-blade-main sm:w-6"
+                            <div class="mx-auto w-7 bg-blade-main sm:w-6"
                                 :style="`height: ${getBarHeight(value, Math.max(0,...Object.values(getCurrentData())))}%`">
                             </div>
                         </div>
