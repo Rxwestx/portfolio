@@ -7,21 +7,17 @@
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@300;400;500&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@300;400;500&family=Montserrat:wght@500;600&display=swap" rel="stylesheet">
 
         <!-- Styles -->
         @vite(['resources/css/app.css', 'resources/css/custom.css', 'resources/js/app.js'])
     </head>
 
-    <body class="m-plus-1p-regular antialiased bg-blade-pale text-gray-600">
+    <body class="m-plus-1p-regular antialiased inari-page-bg text-gray-600">
         <main class="welcome-shell">
-            <section class="welcome-hero">
+            <section class="welcome-hero" aria-labelledby="welcome-title">
                 <div class="welcome-hero-copy">
-                    <h1 class="welcome-title">Inari-Path</h1>
-                    <p class="welcome-lead leading-relaxed text-blade-dark whitespace-pre-line">
-                        Inari-Pathは、習慣形成のためのモチベーション維持を目的とした学習ログ管理アプリです。
-                        学習時間の積み重ねを妖狐の成長として可視化し、学びを楽しみながら継続できるように設計しました。
-                    </p>
+                    <h1 id="welcome-title" class="welcome-title">Inari-Path</h1>
                 {{-- ログイン・登録へのリンク --}}
                     <div class="mt-8 flex flex-col sm:flex-row items-center gap-3">
                     @if (Route::has('login'))
@@ -51,13 +47,6 @@
                     @endif
                     </div>
                 </div>
-                {{-- <div class="welcome-visual" aria-hidden="true">
-                    <img
-                        src="{{ asset('img/characters/rank_1.png') }}"
-                        alt=""
-                        class="welcome-character"
-                    >
-                </div> --}}
             </section>
 
             <section class="app-description welcome-content">
