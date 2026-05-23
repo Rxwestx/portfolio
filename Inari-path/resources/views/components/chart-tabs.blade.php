@@ -10,44 +10,44 @@
 </script>
 
 <!-- タブ切り替えコンポーネント -->
-<div x-data="chartTabs" class="mb-8 w-full" data-week-offset="{{ $weekOffset ?? 0 }}"
+<div x-data="chartTabs" class="w-full" data-week-offset="{{ $weekOffset ?? 0 }}"
     data-month-offset="{{ $monthOffset ?? 0 }}" data-year-offset="{{ $yearOffset ?? 0 }}">
     <!-- タブボタン -->
-    <div class="mb-4 flex items-center justify-center gap-3">
+    <div class="mb-4 grid grid-cols-3 gap-2 sm:flex sm:items-center sm:justify-center sm:gap-3">
         <button type="button" @click="setTab('weekly')" :disabled="isLoading"
-            :class="activeTab === 'weekly' ? 'bg-blade-main text-gray-700' : 'bg-blade-neon text-gray-700 border border-blade-main'"
-            class="rounded-[5px] px-4 py-2 font-semibold transition">
+            :class="activeTab === 'weekly' ? 'bg-blade-main text-white' : 'bg-white text-gray-600 border border-blade-neon'"
+            class="rounded-[5px] px-3 py-2 text-sm font-semibold transition sm:px-4">
             Week
         </button>
         <button type="button" @click="setTab('monthly')" :disabled="isLoading"
-            :class="activeTab === 'monthly' ? 'bg-blade-main text-gray-700' : 'bg-blade-neon text-gray-700 border border-blade-main'"
-            class="rounded-[5px] px-4 py-2 font-semibold transition">
+            :class="activeTab === 'monthly' ? 'bg-blade-main text-white' : 'bg-white text-gray-600 border border-blade-neon'"
+            class="rounded-[5px] px-3 py-2 text-sm font-semibold transition sm:px-4">
             Month
         </button>
         <button type="button" @click="setTab('yearly')" :disabled="isLoading"
-            :class="activeTab === 'yearly' ? 'bg-blade-main text-gray-700' : 'bg-blade-neon text-gray-700 border border-blade-main'"
-            class="rounded-[5px] px-4 py-2 font-semibold transition">
+            :class="activeTab === 'yearly' ? 'bg-blade-main text-white' : 'bg-white text-gray-600 border border-blade-neon'"
+            class="rounded-[5px] px-3 py-2 text-sm font-semibold transition sm:px-4">
             Year
         </button>
     </div>
 
-    <div class="my-4 flex w-full flex-wrap items-center justify-center gap-3 text-sm sm:text-base">
+    <div class="my-4 grid w-full grid-cols-[40px_1fr_40px] items-center gap-2 text-sm sm:flex sm:flex-wrap sm:justify-center sm:gap-3 sm:text-base">
         <!-- 年月表示 -->
         <button type="button" :disabled="isLoading"
-            class="rounded-[5px] border border-blade-main bg-blade-neon px-3 py-1 text-gray-700 transition hover:bg-blade-soft focus:outline-none focus:ring-2 focus:ring-blade-dark focus:ring-offset-2"
+            class="rounded-[5px] border border-blade-neon bg-white px-3 py-2 text-gray-700 transition hover:bg-blade-soft focus:outline-none focus:ring-2 focus:ring-blade-main focus:ring-offset-2"
             @click="activeTab === 'weekly' ? changeWeekOffset(-1) : activeTab === 'monthly' ? changeMonthOffset(-1) : activeTab === 'yearly' ? changeYearOffset(-1) : null">
             &lt;
         </button>
-        <div class="px-5 text-center font-semibold text-gray-600" x-text="getPeriodLabel()"></div>
+        <div class="px-2 text-center font-semibold text-gray-700 sm:px-5" x-text="getPeriodLabel()"></div>
         <button type="button" :disabled="isLoading"
-            class="rounded-[5px] border border-blade-main bg-blade-neon px-3 py-1 text-gray-700 transition hover:bg-blade-soft focus:outline-none focus:ring-2 focus:ring-blade-dark focus:ring-offset-2"
+            class="rounded-[5px] border border-blade-neon bg-white px-3 py-2 text-gray-700 transition hover:bg-blade-soft focus:outline-none focus:ring-2 focus:ring-blade-main focus:ring-offset-2"
             @click="activeTab === 'weekly' ? changeWeekOffset(1) : activeTab === 'monthly' ? changeMonthOffset(1) : activeTab === 'yearly' ? changeYearOffset(1) : null">
             &gt;
         </button>
     </div>
 
     <!-- グラフコンテナ -->
-    <div id="chart" class="relative mt-6 w-full border border-blade-dark/10 bg-blade-pale/70 p-3 sm:p-6">
+    <div id="chart" class="relative mt-5 w-full border border-blade-neon/40 bg-blade-pale p-3 sm:p-6">
         {{-- レイアウトを動かさないため、読み込み中は重ね表示 --}}
         <div x-show="isLoading" x-cloak
             class="absolute inset-0 z-10 grid place-items-center bg-white/60 text-sm text-gray-700 backdrop-blur-[1px]">
