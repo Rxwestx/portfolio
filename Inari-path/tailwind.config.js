@@ -17,10 +17,10 @@ export default {
             colors: {
                 blade: {
                     dark: "#55A603",
-                    main: "#9AD914",
+                    main: "#41956a",
                     soft: "#E2F266",
-                    pale: "#E9F2A0",
-                    neon: "#F2F0D5",
+                    pale: "#f3f7f9",
+                    neon: "#9ecda5",
                 },
             },
             screens: {
