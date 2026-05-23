@@ -16,9 +16,8 @@ export default {
             },
             colors: {
                 blade: {
-                    dark: "#55A603",
                     main: "#41956a",
-                    soft: "#E2F266",
+                    soft: "#ddefe3",
                     pale: "#f3f7f9",
                     neon: "#9ecda5",
                 },
@@ -31,13 +30,12 @@ export default {
     safelist: [
         "bg-green-100",
         "bg-green-500",
-        "bg-blade-dark",
         "bg-blade-main",
         "bg-blade-soft",
         "bg-blade-pale",
         "bg-blade-neon",
-        "focus:ring-blade-dark",
-        "focus:border-blade-dark",
+        "focus:ring-blade-main",
+        "focus:border-blade-main",
     ],
 
     plugins: [forms],
