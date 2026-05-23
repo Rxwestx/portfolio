@@ -7,13 +7,13 @@
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@300;400;500&family=Montserrat:wght@500;600&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=M+PLUS+1:wght@300;400;500&family=Montserrat:wght@500;600&display=swap" rel="stylesheet">
 
         <!-- Styles -->
         @vite(['resources/css/app.css', 'resources/css/custom.css', 'resources/js/app.js'])
     </head>
 
-    <body class="m-plus-1p-regular antialiased inari-page-bg text-gray-600">
+    <body class="m-plus-1p-regular antialiased bg-blade-pale text-gray-600">
         <main class="welcome-shell">
             <section class="welcome-hero" aria-labelledby="welcome-title">
                 <div class="welcome-hero-copy">
@@ -24,21 +24,21 @@
                         @auth
                             <a
                                 href="{{ url('/dashboard') }}"
-                                class="welcome-button welcome-button-primary"
+                                class="welcome-button welcome-button-primary bg-blade-main border-blade-main text-white"
                             >
                                 記録一覧へ &gt;
                             </a>
                         @else
                             <a
                                 href="{{ route('register') }}"
-                                class="welcome-button welcome-button-primary"
+                                class="welcome-button welcome-button-primary bg-blade-main border-blade-main text-white"
                             >
                                 今すぐ始める &gt;
                             </a>
                         @if (Route::has('register'))
                             <a
                                 href="{{ route('login') }}"
-                                class="welcome-button welcome-button-secondary"
+                                class="welcome-button welcome-button-secondary border-blade-neon bg-white text-blade-main hover:bg-blade-soft"
                             >
                                 Log in &gt;
                             </a>
@@ -51,18 +51,18 @@
 
             <section class="app-description welcome-content">
                 {{-- アプリ説明 --}}
-                <div class="welcome-panel welcome-panel-about">
+                <div class="welcome-panel welcome-panel-about border-blade-neon/40 bg-white/90">
                     <h2 class="welcome-section-title">
                         このアプリについて
                     </h2>
-                    <p class="welcome-text leading-relaxed text-blade-dark whitespace-pre-line">
+                    <p class="welcome-text leading-relaxed whitespace-pre-line">
                     Inari-Pathは、習慣形成のためのモチベーション維持を目的とした学習ログ管理アプリです。
                     学習時間の積み重ねを妖狐の成長として可視化し、学びを楽しみながら継続できるように設計しました。
                     </p>
                 </div>
 
                 {{-- 使い方 --}}
-                <div class="welcome-panel">
+                <div class="welcome-panel border-blade-neon/40 bg-white/90">
                     <h3 class="welcome-section-title">使い方</h3>
                     <p class="welcome-text leading-relaxed whitespace-pre-line">
                     1. 習慣を達成するための総時間を設定します（例: 読書100時間 / 勉強1000時間）。
@@ -73,7 +73,7 @@
                 </div>
 
                 {{-- 世界観（補足） --}}
-                <div class="welcome-panel welcome-panel-story">
+                <div class="welcome-panel welcome-panel-story border-blade-neon/40 bg-white/90">
                     <h3 class="welcome-section-title text-gray-500">Episode 0</h3>
                     <p class="welcome-text leading-relaxed text-gray-500 whitespace-pre-line">
                     あなたは、日々の忙しさに心をすり減らしていました。
