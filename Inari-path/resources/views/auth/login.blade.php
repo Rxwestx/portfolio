@@ -2,47 +2,47 @@
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
-    <form method="POST" action="{{ route('login') }}">
+    <form method="POST" action="{{ route('login') }}" class="space-y-4">
         @csrf
 
         <!-- Email Address -->
         <div>
             <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full bg-blade-neon" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
+            <x-text-input id="email" class="mt-1 block w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
         <!-- Password -->
-        <div class="mt-4">
+        <div>
             <x-input-label for="password" :value="__('Password')" />
 
-            <x-text-input id="password" class="block mt-1 w-full bg-blade-neon"
+            <x-text-input id="password" class="mt-1 block w-full"
                             type="password"
                             name="password"
                             required autocomplete="current-password" />
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
         <!-- Remember Me -->
-        <div class="block mt-4">
+        <div class="block">
             <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded-[5px] border-gray-300 bg-blade-neon text-blade-dark focus:ring-blade-dark" name="remember">
+                <input id="remember_me" type="checkbox" class="rounded-[5px] border-blade-neon bg-white text-blade-main focus:ring-blade-main" name="remember">
                 <span class="ms-2 text-sm text-gray-600 ">{{ __('Remember me') }}</span>
             </label>
         </div>
-        <div class="flex items-center justify-end mt-4">
+        <div class="flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-end">
             @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-800 rounded-[5px] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blade-dark" href="{{ route('password.request') }}">
+                <a class="rounded-[5px] text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blade-main focus:ring-offset-2" href="{{ route('password.request') }}">
                     {{ __('Forgot your password?') }}
                 </a>
             @endif
 
-            <x-primary-button class="ms-3" id="login">
+            <x-primary-button class="w-full sm:w-auto" id="login">
                 {{ __('Log in') }}
             </x-primary-button>
         </div>
-        <div class="mt-4">
+        <div>
             <a href="{{ route('google.redirect') }}"
-                class="inline-flex w-full items-center justify-center gap-2 rounded-[5px] border border-blade-main bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-blade-soft focus:outline-none focus:ring-2 focus:ring-blade-dark focus:ring-offset-2">
+                class="inline-flex min-h-10 w-full items-center justify-center gap-2 rounded-[5px] border border-blade-neon bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-blade-soft focus:outline-none focus:ring-2 focus:ring-blade-main focus:ring-offset-2">
             <img src="{{ asset('img/icons/google.svg') }}" alt="" class="h-5 w-5">
             <span>Googleでログイン</span>
             </a>
