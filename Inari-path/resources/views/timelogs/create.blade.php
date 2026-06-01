@@ -1,35 +1,35 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-600 leading-tight">
+        <h2 class="font-semibold text-gray-900 leading-tight">
             記録入力
         </h2>
     </x-slot>
-    <div class="max-w-3xl w-full mx-auto px-4 py-8 flex justify-center">
+    <div class="inari-form-page">
         @if (session('message'))
-            <div class="text-red-600 font-bold">
+            <div class="mb-4 border border-red-200 bg-red-50 px-4 py-3 text-sm font-semibold text-red-600">
                 {{ session('message') }}
             </div>
         @endif
-        <form method="post" action="{{ route('timelogs.store') }}" class="mt-16 text-center bg-blade-neon rounded-2xl px-6 py-8 shadow-md max-w-sm w-full">
+        <form method="post" action="{{ route('timelogs.store') }}" class="inari-card inari-form-card border-blade-neon/40 bg-white/90">
             @csrf
-            <div class="mt-4 flex flex-col items-center gap-6">
-                <p>記録時間の入力してね</p>
-                <div class="w-full mt-8">
-                    <label for="study_date" class="font-semibold text-gray-700" >学習日:</label>
+            <div class="flex flex-col gap-5">
+                <p class="text-center font-medium text-gray-700">記録時間の入力してね</p>
+                <div class="w-full">
+                    <label for="study_date" class="mb-2 block text-sm font-semibold text-gray-700" >学習日:</label>
                     <x-input-error :messages="$errors->get('study_date')" class="mt-2" />
-                    <input type="date" name="study_date" class="w-auto py-2 border border-gray-300 rounded-md bg-blade-neon focus:ring-2 focus:ring-offset-1 focus:ring-blade-dark focus:border-blade-dark focus:outline-none"
+                    <input type="date" name="study_date" class="w-full rounded-[5px] border border-blade-neon bg-white px-3 py-2 text-gray-700 focus:border-blade-main focus:outline-none focus:ring-2 focus:ring-blade-main/30"
                         id="study_date" value="{{ old('study_date', now()->format('Y-m-d')) }}">
                 </div>
 
-                <div class="w-full mt-4">
-                    <label for="duration_minutes" class="font-semibold mt-4 text-gray-700">学習時間(分):</label>
+                <div class="w-full">
+                    <label for="duration_minutes" class="mb-2 block text-sm font-semibold text-gray-700">学習時間(分):</label>
                     <x-input-error :messages="$errors->get('duration_minutes')" class="mt-2" />
-                    <input type="text" inputmode="numeric" pattern="[0-9]*" name="duration_minutes" class="w-24 py-2 border border-gray-300 rounded-md bg-blade-neon focus:ring-2 focus:ring-offset-1 focus:ring-blade-dark focus:border-blade-dark focus:outline-none"
+                    <input type="text" inputmode="numeric" pattern="[0-9]*" name="duration_minutes" class="w-full rounded-[5px] border border-blade-neon bg-white px-3 py-2 text-gray-700 focus:border-blade-main focus:outline-none focus:ring-2 focus:ring-blade-main/30"
                         id="duration_minutes" min="1" value="{{ old('duration_minutes') }}">
                 </div>
-                <x-tertiary-button class="mt-8 w-40 h-8">
+                <x-primary-button class="mt-1 w-full sm:w-auto sm:self-center">
                     報告する
-                </x-tertiary-button>
+                </x-primary-button>
             </div>
         </form>
     </div>
