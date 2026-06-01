@@ -9,108 +9,99 @@
     @endif
 
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-600 leading-tight">
+        <h2 class="font-semibold text-gray-900 leading-tight">
             ダッシュボード
         </h2>
     </x-slot>
+    @php
+        $progressPercent = $targetHours > 0 ? min(100, round(($totalHours / $targetHours) * 100)) : 0;
+    @endphp
     <!-- ========== キャラクター詳細セクション ========== -->
-    <section class="character-section mt-8 px-4 text-gray-600 w-full max-w-xl mx-auto">
-        <h2 class="font-bold text-center flex items-center justify-center gap-2">
-            <img src="{{ asset('img/icons/clock.svg') }}" alt="icon" width="32" height="32" />
-            <span class="text-lg sm435:text-2xl">キャラクター詳細と達成状況</span>
+    <section class="character-section inari-section inari-dashboard-section text-gray-600">
+        <h2 class="inari-section-heading">
+            <img src="{{ asset('img/icons/clock.svg') }}" alt="icon" width="32" height="32" class="inari-heading-icon" />
+            <span>キャラクター詳細と達成状況</span>
         </h2>
 
-        <div class="bg-blade-neon rounded-3xl shadow mt-8 p-4 sm:p-6 md:p-8">
+        <div class="inari-card inari-dashboard-hero border-blade-neon/40 bg-white/90">
             <!-- キャラクター画像（ランク値に応じて自動選択） -->
-            <div class="mb-4 text-center">
+            <div class="inari-dashboard-character text-center">
                 <!-- コメント: $rank の値（0～10）から自動的に画像ファイルを選ぶ -->
                 <!-- 例: $rank = 7 の場合、rank_7.png が表示される -->
                 <img src="{{ asset('img/characters/rank_' . $rank . '.png') }}" alt="ランク{{ $rank }}キャラクター"
-                    class="w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 mx-auto rounded-3xl shadow-lg object-cover">
+                    class="inari-character-image">
             </div>
 
-            <!-- キャラクター情報（モバイル）長文のレイアウト崩れ対策済み -->
-            <dl class="sm:hidden space-y-3 text-left">
-                <div class="border-b pb-3">
-                    <dt class="text-sm font-light text-gray-600">目標:</dt>
-                    <dd class="text-base font-normal text-blade-dark">{{ $goal ?? '未設定' }}</dd>
-                </div>
-                <div class="border-b pb-3">
-                    <dt class="text-sm font-light text-gray-600">ランク名:</dt>
-                    <dd class="text-base font-normal text-blade-dark">{{ $rankName }}</dd>
-                </div>
-                <div class="border-b pb-3">
-                    <dt class="text-sm font-light text-gray-600">目標時間:</dt>
-                    <dd class="text-base font-normal text-blade-dark">{{ $targetHours }}時間</dd>
-                </div>
-                <div class="border-b pb-3">
-                    <dt class="text-sm font-light text-gray-600">総学習時間:</dt>
-                    <dd class="text-base font-normal text-blade-dark">{{ $totalHours }}時間</dd>
-                </div>
-                <div class="border-b pb-3">
-                    <dt class="text-sm font-light text-gray-600">ランクメッセージ:</dt>
-                    <dd class="text-base font-normal text-blade-dark break-words">{{ $character->rank_message }}</dd>
-                </div>
-            </dl>
+            <!-- キャラクター情報 -->
+            <div class="inari-dashboard-status">
+                <dl class="inari-dashboard-stats text-left">
+                    <div class="inari-dashboard-rank">
+                        <dt>ランク名:</dt>
+                        <dd>{{ $rankName }}</dd>
+                    </div>
+                    <div>
+                        <dt>目標:</dt>
+                        <dd>{{ $goal ?? '未設定' }}</dd>
+                    </div>
+                    <div>
+                        <dt>目標時間:</dt>
+                        <dd>{{ $targetHours }}時間</dd>
+                    </div>
+                    <div>
+                        <dt>総学習時間:</dt>
+                        <dd>{{ $totalHours }}時間</dd>
+                    </div>
+                    <div class="inari-dashboard-message">
+                        <dt>ランクメッセージ:</dt>
+                        <dd>{{ $character->rank_message }}</dd>
+                    </div>
+                </dl>
 
-            <!-- キャラクター情報テーブル（タブレット以上） -->
-            <table class="hidden sm:table w-full border-collapse mx-auto text-left">
-                <tr class="border-b">
-                    <td class="py-2 px-2 font-light w-1/3">目標：</td>
-                    <td class="py-2 px-2 text-base font-normal text-blade-dark">{{ $goal ?? '未設定' }}</td>
-                </tr>
-                <tr class="border-b">
-                    <td class="py-2 px-2 font-light w-1/3">ランク名：</td>
-                    <td class="py-2 px-2 text-base font-normal text-blade-dark">{{ $rankName }}</td>
-                </tr>
-                <tr class="border-b">
-                    <td class="py-2 px-2 font-light w-1/3">目標時間：</td>
-                    <td class="py-2 px-2 text-base font-normal text-blade-dark">{{ $targetHours }}時間</td>
-                </tr>
-                <tr class="border-b">
-                    <td class="py-2 px-2 font-light w-1/3">総学習時間：</td>
-                    <td class="py-2 px-2 text-base font-normal text-blade-dark">{{ $totalHours }}時間</td>
-                </tr>
-                <tr class="border-b">
-                    <td class="py-2 px-2 font-light w-1/3 align-top">ランクメッセージ：</td>
-                    <td class="py-2 px-2 font-normal text-blade-dark break-words">{{ $character->rank_message }}</td>
-                </tr>
-            </table>
+                <div class="inari-progress-block">
+                    <div class="inari-progress-label">
+                        <span>達成率:</span>
+                        <span>{{ $progressPercent }}%</span>
+                    </div>
+                    <div class="inari-progress" aria-hidden="true">
+                        <div style="width: {{ $progressPercent }}%;"></div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
         <!-- ========== 週別と月間別グラフ表示 ========== -->
-        <section class="text-center border-collapse mt-8 px-4 mx-auto text-gray-600 w-full max-w-xl">
-            <h2 class="font-bold mb-4 flex items-center justify-center gap-2">
-                <img src="{{ asset('img/icons/stats-bars.svg') }}" alt="icon" width="32" height="32" />
-                <span class="text-lg sm435:text-2xl">グラフ</span>
+        <section class="inari-section mx-auto text-gray-600">
+            <h2 class="inari-section-heading">
+                <img src="{{ asset('img/icons/stats-bars.svg') }}" alt="icon" width="32" height="32" class="inari-heading-icon" />
+                <span>グラフ</span>
             </h2>
 
-            <div class="bg-blade-neon rounded-3xl shadow p-4 sm:p-6 md:p-8 w-full">
+            <div class="inari-card border-blade-neon/40 bg-white/90">
                 <!-- グラフコンポーネントを呼び出し -->
                 <x-chart-tabs :weeklyData="$weeklyData" :monthlyData="$monthlyData" :yearlyData="$yearlyData" :weekOffset="$weekOffset" :monthOffset="$monthOffset" :yearOffset="$yearOffset" />
             </div>
         </section>
 
         <!-- ========== 学習記録一覧 ========== -->
-        <section class="records-section text-center border-collapse mt-8 px-4 mx-auto text-gray-600 w-full max-w-xl">
-            <h2 class="font-bold mb-4 text-center flex items-center justify-center gap-2">
-                <img src="{{ asset('img/icons/quill.svg') }}" alt="icon" width="32" height="32" />
-                <span class="text-lg sm435:text-2xl">最近の学習記録</span>
+        <section class="records-section inari-section mx-auto text-gray-600">
+            <h2 class="inari-section-heading">
+                <img src="{{ asset('img/icons/quill.svg') }}" alt="icon" width="32" height="32" class="inari-heading-icon" />
+                <span>最近の学習記録</span>
             </h2>
-            <div class="bg-blade-neon rounded-3xl shadow overflow-hidden p-4 sm:p-6 md:p-8">
-                <table class="text-center mx-auto">
-                    <thead class="text-gray-600 font-bold">
+            <div class="inari-card overflow-hidden border-blade-neon/40 bg-white/90 !p-0">
+                <table class="w-full text-left text-sm sm:text-base">
+                    <thead class="bg-blade-soft text-xs font-semibold uppercase text-gray-600 sm:text-sm">
                         <tr>
-                            <th class="py-3 px-4">日付</th>
-                            <th class="py-3 px-4">学習時間</th>
+                            <th class="px-4 py-3 sm:px-5">日付</th>
+                            <th class="px-4 py-3 text-right sm:px-5">学習時間</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse ($timeLogs as $timeLog)
-                            <tr class="border-b">
-                                <td class="py-3 px-4">{{ $timeLog->logged_at->format('Y-m-d') }}</td>
-                                <td class="py-3 px-4">{{ $timeLog->duration_minutes }} 分</td>
+                            <tr class="border-b border-blade-neon/30 last:border-b-0">
+                                <td class="px-4 py-3 sm:px-5">{{ $timeLog->logged_at->format('Y-m-d') }}</td>
+                                <td class="px-4 py-3 text-right font-semibold text-gray-900 sm:px-5">{{ $timeLog->duration_minutes }} 分</td>
                             </tr>
                         @empty
                             <tr>
