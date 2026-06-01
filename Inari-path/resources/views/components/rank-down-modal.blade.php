@@ -1,17 +1,17 @@
 @props(['oldRankName', 'newRankName', 'daysSinceLastLog'])
 
 {{-- 背景オーバーレイ（画面全体を覆う半透明の背景） --}}
-<div class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50" id="rank-down-modal"
+<div class="fixed inset-0 z-50 h-full w-full overflow-y-auto bg-gray-700/50" id="rank-down-modal"
     x-data="{ show: true }" x-show="show" x-cloak>
 
     {{-- モーダルボックス本体 --}}
-    <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+    <div class="relative top-20 mx-auto w-[calc(100%-2rem)] max-w-sm border border-blade-neon/40 bg-white p-5 shadow-xl">
 
         {{-- コンテンツエリア --}}
         <div class="mt-3 text-center">
 
             {{-- 警告アイコン（赤い三角マーク） --}}
-            <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
+            <div class="mx-auto flex items-center justify-center h-12 w-12 bg-red-100">
                 <svg class="h-6 w-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
@@ -39,7 +39,7 @@
             {{-- OKボタン --}}
             <div class="items-center px-4 py-3">
                 <button @click="show = false"
-                    class="px-4 py-2 bg-blade-dark text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-blade-pale hover:text-blade-dark focus:outline-none focus:ring-2 focus:ring-blade-dark">
+                    class="w-full rounded-[5px] bg-blade-main px-4 py-2 text-base font-medium text-white hover:bg-blade-main/90 focus:outline-none focus:ring-2 focus:ring-blade-main focus:ring-offset-2">
                     分かりました
                 </button>
             </div>
