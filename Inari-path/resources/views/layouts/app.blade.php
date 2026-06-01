@@ -11,26 +11,26 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+1p:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+1:wght@300;400;500&family=Montserrat:wght@500;600&display=swap" rel="stylesheet">
     <!-- Scripts -->
     @vite(['resources/css/app.css','resources/css/custom.css', 'resources/js/app.js'])
 </head>
 
-<body class="m-plus-1p-light antialiased bg-blade-pale">
+<body class="m-plus-1p-light antialiased inari-page-bg text-gray-600">
     <div class="min-h-screen">
         @include('layouts.navigation')
 
         <!-- Page Heading -->
         @isset($header)
-            <header class="bg-blade-soft shadow">
-                <div class="w-full mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <header class="inari-page-header">
+                <div class="mx-auto w-full max-w-5xl px-4 py-5 sm:px-6 sm:py-6 lg:px-8">
                     {{ $header }}
                 </div>
             </header>
         @endisset
 
         <!-- Page Content -->
-        <main class="w-full mx-auto px-4 sm:px-6 lg:px-8">
+        <main class="inari-page-shell px-4 pb-10 sm:px-6 sm:pb-12 lg:px-8">
             {{ $slot }}
         </main>
     </div>
