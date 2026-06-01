@@ -1,15 +1,15 @@
-<nav x-data="{ open: false }" class="bg-blade-dark shadow sticky top-0 z-50">
+<nav x-data="{ open: false }" class="inari-nav sticky top-0 z-50">
     <!-- Primary Navigation Menu -->
-    <div class="w-full mx-auto px-4">
+    <div class="mx-auto w-full max-w-5xl px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- App Name -->
-                <div class="shrink-0 flex items-center font-bold text-lg text-gray-700 text-white-200 text-gray-600">
+                <div class="inari-brand shrink-0 flex items-center text-lg font-semibold text-gray-900">
                     Inari-Path
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex font-bold text-lg text-white-200">
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('timelogs.create')" :active="request()->routeIs('timelogs.create')">
                         記録入力
                     </x-nav-link>
@@ -27,7 +27,7 @@
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button
-                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-blade-main hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                            class="inline-flex items-center rounded-[5px] border border-blade-neon bg-white px-3 py-2 text-sm font-medium leading-4 text-gray-600 transition duration-150 ease-in-out hover:bg-blade-soft hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blade-main focus:ring-offset-2">
                             <div>
                                 @if (Auth::check())
                                     {{ Auth::user()->name }}
@@ -67,7 +67,7 @@
             <!-- Hamburger -->
             <div class="-me-2 flex items-center sm:hidden">
                 <button @click="open = ! open"
-                    class="inline-flex items-center justify-center p-2 rounded-md text-gray-600 hover:text-gray-700 hover:bg-blade-neon focus:outline-none focus:bg-blade-dark focus:text-gray-700 transition duration-150 ease-in-out">
+                    class="inline-flex items-center justify-center rounded-[5px] p-2 text-gray-600 transition duration-150 ease-in-out hover:bg-blade-soft hover:text-gray-900 focus:bg-blade-soft focus:outline-none focus:text-gray-900">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                         <path :class="{ 'hidden': open, 'inline-flex': !open }" class="inline-flex"
                             stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -96,7 +96,7 @@
         </x-responsive-nav-link>
 
         <!-- Responsive Settings Options -->
-        <div class="pt-4 pb-1 border-t border-gray-200">
+        <div class="border-t border-blade-neon/40 pb-1 pt-3">
             <div class="mt-3 space-y-1">
 
                 <x-responsive-nav-link :href="route('profile.edit')" :active="request()->routeIs('profile.edit')">
