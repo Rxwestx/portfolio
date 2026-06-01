@@ -1,35 +1,35 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-600 leading-tight">
+        <h2 class="font-semibold text-gray-900 leading-tight">
             学習記録一覧
         </h2>
     </x-slot>
-    <div class="mt-16 max-w-md w-full mx-auto px-4">
+    <div class="inari-list-page">
         <x-message :message="session('message')" />
         @forelse ($timeLogs as $timeLog)
-            <div class="mt-4 p-8 bg-blade-neon w-full rounded-3xl shadow-md ">
-                <h2 class="p-4 font-xl text-gray-600 whitespace-nowrap">
+            <div class="inari-card inari-list-card border-blade-neon/40 bg-white/90">
+                <h2 class="text-base font-semibold text-gray-900 sm:text-lg">
                     学習日：
-                    <a href="{{ route('timelogs.show', $timeLog->id) }}" class="text-blade-dark">
+                    <a href="{{ route('timelogs.show', $timeLog->id) }}" class="text-blade-main hover:underline">
                         {{ $timeLog->logged_at->format('Y年m月d日') }}
                     </a>
                 </h2>
-                <hr class="w-full">
-                <p class="mt-4 p-4 text-gray-600">
+                <hr class="my-3 w-full border-blade-neon/30 sm:my-4">
+                <p class="font-medium text-gray-700">
                     学習時間：{{ $timeLog->duration_minutes }} 分
                 </p>
-                <div class="p-4 text-sm test-xl text-gray-600">
+                <div class="mt-3 text-sm text-gray-500">
                     <p>
                         記録日時：{{ $timeLog->created_at->format('Y-m-d H:i') }}
                     </p>
                 </div>
             </div>
         @empty
-            <div class="text-gray-600 text-center">
+            <div class="inari-card border-blade-neon/40 bg-white/90 text-center text-gray-600">
                 記録がありません
             </div>
         @endforelse
-        <div class="mb-4">
+        <div class="mt-4 mb-4">
             {{ $timeLogs->links() }}
         </div>
     </div>
