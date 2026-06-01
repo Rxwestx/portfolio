@@ -1,7 +1,7 @@
 <div>
     @props(['message'])
     @if ($message)
-        <div class="p-4 m-2 bg-blade-dark text-blade-neon border border-blade-dark">
+        <div class="mb-4 border border-blade-neon bg-blade-soft px-4 py-3 text-sm font-medium text-blade-main">
             {{ $message }}
         </div>
     @endif
