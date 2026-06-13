@@ -59,7 +59,7 @@
 ## 仕様書
 
 ### プロトタイプ
-<img width="1180" height="1019" alt="Wirefreme2" src="https://github.com/user-attachments/assets/c5c11936-bc8f-4bf5-bb35-13c787d005d5" />
+<img width="1180" height="1019" alt="スクリーンショット 2026-06-13 16 31 57" src="https://github.com/user-attachments/assets/cb5a233d-81b8-4049-8d70-1e4545a20abc" />
 <img width="1239" height="205" alt="Character_rank" src="https://github.com/user-attachments/assets/c4dceaae-2731-4a20-9403-baefeb4b8cc0" />
 
 ## ER図
